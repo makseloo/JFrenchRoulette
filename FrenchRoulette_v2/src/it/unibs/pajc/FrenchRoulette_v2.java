@@ -16,10 +16,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import it.unibs.pajc.server.PnlCountdown;
 
 public class FrenchRoulette_v2 {
 
-	JFrame frame;
+	public JFrame frame;
 	private JPanel contentPane;
 	private Model model;
 	private PnlBetBoard pnlBetBoard;
@@ -28,10 +29,10 @@ public class FrenchRoulette_v2 {
 	private static int remainingTime = 10;
 	//debug
 	private JLabel lblBalance;
-	private JLabel lblTimer;
 	
 	private Timer timer;
 	Thread timerThread;
+	private PnlCountdown pnlCountdown;
 	/**
 	 * Launch the application.
 	 */
@@ -71,14 +72,14 @@ public class FrenchRoulette_v2 {
 		
 		frame.setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0};
+		gbl_contentPane.rowWeights = new double[]{0.0, 1.0, 0.0, 1.0};
 		gbl_contentPane.columnWeights = new double[]{1.0};
 		contentPane.setLayout(gbl_contentPane);
 		
 		
 		pnlBetBoard = new PnlBetBoard(model.getNumberList());//è giusti dal punto di vista mvc?
 		GridBagConstraints gbc_pnlBoard = new GridBagConstraints();
-		gbc_pnlBoard.insets = new Insets(0, 0, 5, 5);
+		gbc_pnlBoard.insets = new Insets(0, 0, 5, 0);
 		gbc_pnlBoard.fill = GridBagConstraints.BOTH;
 		gbc_pnlBoard.gridx = 0;
 		gbc_pnlBoard.gridy = 0;
@@ -87,39 +88,33 @@ public class FrenchRoulette_v2 {
 		
 		pnlFiches = new PnlFiches(model.getFicheList());
 		GridBagConstraints gbc_pnlFiches = new GridBagConstraints();
-		gbc_pnlFiches.insets = new Insets(0, 0, 5, 5);
+		gbc_pnlFiches.insets = new Insets(0, 0, 5, 0);
 		gbc_pnlFiches.fill = GridBagConstraints.BOTH;
 		gbc_pnlFiches.gridx = 0;
 		gbc_pnlFiches.gridy = 1;
 		contentPane.add(pnlFiches, gbc_pnlFiches);
 		
 		
-		//debug
-				lblBalance = new JLabel("New label");
-				GridBagConstraints gbc_lblBalance = new GridBagConstraints();
-				gbc_lblBalance.insets = new Insets(0, 0, 5, 5);
-				gbc_lblBalance.gridx = 0;
-				gbc_lblBalance.gridy = 2;
-				contentPane.add(lblBalance, gbc_lblBalance);
-				
-				
-				
-				lblTimer = new JLabel("Tempo rimasto: " + remainingTime + " secondi");
-				GridBagConstraints gbc_lblBet = new GridBagConstraints();
-				gbc_lblBet.insets = new Insets(0, 0, 0, 5);
-				gbc_lblBet.gridx = 0;
-				gbc_lblBet.gridy = 3;
-				contentPane.add(lblTimer, gbc_lblBet);
+		lblBalance = new JLabel("New label");
+		GridBagConstraints gbc_lblBalance = new GridBagConstraints();
+		gbc_lblBalance.insets = new Insets(0, 0, 5, 0);
+		gbc_lblBalance.gridx = 0;
+		gbc_lblBalance.gridy = 2;
+		contentPane.add(lblBalance, gbc_lblBalance);
+		
+		pnlCountdown = new PnlCountdown();
+		GridBagConstraints gbc_pnlCountdown = new GridBagConstraints();
+		gbc_pnlCountdown.fill = GridBagConstraints.BOTH;
+		gbc_pnlCountdown.gridx = 0;
+		gbc_pnlCountdown.gridy = 3;
+		contentPane.add(pnlCountdown, gbc_pnlCountdown);
 
-				int remainingSeconds = 10;
-				TimerRunnable timerRunnable = new TimerRunnable(lblTimer);
-		        timerThread = new Thread(timerRunnable);
-		        
-		    
-				
-				pnlBetBoard.addActionListener(e -> this.bet(e));
-				
-				pnlFiches.addActionListener(e -> this.takeFiche(e));
+        
+   				
+		pnlBetBoard.addActionListener(e -> this.bet(e));
+		
+		pnlFiches.addActionListener(e -> this.takeFiche(e));
+		
 				
 		
 		frame.pack();
@@ -147,44 +142,16 @@ public class FrenchRoulette_v2 {
 		 return model.getNumberList();
 	 }
 	 
-		void dump() {
-			System.out.println("" + model.Dump());
-		}
+	void dump() {
+		System.out.println("" + model.Dump());
+	}
 
-		public String getBets1() {
-			return model.Dump();
-		}
-
-		public void startTimer(int seconds) {
-			SwingUtilities.invokeLater(() -> {
-		        lblTimer.setText("Tempo rimasto: " + seconds + " secondi");
-		    });
-		    timerThread.start();
-			
-		}
-		
-		class TimerRunnable implements Runnable {
-		    private JLabel timerLabel;
-
-		    public TimerRunnable(JLabel timerLabel) {
-		        this.timerLabel = timerLabel;
-		    }
-
-		    @Override
-		    public void run() {
-		        int seconds = 10;
-
-		        try {
-		            while (seconds >= 0) {
-		                Thread.sleep(1000);
-		                String time = String.format("%02d", seconds);
-		                timerLabel.setText(time);
-		                seconds--;
-		            }
-		        } catch (InterruptedException e) {
-		            e.printStackTrace();
-		        }
-		    }
-		}
+	public String getBets1() {
+		return model.Dump();
+	}
+	
+	public void updateTimer(int remainingSeconds) {
+		pnlCountdown.updateCountdown(remainingSeconds);
+	}
 		
 }

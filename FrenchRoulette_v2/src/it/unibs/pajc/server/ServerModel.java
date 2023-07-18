@@ -43,7 +43,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
     
     @Override
     public void onTick(int remainingSeconds) {
-    	 System.out.println("Seconds: " + remainingSeconds);
+    	 
     	 fireValuesChange(new ChangeEvent(this));
     }
     

@@ -4,6 +4,9 @@ import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,37 +19,51 @@ import it.unibs.pajc.PnlBetBoard;
 import javax.swing.JLabel;
 
 public class Server {
+    private JFrame frame;
+    private JPanel contentPane;
 
-	private JFrame frame;
-	private JPanel contentPane;
+    private static ServerModel serverModel;
+    private PnlCountdown pnlCountdown;
+    private JLabel lblNewLabel;
 
-	private ServerModel serverModel;
-	private PnlCountdown pnlCountdown;
-	private JLabel lblNewLabel;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Server window = new Server();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    Server window = new Server();
+                    window.frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        serverModel = new ServerModel();
+        serverModel.startTimer();
+
+        int port = 1234;
+
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
+            System.out.println("Server started. Waiting for client connection...");
+
+            int id = 0;
+            while (true) {
+                Socket client = serverSocket.accept();
+                MyProtocol clientProtocol = new MyProtocol(client, "CLI#" + id++ + "\n", serverModel);
+                Thread clientThread = new Thread(clientProtocol);
+                clientThread.start();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 	/**
 	 * Create the application.
 	 */
 	public Server() {
-		serverModel = new ServerModel();
-		
-		serverModel.startTimer();
 		initialize();
+		
 	}
 
 	/**
@@ -85,7 +102,7 @@ public class Server {
 
 	}
 	
-    private void updateView() {
+     void updateView() {
         int seconds = serverModel.getSeconds();
         pnlCountdown.updateCountdown(seconds);
     }

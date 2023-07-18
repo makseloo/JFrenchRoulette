@@ -38,5 +38,6 @@ public class PnlCountdown extends PnlBase {
 	
 	 public void updateCountdown(int seconds) {
 		 timerLabel.setText(String.valueOf(seconds));
+		 repaint();
 	    }
 }

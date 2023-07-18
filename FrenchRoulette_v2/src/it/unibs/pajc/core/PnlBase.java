@@ -1,6 +1,7 @@
 package it.unibs.pajc.core;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -9,6 +10,9 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import java.awt.Component;
+
 
 public class PnlBase extends JPanel {
 
@@ -54,6 +58,22 @@ public class PnlBase extends JPanel {
 		btn.addActionListener(e -> fireActionListener(e));
 
 		return btn;
+	}
+	
+	public void enableButtons(Container container, boolean enable) {
+	    Component[] components = container.getComponents();
+	    for (Component component : components) {
+	        if (component instanceof JButton) {
+	            JButton button = (JButton) component;
+	            button.setEnabled(enable);
+	        } else if (component instanceof Container) {
+	            enableButtons((Container) component, enable);
+	        }
+	    }
+	}
+
+	public void enableButtons(boolean enable) {
+	    enableButtons(this, enable);
 	}
 	
 	// addButton(createButton("0"), 0,0);

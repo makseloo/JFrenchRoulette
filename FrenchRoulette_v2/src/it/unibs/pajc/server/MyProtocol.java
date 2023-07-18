@@ -51,6 +51,7 @@ public class MyProtocol implements Runnable {
 
     private void sendTimeUpdate() {
         int seconds = serverModel.getSeconds();
-        out.println(seconds);
+        RouletteGameState gameState = serverModel.getPrevGameState();
+        out.println(seconds + ":" + gameState.toString());
     }
 }

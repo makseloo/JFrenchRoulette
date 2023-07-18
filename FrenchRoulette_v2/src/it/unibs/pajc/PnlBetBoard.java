@@ -51,5 +51,6 @@ public class PnlBetBoard extends PnlBase {
 		
 		this.add(numbersPnl,gbc_numberPnl);
 		
-	}	
+	}
+
 }

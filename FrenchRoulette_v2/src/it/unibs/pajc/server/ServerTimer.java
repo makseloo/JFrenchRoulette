@@ -7,11 +7,13 @@ public class ServerTimer {
     private Timer timer;
     private int remainingSeconds;
     private int durationSeconds;
+    private RouletteGameState state;
     private TimerListener timerListener;
 
-    public ServerTimer(int durationSeconds) {
+    public ServerTimer(int durationSeconds, RouletteGameState state) {
     	this.durationSeconds = durationSeconds;
     	this.remainingSeconds = durationSeconds;
+    	this.state = state;
         this.timer = new Timer();
     }
 
@@ -21,9 +23,9 @@ public class ServerTimer {
             public void run() {
                 if (remainingSeconds <= 0) {
                 	timer.cancel();
-                	timer = new Timer(); // Create a new instance of Timer
-                    remainingSeconds = durationSeconds;
-                    start();
+                	if (timerListener != null) {
+                        timerListener.onTimerExpired();
+                    }
                 	
                 } else {
                     remainingSeconds--;
@@ -45,7 +47,6 @@ public class ServerTimer {
     }
 
 	public int getRemainingSeconds() {
-		
 		return this.remainingSeconds;
 	}
 

@@ -46,8 +46,11 @@ public class Client {
 			    while (true) {
 			    	out.println("GET_TIME");
 			    	if((response = in.readLine()) != null) {
-			    		int remainingSeconds = Integer.parseInt(response);
-				        roulette.updateTimer(remainingSeconds);
+			    		String[] parts = response.split(":");
+			    		int remainingSeconds = Integer.parseInt(parts[0]);
+		                String gameState = parts[1];
+		                roulette.updateTimer(remainingSeconds);
+		                roulette.updateGameState(gameState);
 
 				        // Wait for the next response from the server
 				        response = in.readLine();

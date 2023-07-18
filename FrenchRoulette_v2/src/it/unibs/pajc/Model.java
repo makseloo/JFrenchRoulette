@@ -2,6 +2,8 @@ package it.unibs.pajc;
 
 import java.awt.Color;
 import it.unibs.pajc.core.*;
+import it.unibs.pajc.server.RouletteGameState;
+
 import java.awt.LayoutManager;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +16,8 @@ import javax.swing.event.ChangeEvent;
 
 public class Model extends BaseModel{
 	
+	
+	
 	List<WheelNumber> numberList = new ArrayList<>();
 	List<Fiche> ficheList = new ArrayList<>();
 	
@@ -24,6 +28,7 @@ public class Model extends BaseModel{
 	List<Integer> orphelins = WheelNumber.getOrphelins();
 	List<Integer> voisins = WheelNumber.getVoisins();
 	//List<Integer> zero = WheelNumber.getZero(); da gestire perché zero e voisins si includono
+	private RouletteGameState gameState;
 	
 	public Model() {	
 		initializeWheelNumbers();
@@ -139,6 +144,14 @@ public class Model extends BaseModel{
 		}
 		
 		return sb.toString();
+	}
+
+	public RouletteGameState getState() {
+		return gameState;
+	}
+	public void setState(String gameState) {
+		this.gameState = RouletteGameState.valueOf(gameState);
+		fireValuesChange(new ChangeEvent(this));
 	}
 	
 	

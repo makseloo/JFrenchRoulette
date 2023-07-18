@@ -25,6 +25,7 @@ public class Server {
     private static ServerModel serverModel;
     private PnlCountdown pnlCountdown;
     private JLabel lblNewLabel;
+    private JLabel stateLbl;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -79,17 +80,23 @@ public class Server {
 		
 		frame.setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.rowWeights = new double[]{1.0};
+		gbl_contentPane.rowWeights = new double[]{1.0, 0.0};
 		gbl_contentPane.columnWeights = new double[]{1.0};
 		contentPane.setLayout(gbl_contentPane);
 		
 		pnlCountdown = new PnlCountdown();//è giusti dal punto di vista mvc?
 		GridBagConstraints gbc_pnlBoard = new GridBagConstraints();
-		gbc_pnlBoard.insets = new Insets(0, 0, 5, 5);
+		gbc_pnlBoard.insets = new Insets(0, 0, 5, 0);
 		gbc_pnlBoard.fill = GridBagConstraints.BOTH;
 		gbc_pnlBoard.gridx = 0;
 		gbc_pnlBoard.gridy = 0;
 		contentPane.add(pnlCountdown, gbc_pnlBoard);
+		
+		stateLbl = new JLabel(""+serverModel.getGameState());
+		GridBagConstraints gbc_stateLbl = new GridBagConstraints();
+		gbc_stateLbl.gridx = 0;
+		gbc_stateLbl.gridy = 1;
+		contentPane.add(stateLbl, gbc_stateLbl);
 		
 		serverModel.addChangeListener(new ChangeListener() {
             @Override
@@ -104,7 +111,9 @@ public class Server {
 	
      void updateView() {
         int seconds = serverModel.getSeconds();
+        String state = ""+serverModel.getPrevGameState();
         pnlCountdown.updateCountdown(seconds);
+        stateLbl.setText(state);
     }
     
 

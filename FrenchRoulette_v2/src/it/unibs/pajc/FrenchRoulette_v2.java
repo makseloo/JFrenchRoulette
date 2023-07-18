@@ -16,7 +16,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import it.unibs.pajc.server.PnlCountdown;
+import it.unibs.pajc.server.RouletteGameState;
 
 public class FrenchRoulette_v2 {
 
@@ -33,6 +37,7 @@ public class FrenchRoulette_v2 {
 	private Timer timer;
 	Thread timerThread;
 	private PnlCountdown pnlCountdown;
+	private JLabel stateLbl;
 	/**
 	 * Launch the application.
 	 */
@@ -56,7 +61,12 @@ public class FrenchRoulette_v2 {
 		model = new Model();
 		initialize();
 		
-		model.addChangeListener(e -> this.dump());
+		model.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                updateView();
+            }
+        });
 	}
 
 	/**
@@ -72,7 +82,7 @@ public class FrenchRoulette_v2 {
 		
 		frame.setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.rowWeights = new double[]{0.0, 1.0, 0.0, 1.0};
+		gbl_contentPane.rowWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0};
 		gbl_contentPane.columnWeights = new double[]{1.0};
 		contentPane.setLayout(gbl_contentPane);
 		
@@ -104,10 +114,17 @@ public class FrenchRoulette_v2 {
 		
 		pnlCountdown = new PnlCountdown();
 		GridBagConstraints gbc_pnlCountdown = new GridBagConstraints();
+		gbc_pnlCountdown.insets = new Insets(0, 0, 5, 0);
 		gbc_pnlCountdown.fill = GridBagConstraints.BOTH;
 		gbc_pnlCountdown.gridx = 0;
 		gbc_pnlCountdown.gridy = 3;
 		contentPane.add(pnlCountdown, gbc_pnlCountdown);
+		
+		stateLbl = new JLabel(""+model.getState());
+		GridBagConstraints gbc_stateLbl = new GridBagConstraints();
+		gbc_stateLbl.gridx = 0;
+		gbc_stateLbl.gridy = 4;
+		contentPane.add(stateLbl, gbc_stateLbl);
 
         
    				
@@ -115,7 +132,7 @@ public class FrenchRoulette_v2 {
 		
 		pnlFiches.addActionListener(e -> this.takeFiche(e));
 		
-				
+
 		
 		frame.pack();
 		
@@ -153,5 +170,23 @@ public class FrenchRoulette_v2 {
 	public void updateTimer(int remainingSeconds) {
 		pnlCountdown.updateCountdown(remainingSeconds);
 	}
+
+	public void updateGameState(String gameState) {
+		model.setState(gameState);
+		stateLbl.setText(gameState);
+	}
+	
+	private void updateView() {
+		RouletteGameState gameState = model.getState();
+	    
+		 // Disable buttons based on the game state
+	    if (gameState == RouletteGameState.BETTING) {
+	        pnlBetBoard.enableButtons(true); // Enable betting buttons
+	        pnlFiches.enableButtons(true); // Enable fiche buttons
+	    } else {
+	        pnlBetBoard.enableButtons(false); // Disable betting buttons
+	        pnlFiches.enableButtons(false); // Disable fiche buttons
+	    }
 		
+	}
 }

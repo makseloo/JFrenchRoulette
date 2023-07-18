@@ -1,4 +1,4 @@
-package it.unibs.pajc;
+package it.unibs.pajc.core;
 import javax.swing.event.*;
 
 public class BaseModel {

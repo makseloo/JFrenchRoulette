@@ -1,6 +1,7 @@
 package it.unibs.pajc;
 
 import java.awt.GridLayout;
+import it.unibs.pajc.core.*;
 import java.util.List;
 
 import javax.swing.JPanel;

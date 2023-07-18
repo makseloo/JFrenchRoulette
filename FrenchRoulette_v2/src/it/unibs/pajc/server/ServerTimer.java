@@ -1,4 +1,4 @@
-package it.unibs.pajc;
+package it.unibs.pajc.server;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,12 +34,20 @@ public class ServerTimer {
             }
         }, 0, 1000);
     }
-
+    public interface TimerListener {
+        void onTick(int remainingSeconds);
+        
+        void onTimerExpired();
+    }
+    
     public void setTimerListener(TimerListener listener) {
         this.timerListener = listener;
     }
 
-    public interface TimerListener {
-        void onTick(int remainingSeconds);
-    }
+	public int getRemainingSeconds() {
+		
+		return this.remainingSeconds;
+	}
+
+    
 }

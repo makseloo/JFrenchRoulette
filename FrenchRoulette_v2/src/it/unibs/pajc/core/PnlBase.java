@@ -1,4 +1,4 @@
-package it.unibs.pajc;
+package it.unibs.pajc.core;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -37,6 +37,7 @@ public class PnlBase extends JPanel {
 			l.actionPerformed(myEvent);
 		}
 	}
+	
 /*
 	public JButton createButton(String symbol) {
 		JButton btn = new JButton(symbol);

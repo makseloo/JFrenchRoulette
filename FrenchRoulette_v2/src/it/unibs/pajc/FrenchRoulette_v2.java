@@ -1,6 +1,7 @@
 package it.unibs.pajc;
 
 import java.awt.EventQueue;
+import it.unibs.pajc.core.*;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -21,8 +22,8 @@ public class FrenchRoulette_v2 {
 	JFrame frame;
 	private JPanel contentPane;
 	private Model model;
-	private PnlBetBoard PnlBetBoard;
-	private PnlFiches PnlFiches;
+	private PnlBetBoard pnlBetBoard;
+	private PnlFiches pnlFiches;
 	
 	private static int remainingTime = 10;
 	//debug
@@ -75,22 +76,22 @@ public class FrenchRoulette_v2 {
 		contentPane.setLayout(gbl_contentPane);
 		
 		
-		PnlBetBoard = new PnlBetBoard(model.getNumberList());//è giusti dal punto di vista mvc?
+		pnlBetBoard = new PnlBetBoard(model.getNumberList());//è giusti dal punto di vista mvc?
 		GridBagConstraints gbc_pnlBoard = new GridBagConstraints();
 		gbc_pnlBoard.insets = new Insets(0, 0, 5, 5);
 		gbc_pnlBoard.fill = GridBagConstraints.BOTH;
 		gbc_pnlBoard.gridx = 0;
 		gbc_pnlBoard.gridy = 0;
-		contentPane.add(PnlBetBoard, gbc_pnlBoard);
+		contentPane.add(pnlBetBoard, gbc_pnlBoard);
 				
 		
-		PnlFiches = new PnlFiches(model.getFicheList());
+		pnlFiches = new PnlFiches(model.getFicheList());
 		GridBagConstraints gbc_pnlFiches = new GridBagConstraints();
 		gbc_pnlFiches.insets = new Insets(0, 0, 5, 5);
 		gbc_pnlFiches.fill = GridBagConstraints.BOTH;
 		gbc_pnlFiches.gridx = 0;
 		gbc_pnlFiches.gridy = 1;
-		contentPane.add(PnlFiches, gbc_pnlFiches);
+		contentPane.add(pnlFiches, gbc_pnlFiches);
 		
 		
 		//debug
@@ -116,9 +117,9 @@ public class FrenchRoulette_v2 {
 		        
 		    
 				
-				PnlBetBoard.addActionListener(e -> this.bet(e));
+				pnlBetBoard.addActionListener(e -> this.bet(e));
 				
-				PnlFiches.addActionListener(e -> this.takeFiche(e));
+				pnlFiches.addActionListener(e -> this.takeFiche(e));
 				
 		
 		frame.pack();

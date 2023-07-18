@@ -13,6 +13,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import it.unibs.pajc.core.*;
 
 public class PnlBetBoard extends PnlBase {
 	

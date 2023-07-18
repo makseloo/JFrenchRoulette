@@ -1,6 +1,7 @@
 package it.unibs.pajc;
 
 import java.awt.Color;
+import it.unibs.pajc.core.*;
 import java.awt.LayoutManager;
 import java.util.ArrayList;
 import java.util.Arrays;

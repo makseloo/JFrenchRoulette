@@ -1,5 +1,6 @@
-package it.unibs.pajc;
+package it.unibs.pajc.server;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -10,18 +11,24 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import it.unibs.pajc.ServerTimer.TimerListener;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-public class Server implements ServerTimer.TimerListener{
+
+
+public class Server1 {
 	
-	private static final int TIMER_DURATION = 10; // Duration of the timer in seconds
-	private ServerTimer serverTimer;
-	private int remainingSeconds;
+	
+	//private ServerModel serverModel;
 		
     public static void main(String[] args) {
         int port = 1234;
-        Server server = new Server();
-        server.startTimer();
+        
+        ServerModel serverModel = new ServerModel();
+        serverModel.startTimer();
+        //PnlCountdown pnlCountdown = new PnlCountdown(serverModel.getTimerDuration());
+       // pnlCountdown.start();
+        
         
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("Server started. Waiting for client connection...");
@@ -40,21 +47,8 @@ public class Server implements ServerTimer.TimerListener{
             e.printStackTrace();
         }
     }
-
-    private void startTimer() {
-        serverTimer = new ServerTimer(TIMER_DURATION);
-        serverTimer.setTimerListener(this);
-        serverTimer.start();
-    }
-
-    @Override
-    public void onTick(int remainingSeconds) {
-    	this.remainingSeconds = remainingSeconds;
-        System.out.println("secondi: " + remainingSeconds);
-    }
     
-    public int getSeconds() {
-    	return this.remainingSeconds;
+    void updateTest(ActionEvent e) {
+    	
     }
-    
 }

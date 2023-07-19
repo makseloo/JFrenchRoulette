@@ -38,6 +38,7 @@ public class FrenchRoulette_v2 {
 	Thread timerThread;
 	private PnlCountdown pnlCountdown;
 	private JLabel stateLbl;
+	private PnlWheel pnlWheel;
 	/**
 	 * Launch the application.
 	 */
@@ -82,9 +83,17 @@ public class FrenchRoulette_v2 {
 		
 		frame.setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.rowWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0};
+		gbl_contentPane.rowWeights = new double[]{1.0, 0.0, 1.0, 0.0, 1.0, 0.0};
 		gbl_contentPane.columnWeights = new double[]{1.0};
 		contentPane.setLayout(gbl_contentPane);
+		
+		pnlWheel = new PnlWheel(model.getWheelNumberList());
+		GridBagConstraints gbc_pnlWheel = new GridBagConstraints();
+		gbc_pnlWheel.insets = new Insets(0, 0, 5, 0);
+		gbc_pnlWheel.fill = GridBagConstraints.BOTH;
+		gbc_pnlWheel.gridx = 0;
+		gbc_pnlWheel.gridy = 0;
+		contentPane.add(pnlWheel, gbc_pnlWheel);
 		
 		
 		pnlBetBoard = new PnlBetBoard(model.getNumberList());//è giusti dal punto di vista mvc?
@@ -92,7 +101,7 @@ public class FrenchRoulette_v2 {
 		gbc_pnlBoard.insets = new Insets(0, 0, 5, 0);
 		gbc_pnlBoard.fill = GridBagConstraints.BOTH;
 		gbc_pnlBoard.gridx = 0;
-		gbc_pnlBoard.gridy = 0;
+		gbc_pnlBoard.gridy = 1;
 		contentPane.add(pnlBetBoard, gbc_pnlBoard);
 				
 		
@@ -101,7 +110,7 @@ public class FrenchRoulette_v2 {
 		gbc_pnlFiches.insets = new Insets(0, 0, 5, 0);
 		gbc_pnlFiches.fill = GridBagConstraints.BOTH;
 		gbc_pnlFiches.gridx = 0;
-		gbc_pnlFiches.gridy = 1;
+		gbc_pnlFiches.gridy = 2;
 		contentPane.add(pnlFiches, gbc_pnlFiches);
 		
 		
@@ -109,7 +118,7 @@ public class FrenchRoulette_v2 {
 		GridBagConstraints gbc_lblBalance = new GridBagConstraints();
 		gbc_lblBalance.insets = new Insets(0, 0, 5, 0);
 		gbc_lblBalance.gridx = 0;
-		gbc_lblBalance.gridy = 2;
+		gbc_lblBalance.gridy = 3;
 		contentPane.add(lblBalance, gbc_lblBalance);
 		
 		pnlCountdown = new PnlCountdown();
@@ -117,13 +126,13 @@ public class FrenchRoulette_v2 {
 		gbc_pnlCountdown.insets = new Insets(0, 0, 5, 0);
 		gbc_pnlCountdown.fill = GridBagConstraints.BOTH;
 		gbc_pnlCountdown.gridx = 0;
-		gbc_pnlCountdown.gridy = 3;
+		gbc_pnlCountdown.gridy = 4;
 		contentPane.add(pnlCountdown, gbc_pnlCountdown);
 		
 		stateLbl = new JLabel(""+model.getState());
 		GridBagConstraints gbc_stateLbl = new GridBagConstraints();
 		gbc_stateLbl.gridx = 0;
-		gbc_stateLbl.gridy = 4;
+		gbc_stateLbl.gridy = 5;
 		contentPane.add(stateLbl, gbc_stateLbl);
 
         

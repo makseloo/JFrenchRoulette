@@ -16,6 +16,8 @@ public class WheelNumber implements Serializable {
 	public static List<Integer> orphelins = Arrays.asList(1, 20, 14, 31, 9, 6, 34, 17);
 	public static List<Integer> voisins = Arrays.asList(22, 18, 29, 7, 28, 25, 2, 21, 4, 19,12, 35, 3, 26, 0, 32, 15);
 	public static List<Integer> zero = Arrays.asList(12, 35, 3, 26, 0, 32, 15);
+	//numbers order based on their position on the wheel
+	public static List<Integer> numbers = Arrays.asList(0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26);
 	
 	private int value;
 	private String zone;
@@ -55,6 +57,10 @@ public class WheelNumber implements Serializable {
 	public static List<Integer> getZero() {
 		return zero;
 	}
+	
+	public static List<Integer> getNums() {
+		return numbers;
+	}
 
 	public int getValue() {
 		return value;
@@ -72,11 +78,5 @@ public class WheelNumber implements Serializable {
 		return bettedValue;
 	}
 
-	
-	
-	
-
-	
-	
 
 }

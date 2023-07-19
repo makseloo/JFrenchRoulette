@@ -2,8 +2,14 @@ package it.unibs.pajc.core;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Polygon;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -59,6 +65,8 @@ public class PnlBase extends JPanel {
 
 		return btn;
 	}
+
+	
 	
 	public void enableButtons(Container container, boolean enable) {
 	    Component[] components = container.getComponents();

@@ -7,6 +7,8 @@ import it.unibs.pajc.server.RouletteGameState;
 import java.awt.LayoutManager;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.event.ChangeEvent;
@@ -28,11 +30,34 @@ public class Model extends BaseModel{
 	List<Integer> orphelins = WheelNumber.getOrphelins();
 	List<Integer> voisins = WheelNumber.getVoisins();
 	//List<Integer> zero = WheelNumber.getZero(); da gestire perché zero e voisins si includono
+	//numbers displayed as on the roulette
+	List<WheelNumber> sortedList;
 	private RouletteGameState gameState;
 	
 	public Model() {	
 		initializeWheelNumbers();
 		initializeFiches();
+		this.sortedList = sort(numberList);
+	}
+
+	private List<WheelNumber> sort(List<WheelNumber> numberList) {
+		List<WheelNumber> sortedList = new ArrayList<>(numberList);
+		List<Integer> desiredOrder = WheelNumber.getNums();
+		WheelNumber zero = new WheelNumber(0, "voisins", Colors.getGreen());
+
+		
+		Collections.sort(sortedList, new Comparator<WheelNumber>() {
+			 @Override
+	            public int compare(WheelNumber w1, WheelNumber w2) {
+	                Integer value1 = w1.getValue();
+	                Integer value2 = w2.getValue();
+	                return Integer.compare(desiredOrder.indexOf(value1), desiredOrder.indexOf(value2));
+	            }
+		});
+		sortedList.add(zero);
+		
+		
+		return sortedList;
 	}
 
 	private void initializeWheelNumbers() {
@@ -87,6 +112,10 @@ public class Model extends BaseModel{
 	public List<WheelNumber> getNumberList() {
 		return numberList;
 	}
+	
+	public List<WheelNumber> getWheelNumberList() {
+		return sortedList;
+	}
 
 	public void setNumberList(List<WheelNumber> numberList) {
 		this.numberList = numberList;
@@ -122,6 +151,8 @@ public class Model extends BaseModel{
 				
 		}
 	}
+	
+
 
 
 	private void deactivateFiches() {

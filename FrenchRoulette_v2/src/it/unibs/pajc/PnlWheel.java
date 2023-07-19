@@ -15,6 +15,8 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
+import javax.swing.UIManager;
+import javax.swing.plaf.BorderUIResource;
 
 import it.unibs.pajc.core.PnlBase;
 
@@ -45,8 +47,6 @@ public class PnlWheel extends PnlBase {
     }
 
     private void drawRouletteWheel(Graphics g) {
-    	JLayeredPane layeredPane = new JLayeredPane();
-        layeredPane.setBounds(0, 0, getWidth(), getHeight());
         
     	int width = getWidth();
     	int height = getHeight();
@@ -85,11 +85,16 @@ public class PnlWheel extends PnlBase {
     	    
     	    int moveAmount = 10; // Adjust this value as needed
     	    rotatedY -= moveLeftAmount;
-    	    
+    	    Color transparentColor = new Color(0, 0, 0, 0);
             // Add button to the panel
             JButton pocketButton = createButton(w.getValue() + "", w.getColor());
             pocketButton.setBounds(rotatedX,rotatedY, 22,22);
-            layeredPane.add(pocketButton, JLayeredPane.DEFAULT_LAYER);
+            pocketButton.setOpaque(false);
+            pocketButton.setContentAreaFilled(false);
+            pocketButton.setForeground(transparentColor);
+            pocketButton.setBorderPainted(false);
+            pocketButton.setFocusable(false);
+            add(pocketButton);
                
     	}
     	Graphics2D g2d = (Graphics2D) g.create();

@@ -141,6 +141,7 @@ public class FrenchRoulette_v2 {
 		
 		pnlFiches.addActionListener(e -> this.takeFiche(e));
 		
+		pnlWheel.addActionListener(e -> this.bet(e));
 
 		
 		frame.pack();

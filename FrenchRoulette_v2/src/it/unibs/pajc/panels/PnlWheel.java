@@ -1,4 +1,4 @@
-package it.unibs.pajc;
+package it.unibs.pajc.panels;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,6 +18,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.UIManager;
 import javax.swing.plaf.BorderUIResource;
 
+import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.core.PnlBase;
 
 public class PnlWheel extends PnlBase {

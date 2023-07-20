@@ -12,14 +12,20 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
     private RouletteGameState gameState;
     private RouletteGameState previous_gameState;
 	private ServerTimer serverTimer;
+	private ServerStatistics serverStats;
     
     public ServerModel() {
         // Initialize the initial state of the server
         gameState = RouletteGameState.BETTING;
         previous_gameState = RouletteGameState.BETTING;
+        serverStats = new ServerStatistics();
+    }
+    
+    public ServerStatistics getStats() {
+    	return serverStats;
     }
 
-    public RouletteGameState getGameState() {
+	public RouletteGameState getGameState() {
         return gameState;
     }
 
@@ -47,6 +53,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
             gameState = RouletteGameState.SETTLING;
         } else if (gameState == RouletteGameState.SETTLING){
         	serverTimer = new ServerTimer(SETTLE_TIMER_DURATION, RouletteGameState.SETTLING);
+        	
         	gameState = RouletteGameState.BETTING;
         }
         serverTimer.setTimerListener(this);

@@ -152,9 +152,6 @@ public class Model extends BaseModel{
 		}
 	}
 	
-
-
-
 	private void deactivateFiches() {
 		for(Fiche f : ficheList) {
 			if (f.isSelected())

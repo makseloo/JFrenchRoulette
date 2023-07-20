@@ -1,5 +1,6 @@
 package it.unibs.pajc.server;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -9,19 +10,36 @@ public class ServerStatistics {
     private static final int RANDOM_RANGE_MAX = 37;
     
     private int zero;
+    private int[] dozens;
+    int[] randomNumbers;
+    private HashMap<String, Integer> stats;
+    
+    
+    public ServerStatistics() {
+    	this.randomNumbers = generateRandomNumbers(NUMBER_OF_RANDOMS, RANDOM_RANGE_MIN, RANDOM_RANGE_MAX);
+    	HashMap<String, Integer> stats = new HashMap<>();
+		stats.put("1dozen", 10);
+		stats.put("2dozen", 20);
+		stats.put("3dozen", 30);
+	}
 
-    public static void main(String[] args) {
-        int[] randomNumbers = generateRandomNumbers(NUMBER_OF_RANDOMS, RANDOM_RANGE_MIN, RANDOM_RANGE_MAX);
-        
-        System.out.println("Generated " + NUMBER_OF_RANDOMS + " random numbers between " + RANDOM_RANGE_MIN + " and " + RANDOM_RANGE_MAX + ":");
-        for (int num : randomNumbers) {
-            System.out.print(num + " ");
-        }
-        System.out.println();
+	public int getZero() {
+		return zero;
+	}
 
-    }
+	public void setZero(int zero) {
+		this.zero = zero;
+	}
 
-    private static int[] generateRandomNumbers(int count, int min, int max) {
+	public int[] getDozens() {
+		return dozens;
+	}
+
+	public void setDozens(int[] dozens) {
+		this.dozens = dozens;
+	}
+
+	private static int[] generateRandomNumbers(int count, int min, int max) {
         int[] randomNumbers = new int[count];
         Random random = new Random();
 
@@ -69,6 +87,8 @@ public class ServerStatistics {
         return count;
     }
     
+    
+    
     //per più tardi quando c'è da giocare
 
     private int generateSingleNumber(int min, int max) {
@@ -76,6 +96,9 @@ public class ServerStatistics {
     	return random.nextInt(max - min + 1) + min;
     }
 
+    public HashMap<String, Integer> getStats(){
+    	return this.stats;
+    }
 
 }
 

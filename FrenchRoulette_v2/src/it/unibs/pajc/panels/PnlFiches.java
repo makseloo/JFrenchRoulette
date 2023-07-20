@@ -1,6 +1,8 @@
-package it.unibs.pajc;
+package it.unibs.pajc.panels;
 
 import java.awt.GridLayout;
+
+import it.unibs.pajc.Fiche;
 import it.unibs.pajc.core.*;
 import java.util.List;
 

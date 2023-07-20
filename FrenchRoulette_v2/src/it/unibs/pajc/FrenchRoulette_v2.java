@@ -2,11 +2,17 @@ package it.unibs.pajc;
 
 import java.awt.EventQueue;
 import it.unibs.pajc.core.*;
+import it.unibs.pajc.panels.PnlBetBoard;
+import it.unibs.pajc.panels.PnlFiches;
+import it.unibs.pajc.panels.PnlStatitics;
+import it.unibs.pajc.panels.PnlWheel;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -29,6 +35,7 @@ public class FrenchRoulette_v2 {
 	private Model model;
 	private PnlBetBoard pnlBetBoard;
 	private PnlFiches pnlFiches;
+	private PnlStatitics pnlStatitics;
 	
 	private static int remainingTime = 10;
 	//debug
@@ -84,21 +91,29 @@ public class FrenchRoulette_v2 {
 		frame.setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.rowWeights = new double[]{1.0, 0.0, 1.0, 0.0, 1.0, 0.0};
-		gbl_contentPane.columnWeights = new double[]{1.0};
+		gbl_contentPane.columnWeights = new double[]{1.0, 1.0};
 		contentPane.setLayout(gbl_contentPane);
 		
 		pnlWheel = new PnlWheel(model.getWheelNumberList());
 		GridBagConstraints gbc_pnlWheel = new GridBagConstraints();
-		gbc_pnlWheel.insets = new Insets(0, 0, 5, 0);
+		gbc_pnlWheel.insets = new Insets(0, 0, 5, 5);
 		gbc_pnlWheel.fill = GridBagConstraints.BOTH;
 		gbc_pnlWheel.gridx = 0;
 		gbc_pnlWheel.gridy = 0;
 		contentPane.add(pnlWheel, gbc_pnlWheel);
 		
+		pnlStatitics = new PnlStatitics();
+		GridBagConstraints gbc_pnlStatitics = new GridBagConstraints();
+		gbc_pnlStatitics.insets = new Insets(0, 0, 5, 0);
+		gbc_pnlStatitics.fill = GridBagConstraints.BOTH;
+		gbc_pnlStatitics.gridx = 1;
+		gbc_pnlStatitics.gridy = 0;
+		contentPane.add(pnlStatitics, gbc_pnlStatitics);
+		
 		
 		pnlBetBoard = new PnlBetBoard(model.getNumberList());//è giusti dal punto di vista mvc?
 		GridBagConstraints gbc_pnlBoard = new GridBagConstraints();
-		gbc_pnlBoard.insets = new Insets(0, 0, 5, 0);
+		gbc_pnlBoard.insets = new Insets(0, 0, 5, 5);
 		gbc_pnlBoard.fill = GridBagConstraints.BOTH;
 		gbc_pnlBoard.gridx = 0;
 		gbc_pnlBoard.gridy = 1;
@@ -107,7 +122,7 @@ public class FrenchRoulette_v2 {
 		
 		pnlFiches = new PnlFiches(model.getFicheList());
 		GridBagConstraints gbc_pnlFiches = new GridBagConstraints();
-		gbc_pnlFiches.insets = new Insets(0, 0, 5, 0);
+		gbc_pnlFiches.insets = new Insets(0, 0, 5, 5);
 		gbc_pnlFiches.fill = GridBagConstraints.BOTH;
 		gbc_pnlFiches.gridx = 0;
 		gbc_pnlFiches.gridy = 2;
@@ -116,14 +131,14 @@ public class FrenchRoulette_v2 {
 		
 		lblBalance = new JLabel("New label");
 		GridBagConstraints gbc_lblBalance = new GridBagConstraints();
-		gbc_lblBalance.insets = new Insets(0, 0, 5, 0);
+		gbc_lblBalance.insets = new Insets(0, 0, 5, 5);
 		gbc_lblBalance.gridx = 0;
 		gbc_lblBalance.gridy = 3;
 		contentPane.add(lblBalance, gbc_lblBalance);
 		
 		pnlCountdown = new PnlCountdown();
 		GridBagConstraints gbc_pnlCountdown = new GridBagConstraints();
-		gbc_pnlCountdown.insets = new Insets(0, 0, 5, 0);
+		gbc_pnlCountdown.insets = new Insets(0, 0, 5, 5);
 		gbc_pnlCountdown.fill = GridBagConstraints.BOTH;
 		gbc_pnlCountdown.gridx = 0;
 		gbc_pnlCountdown.gridy = 4;
@@ -131,6 +146,7 @@ public class FrenchRoulette_v2 {
 		
 		stateLbl = new JLabel(""+model.getState());
 		GridBagConstraints gbc_stateLbl = new GridBagConstraints();
+		gbc_stateLbl.insets = new Insets(0, 0, 0, 5);
 		gbc_stateLbl.gridx = 0;
 		gbc_stateLbl.gridy = 5;
 		contentPane.add(stateLbl, gbc_stateLbl);
@@ -197,6 +213,11 @@ public class FrenchRoulette_v2 {
 	        pnlBetBoard.enableButtons(false); // Disable betting buttons
 	        pnlFiches.enableButtons(false); // Disable fiche buttons
 	    }
+		
+	}
+
+	public void updateStats(HashMap<String, Integer> stats) {
+		pnlStatitics.updateStats(stats);
 		
 	}
 }

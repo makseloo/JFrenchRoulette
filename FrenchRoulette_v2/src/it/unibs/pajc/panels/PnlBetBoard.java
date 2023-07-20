@@ -1,4 +1,4 @@
-package it.unibs.pajc;
+package it.unibs.pajc.panels;
 
 import javax.swing.JPanel;
 
@@ -13,6 +13,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+
+import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.core.*;
 
 public class PnlBetBoard extends PnlBase {

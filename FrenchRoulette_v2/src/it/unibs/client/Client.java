@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.security.MessageDigest;
+import java.util.HashMap;
 import java.util.List;
 
 import it.unibs.pajc.FrenchRoulette_v2;

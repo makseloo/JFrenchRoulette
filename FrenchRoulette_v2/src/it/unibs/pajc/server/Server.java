@@ -14,7 +14,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import it.unibs.pajc.PnlBetBoard;
+import it.unibs.pajc.panels.PnlBetBoard;
 
 import javax.swing.JLabel;
 

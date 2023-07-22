@@ -1,6 +1,8 @@
 package it.unibs.pajc.server;
 
-public class Message {
+import java.io.Serializable;
+
+public class Message implements Serializable{
 	private String gameState;
 	private int seconds;
 	public Message(String gameState, int seconds) {

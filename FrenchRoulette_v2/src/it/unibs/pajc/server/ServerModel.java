@@ -1,6 +1,8 @@
 package it.unibs.pajc.server;
 
 
+import java.util.List;
+
 import javax.swing.event.ChangeEvent;
 
 import it.unibs.pajc.core.BaseModel;
@@ -74,7 +76,11 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 	public void onTimerExpired() {
 		previous_gameState = gameState;
 		startTimer();
-		fireValuesChange(new ChangeEvent(this));
+		fireTimerExpiredEvent(previous_gameState);
+	}
+	
+	public List<Integer> getNumbers(){
+		return serverStats.getNumbers();
 	}
 
 }

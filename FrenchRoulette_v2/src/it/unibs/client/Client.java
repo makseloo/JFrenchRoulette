@@ -14,7 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import it.unibs.pajc.FrenchRoulette_v2;
-import it.unibs.pajc.server.Message;
+import it.unibs.pajc.server.StatsMessage;
+import it.unibs.pajc.server.TimerMessage;
 
 
 public class Client {
@@ -46,15 +47,28 @@ public class Client {
 	             ObjectInputStream ois = new ObjectInputStream(server.getInputStream())
 			) {
 			   
-			 Message message;
+			Object receivedObject;
 	            
-	            while ((message = (Message) ois.readObject()) != null) {
-	                // Update GUI with the received time and game state
-	                seconds = message.getSeconds();
-	                gameState = message.getGameState();
-	                roulette.updateTimer(seconds);
-	                roulette.updateGameState(gameState);
-	            }
+	            while ((receivedObject = ois.readObject()) != null) {
+	            	
+	            	 
+	                 // Check the type of the received object and handle it accordingly
+	                 if (receivedObject instanceof TimerMessage) {
+	                     TimerMessage timerMessage = (TimerMessage) receivedObject;
+	                    seconds = timerMessage.getSeconds();
+	 	                gameState = timerMessage.getGameState();
+	 	                roulette.updateTimer(seconds);
+	 	                roulette.updateGameState(gameState);
+	                 } else if (receivedObject instanceof StatsMessage) {
+	                     StatsMessage statsMessage = (StatsMessage) receivedObject;
+	                     roulette.updateStats(statsMessage.getNumbers());
+	                 } else {
+	                     // Handle other types of messages if needed
+	                 }
+	             }
+	            	
+	                
+	            
 			        
 
 			        // Process the response based on your application logic

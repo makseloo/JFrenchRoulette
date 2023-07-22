@@ -12,6 +12,7 @@ import javax.swing.JInternalFrame;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 import java.util.HashMap;
@@ -20,7 +21,8 @@ import java.util.Map;
 public class PnlStatitics extends JPanel {
 
 	private JPanel internalPanel;
-	private HashMap<String, Integer> stats;
+	private JPanel lastPanel;
+	private List<Integer> stats;
 	/**
 	 * Create the panel.
 	 */
@@ -50,6 +52,7 @@ public class PnlStatitics extends JPanel {
 		add(btnAdvanced, gbc_btnAdvanced);
 		
 		JButton btnLast500 = new JButton("LAST 500");
+		
 		GridBagConstraints gbc_btnLast500 = new GridBagConstraints();
 		gbc_btnLast500.gridx = 2;
 		gbc_btnLast500.gridy = 0;
@@ -74,9 +77,27 @@ public class PnlStatitics extends JPanel {
             }
 		});
 		
+		btnLast500.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (lastPanel == null || !lastPanel.isVisible()) {
+					lastPanel = PnlStatisticsAdvanced.createlastPanel(stats);
+
+                    GridBagConstraints gbc_windowAdvanced = new GridBagConstraints();
+                    gbc_windowAdvanced.gridx = 0;
+                    gbc_windowAdvanced.gridy = 1;
+                    gbc_windowAdvanced.gridwidth = 3;
+                    gbc_windowAdvanced.fill = GridBagConstraints.HORIZONTAL;
+                    add(lastPanel, gbc_windowAdvanced);
+
+                    validate(); // Re-layout the panel to show the internal frame
+                }
+            
+			}
+		});
+		
 	}
 
-	public void updateStats(HashMap<String, Integer> stats) {
+	public void updateStats(List<Integer> stats) {
 		this.stats = stats;
 		repaint();
 	}

@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,7 +19,7 @@ public class PnlStatisticsAdvanced extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-    public static JPanel createInternalPanel(HashMap<String, Integer> statistiche) {
+    public static JPanel createInternalPanel(List<Integer> statistiche) {
         JPanel panel = new JPanel();
         panel.setPreferredSize(new Dimension(400, 400));
         panel.setBackground(Color.WHITE);
@@ -39,7 +40,7 @@ public class PnlStatisticsAdvanced extends JPanel {
         
         for(int i = 1; i < 4; i++) {
 
-        	JLabel dozenStatLbl = new JLabel(statistiche.get(i+"dozen").toString());
+        	JLabel dozenStatLbl = new JLabel("cIAO");
         	dozensStatPnl.add(dozenStatLbl);
         }
         panel.add(dozensStatPnl,gbc_dozensStat);
@@ -61,6 +62,20 @@ public class PnlStatisticsAdvanced extends JPanel {
         panel.add(dozensPnl,gbc_dozensPnl);
 
         return panel;
+    }
+    
+    public static JPanel createlastPanel(List<Integer> stats) {
+    	JPanel panel = new JPanel();
+        panel.setPreferredSize(new Dimension(400, 400));
+        panel.setBackground(Color.WHITE);
+        panel.setLayout(new GridLayout(39,13));
+        for(Integer i : stats) {
+        	JLabel num = new JLabel(i.toString());
+        	panel.add(num);
+        }
+        
+        return panel;
+    	
     }
 
 }

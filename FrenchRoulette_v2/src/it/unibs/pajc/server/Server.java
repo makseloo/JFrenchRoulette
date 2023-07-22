@@ -41,7 +41,7 @@ public class Server {
 
         serverModel = new ServerModel();
         serverModel.startTimer();
-
+        
         int port = 1234;
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {

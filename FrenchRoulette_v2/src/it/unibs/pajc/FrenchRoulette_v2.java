@@ -216,7 +216,7 @@ public class FrenchRoulette_v2 {
 		
 	}
 
-	public void updateStats(HashMap<String, Integer> stats) {
+	public void updateStats(List<Integer> stats) {
 		pnlStatitics.updateStats(stats);
 		
 	}

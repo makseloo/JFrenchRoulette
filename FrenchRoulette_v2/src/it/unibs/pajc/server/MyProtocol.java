@@ -6,6 +6,11 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import it.unibs.pajc.core.BaseModel.TimerExpiredEvent;
+
 public class MyProtocol implements Runnable {
 
     private Socket clientSocket;
@@ -18,9 +23,29 @@ public class MyProtocol implements Runnable {
         this.clientSocket = clientSocket;
         this.clientName = clientName;
         this.serverModel = serverModel;
+        serverModel.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				if(e instanceof TimerExpiredEvent) {
+					test(e);
+				}else {
+					
+				}
+				
+			}
+		});
     }
 
-    public void run() {
+    private void test(ChangeEvent e) {
+    	if(e.getSource() == "SPINNING") {
+    		
+    	}if(e.getSource() == "SETTLING") {
+    		
+    	}
+	}
+
+	public void run() {
         try (
         		ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
         ) {
@@ -52,13 +77,18 @@ public class MyProtocol implements Runnable {
 
     private void sendTimeUpdate() {
         int seconds = serverModel.getSeconds();
+        List<Integer> numbers = serverModel.getNumbers();
         RouletteGameState gameState = serverModel.getPrevGameState();
         try {
-            Message message = new Message(gameState.toString(), seconds);
-            oos.writeObject(message);
+            TimerMessage timerMessage = new TimerMessage(gameState.toString(), seconds);
+            StatsMessage statsMessage = new StatsMessage(numbers);
+            
+            oos.writeObject(timerMessage);
+            oos.writeObject(statsMessage);
             oos.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    
 }

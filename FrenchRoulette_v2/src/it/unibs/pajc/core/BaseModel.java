@@ -17,4 +17,17 @@ public class BaseModel {
 			l.stateChanged(e);
 		}
 	}
+	
+    public void fireTimerExpiredEvent(Object source) {
+        TimerExpiredEvent timerExpiredEvent = new TimerExpiredEvent(source);
+        fireValuesChange(timerExpiredEvent);
+    }
+    
+    public class TimerExpiredEvent  extends ChangeEvent {
+        public TimerExpiredEvent(Object source) {
+            super(source);
+        }
+    }
 }
+
+

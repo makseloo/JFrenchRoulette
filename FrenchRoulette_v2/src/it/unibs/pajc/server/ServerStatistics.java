@@ -20,10 +20,6 @@ public class ServerStatistics {
     
     public ServerStatistics() {
     	this.randomNumbers = generateRandomNumbers(NUMBER_OF_RANDOMS, RANDOM_RANGE_MIN, RANDOM_RANGE_MAX);
-    	HashMap<String, Integer> stats = new HashMap<>();
-		stats.put("1dozen", 10);
-		stats.put("2dozen", 20);
-		stats.put("3dozen", 30);
 	}
 
     public static void main(String[] args) {

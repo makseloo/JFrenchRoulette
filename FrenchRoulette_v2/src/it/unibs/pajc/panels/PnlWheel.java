@@ -87,7 +87,7 @@ public class PnlWheel extends PnlBase {
     	    int moveAmount = 10; // Adjust this value as needed
     	    rotatedY -= moveLeftAmount;
     	    
-    	    System.out.printf(""+rotatedX+":"+rotatedY+"\n");
+
     	    Color transparentColor = new Color(0, 0, 0, 0);
             // Add button to the panel
             JButton pocketButton = createButton(w.getValue() + "", w.getColor());

@@ -5,6 +5,7 @@ import java.awt.Window;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -13,12 +14,14 @@ import java.util.HashMap;
 import java.util.List;
 
 import it.unibs.pajc.FrenchRoulette_v2;
+import it.unibs.pajc.server.Message;
 
 
 public class Client {
 
 	private static FrenchRoulette_v2 roulette;
-	
+	 private static int seconds;
+	    private static String gameState;
 	
 	public static void main(String[] args) throws InterruptedException {
 		
@@ -39,29 +42,24 @@ public class Client {
 		
 		
 		try (Socket server = new Socket(serverName, port);
-			    PrintWriter out = new PrintWriter(server.getOutputStream(), true);
-			    BufferedReader in = new BufferedReader(new InputStreamReader(server.getInputStream()));
+				ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
+	             ObjectInputStream ois = new ObjectInputStream(server.getInputStream())
 			) {
 			   
-			    String response;
-			    while (true) {
-			    	out.println("GET_TIME");
-			    	if((response = in.readLine()) != null) {
-			    		String[] parts = response.split(":");
-			    		int remainingSeconds = Integer.parseInt(parts[0]);
-		                String gameState = parts[1];
-		                roulette.updateTimer(remainingSeconds);
-		                roulette.updateGameState(gameState);
-
-				        // Wait for the next response from the server
-				        response = in.readLine();
-				        System.out.println(response);
-			    	}
+			 Message message;
+	            
+	            while ((message = (Message) ois.readObject()) != null) {
+	                // Update GUI with the received time and game state
+	                seconds = message.getSeconds();
+	                gameState = message.getGameState();
+	                roulette.updateTimer(seconds);
+	                roulette.updateGameState(gameState);
+	            }
 			        
 
 			        // Process the response based on your application logic
-			    }
-			} catch (IOException exc) {
+			    
+			} catch (IOException | ClassNotFoundException exc) {
 			    exc.printStackTrace();
 			}
 

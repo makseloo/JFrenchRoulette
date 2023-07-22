@@ -12,6 +12,7 @@ public class MyProtocol implements Runnable {
     private String clientName;
     private ServerModel serverModel;
     private PrintWriter out;
+    private ObjectOutputStream oos;
 
     public MyProtocol(Socket clientSocket, String clientName, ServerModel serverModel) {
         this.clientSocket = clientSocket;
@@ -21,9 +22,9 @@ public class MyProtocol implements Runnable {
 
     public void run() {
         try (
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        		ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
         ) {
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
+        	 oos = new ObjectOutputStream(clientSocket.getOutputStream());
             System.out.printf("\nClient connesso: %s [%d] - Name: %s\n",
                     clientSocket.getInetAddress(), clientSocket.getPort(), clientName);
 
@@ -52,6 +53,12 @@ public class MyProtocol implements Runnable {
     private void sendTimeUpdate() {
         int seconds = serverModel.getSeconds();
         RouletteGameState gameState = serverModel.getPrevGameState();
-        out.println(seconds + ":" + gameState.toString());
+        try {
+            Message message = new Message(gameState.toString(), seconds);
+            oos.writeObject(message);
+            oos.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

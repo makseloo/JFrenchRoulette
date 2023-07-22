@@ -6,6 +6,10 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import it.unibs.pajc.WheelNumber;
+
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 
@@ -21,8 +25,8 @@ import java.util.Map;
 public class PnlStatitics extends JPanel {
 
 	private JPanel internalPanel;
-	private JPanel lastPanel;
-	private List<Integer> stats;
+	private JScrollPane lastPanel;
+	private List<WheelNumber> stats;
 	/**
 	 * Create the panel.
 	 */
@@ -97,7 +101,7 @@ public class PnlStatitics extends JPanel {
 		
 	}
 
-	public void updateStats(List<Integer> stats) {
+	public void updateStats(List<WheelNumber> stats) {
 		this.stats = stats;
 		repaint();
 	}

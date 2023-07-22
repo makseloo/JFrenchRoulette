@@ -181,6 +181,21 @@ public class Model extends BaseModel{
 		this.gameState = RouletteGameState.valueOf(gameState);
 		fireValuesChange(new ChangeEvent(this));
 	}
+
+	public List<WheelNumber> turnIntoColor(List<Integer> stats) {
+		
+		List<WheelNumber> coloredStats = new ArrayList<>();
+		
+		for(int i : stats) {
+			for(WheelNumber w : numberList) {
+				if(i == w.getValue())
+					coloredStats.add(w);
+			}
+		}
+		
+		
+		return coloredStats;
+	}
 	
 	
 	

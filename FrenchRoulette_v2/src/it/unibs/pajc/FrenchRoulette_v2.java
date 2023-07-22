@@ -217,7 +217,8 @@ public class FrenchRoulette_v2 {
 	}
 
 	public void updateStats(List<Integer> stats) {
-		pnlStatitics.updateStats(stats);
+		List<WheelNumber>coloredStats =  model.turnIntoColor(stats);
+		pnlStatitics.updateStats(coloredStats);
 		
 	}
 }

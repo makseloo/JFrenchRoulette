@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.event.ChangeEvent;
 
+import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.core.BaseModel;
 public class ServerModel extends BaseModel implements ServerTimer.TimerListener {
     private static final int BETTING_TIMER_DURATION = 10; // Duration of the timer in seconds

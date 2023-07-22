@@ -9,8 +9,13 @@ import java.awt.GridLayout;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.border.Border;
+
+import it.unibs.pajc.WheelNumber;
 
 public class PnlStatisticsAdvanced extends JPanel {
 	public PnlStatisticsAdvanced() {
@@ -19,7 +24,7 @@ public class PnlStatisticsAdvanced extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-    public static JPanel createInternalPanel(List<Integer> statistiche) {
+    public static JPanel createInternalPanel(List<WheelNumber> statistiche) {
         JPanel panel = new JPanel();
         panel.setPreferredSize(new Dimension(400, 400));
         panel.setBackground(Color.WHITE);
@@ -64,17 +69,24 @@ public class PnlStatisticsAdvanced extends JPanel {
         return panel;
     }
     
-    public static JPanel createlastPanel(List<Integer> stats) {
+    public static JScrollPane createlastPanel(List<WheelNumber> stats) {
     	JPanel panel = new JPanel();
         panel.setPreferredSize(new Dimension(400, 400));
         panel.setBackground(Color.WHITE);
-        panel.setLayout(new GridLayout(39,13));
-        for(Integer i : stats) {
-        	JLabel num = new JLabel(i.toString());
+        panel.setLayout(new GridLayout(20,25));
+        for(WheelNumber w : stats) {
+        	JLabel num = new JLabel(w.getValue()+"");
+        	num.setForeground(w.getColor());
+        	Border coloredBorder = BorderFactory.createLineBorder(w.getColor(),1);
+        	num.setBorder(coloredBorder);
+        	num.setHorizontalAlignment(JLabel.CENTER);
         	panel.add(num);
         }
-        
-        return panel;
+        JScrollPane scrollPane = new JScrollPane(panel);
+        scrollPane.setPreferredSize(new Dimension(400, 400));
+        scrollPane.setBackground(Color.WHITE);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        return scrollPane;
     	
     }
 

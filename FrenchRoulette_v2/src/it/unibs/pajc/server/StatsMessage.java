@@ -2,6 +2,8 @@ package it.unibs.pajc.server;
 
 import java.util.List;
 
+import it.unibs.pajc.WheelNumber;
+
 public class StatsMessage implements Message{
 	private List<Integer> numbers;
 

@@ -5,10 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import it.unibs.pajc.Colors;
 import it.unibs.pajc.WheelNumber;
 
 public class ServerStatistics {
-    private static double NUMBER_OF_RANDOMS = 20;
+    private static double NUMBER_OF_RANDOMS = 500;
     private static final int RANDOM_RANGE_MIN = 0;
     private static final int RANDOM_RANGE_MAX = 37;
     
@@ -92,6 +93,16 @@ public class ServerStatistics {
         
         return randomNumbers;
     }
+	
+	private static List<WheelNumber> turnIntoWheelNumbers(List<Integer> randomNumbers) {
+		List<WheelNumber> wheelNumbers = new ArrayList<>();
+
+       for(int i : randomNumbers) {
+
+       }
+        
+        return wheelNumbers;
+    }
     
     private static int countOccurrences(List<Integer> numbers, int target) {
     	
@@ -140,7 +151,9 @@ public class ServerStatistics {
 		return zero;
 	}
 
-	public List<Integer> getNumbers() {
+
+	
+	public List<Integer> getNumbers(){
 		return randomNumbers;
 	}
 

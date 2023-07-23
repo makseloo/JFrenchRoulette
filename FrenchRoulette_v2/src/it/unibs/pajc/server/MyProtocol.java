@@ -16,13 +16,14 @@ public class MyProtocol implements Runnable {
     private Socket clientSocket;
     private String clientName;
     private ServerModel serverModel;
-    private PrintWriter out;
+    private boolean isConnected;
     private ObjectOutputStream oos;
 
     public MyProtocol(Socket clientSocket, String clientName, ServerModel serverModel) {
         this.clientSocket = clientSocket;
         this.clientName = clientName;
         this.serverModel = serverModel;
+        isConnected = true;
         serverModel.addChangeListener(new ChangeListener() {
 			
 			@Override
@@ -69,13 +70,24 @@ public class MyProtocol implements Runnable {
                 //Thread.sleep(10);
             }
         } catch (IOException  ex) {
-            ex.printStackTrace();
+        	System.out.printf("\nClient disconnected: %s [%d] - Name: %s\n",
+                    clientSocket.getInetAddress(), clientSocket.getPort(), clientName);
+
+            // Clean up resources and remove client from server data structures
+            try {
+                clientSocket.close();
+                isConnected = false;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         System.out.printf("\nSessione terminata, client: %s\n", clientName);
     }
 
     private void sendTimeUpdate() {
+    	if(!isConnected)
+    		return;
         int seconds = serverModel.getSeconds();
         List<Integer> numbers = serverModel.getNumbers();
         RouletteGameState gameState = serverModel.getPrevGameState();
@@ -86,6 +98,17 @@ public class MyProtocol implements Runnable {
             oos.writeObject(timerMessage);
             oos.writeObject(statsMessage);
             oos.flush();
+        }catch (SocketException e) {
+            // Handle the SocketException, indicating that the client has closed the connection
+            System.out.println("Client disconnected: " + clientName);
+
+            // Clean up resources and remove client from server data structures
+            try {
+                clientSocket.close();
+                isConnected = false; // Set the flag to false when a client disconnects
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

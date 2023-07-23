@@ -27,7 +27,8 @@ public class PnlStatitics extends JPanel {
 
 	private JPanel internalPanel;
 	private JPanel lastPanel;
-	private List<WheelNumber> stats;
+	private List<WheelNumber> last500;
+	private Map<String, Integer> stats;
 	/**
 	 * Create the panel.
 	 */
@@ -46,6 +47,8 @@ public class PnlStatitics extends JPanel {
 		gbc_btnHotCold.insets = new Insets(0, 0, 0, 5);
 		gbc_btnHotCold.gridx = 0;
 		gbc_btnHotCold.gridy = 0;
+		gbc_btnHotCold.fill = GridBagConstraints.HORIZONTAL;
+		
 		add(btnHotCold, gbc_btnHotCold);
 		
 		JButton btnAdvanced = new JButton("AVANZATA");
@@ -54,6 +57,7 @@ public class PnlStatitics extends JPanel {
 		gbc_btnAdvanced.insets = new Insets(0, 0, 0, 5);
 		gbc_btnAdvanced.gridx = 1;
 		gbc_btnAdvanced.gridy = 0;
+		gbc_btnAdvanced.fill = GridBagConstraints.HORIZONTAL;
 		add(btnAdvanced, gbc_btnAdvanced);
 		
 		JButton btnLast500 = new JButton("LAST 500");
@@ -61,6 +65,7 @@ public class PnlStatitics extends JPanel {
 		GridBagConstraints gbc_btnLast500 = new GridBagConstraints();
 		gbc_btnLast500.gridx = 2;
 		gbc_btnLast500.gridy = 0;
+		gbc_btnLast500.fill = GridBagConstraints.HORIZONTAL;
 		add(btnLast500, gbc_btnLast500);
 		
 		//addLastPanel();
@@ -92,9 +97,15 @@ public class PnlStatitics extends JPanel {
 		
 	}
 
-	public void updateStats(List<WheelNumber> stats) {
+	public void updateLast500(List<WheelNumber> last500) {
+		this.last500 = last500;
+		repaint();
+	}
+	
+	public void updateStats(Map<String, Integer> stats) {
 		this.stats = stats;
 		repaint();
+		
 	}
 	
     private void hideInternalPanel() {
@@ -116,7 +127,7 @@ public class PnlStatitics extends JPanel {
     private void addLastPanel() {
     	if (lastPanel == null || !lastPanel.isVisible()) {
 			 hideInternalPanel();
-			lastPanel = PnlStatisticsAdvanced.createlastPanel(stats);
+			lastPanel = PnlStatisticsAdvanced.createlastPanel(last500);
 
            GridBagConstraints gbc_windowAdvanced = new GridBagConstraints();
            gbc_windowAdvanced.gridx = 0;
@@ -129,4 +140,6 @@ public class PnlStatitics extends JPanel {
            validate(); // Re-layout the panel to show the internal frame
     }
     	}
+
+
 }

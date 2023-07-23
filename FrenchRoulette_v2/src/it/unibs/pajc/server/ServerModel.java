@@ -2,6 +2,7 @@ package it.unibs.pajc.server;
 
 
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.event.ChangeEvent;
 
@@ -24,7 +25,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
         serverStats = new ServerStatistics();
     }
     
-    public ServerStatistics getStats() {
+    public ServerStatistics getServerStats() {
     	return serverStats;
     }
 
@@ -82,6 +83,10 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 	
 	public List<Integer> getNumbers(){
 		return serverStats.getNumbers();
+	}
+
+	public Map<String, Integer> getStats() {
+		return serverStats.getStats();
 	}
 
 }

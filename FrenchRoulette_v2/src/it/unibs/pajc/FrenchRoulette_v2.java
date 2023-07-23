@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -216,9 +217,14 @@ public class FrenchRoulette_v2 {
 		
 	}
 
-	public void updateStats(List<Integer> stats) {
-		List<WheelNumber>coloredStats =  model.turnIntoColor(stats);
-		pnlStatitics.updateStats(coloredStats);
+	public void updateLast500(List<Integer> last500) {
+		List<WheelNumber>coloredStats =  model.turnIntoColor(last500);
+		pnlStatitics.updateLast500(coloredStats);
+		
+	}
+
+	public void updateStats(Map<String, Integer> stats) {
+		pnlStatitics.updateStats(stats);
 		
 	}
 }

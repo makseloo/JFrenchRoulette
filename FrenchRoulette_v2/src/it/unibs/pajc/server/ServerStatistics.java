@@ -15,20 +15,22 @@ public class ServerStatistics {
     
     private int zero;
     private int[] dozens;
-    List<Integer> randomNumbers;
+    private List<Integer> randomNumbers;
     private HashMap<String, Integer> stats;
     
     
     public ServerStatistics() {
-    	this.randomNumbers = generateRandomNumbers(NUMBER_OF_RANDOMS, RANDOM_RANGE_MIN, RANDOM_RANGE_MAX);
-	}
+    	this.stats = new HashMap<>();
+    	this.randomNumbers = new ArrayList<>();
+    	randomNumbers = generateRandomNumbers(NUMBER_OF_RANDOMS, RANDOM_RANGE_MIN, RANDOM_RANGE_MAX);
+    	stats = generateStats();
+    }
 
-    public static void main(String[] args) {
-    	ServerStatistics server = new ServerStatistics();
-    	List<Integer> randomNumbers = server.getNumbers();
-    	
-    	double zero = countOccurrences(randomNumbers, 0);
+
+	private HashMap<String, Integer> generateStats() {
+		double zero = countOccurrences(randomNumbers, 0);
     	int zeroPercentage = calculatePercentage(zero);
+    	stats.put("zeros", zeroPercentage);
     	
     	double occInDoz1 = countOccurrencesInZone(randomNumbers, WheelNumber.getDozen1());
     	double occInDoz2 = countOccurrencesInZone(randomNumbers, WheelNumber.getDozen2());
@@ -36,6 +38,9 @@ public class ServerStatistics {
     	int doz1P = calculatePercentage(occInDoz1);
     	int doz2P = calculatePercentage(occInDoz2);
     	int doz3P = calculatePercentage(occInDoz3);
+    	stats.put("1 DOZEN", doz1P);
+    	stats.put("2 DOZEN", doz2P);
+    	stats.put("3 DOZEN", doz3P);
     	
     	
     	double occInCol1 = countOccurrencesInZone(randomNumbers, WheelNumber.getCol1());
@@ -44,6 +49,9 @@ public class ServerStatistics {
     	int col1P = calculatePercentage(occInCol1);
     	int col2P = calculatePercentage(occInCol2);
     	int col3P = calculatePercentage(occInCol3);
+    	stats.put("1 COLUMN", col1P);
+    	stats.put("2 COLUMN", col2P);
+    	stats.put("3 COLUMN", col3P);
     	
     	double occInTier = countOccurrencesInZone(randomNumbers, WheelNumber.getTier());
     	double occInOrph = countOccurrencesInZone(randomNumbers, WheelNumber.getOrphelins());
@@ -53,33 +61,35 @@ public class ServerStatistics {
     	int orphP = calculatePercentage(occInOrph);
     	int voisP = calculatePercentage(occInVois);
     	int zeroZoneP = calculatePercentage(occInZeroZone);
-    	
-    	
-    	
+    	stats.put("TIER", tierP);
+    	stats.put("ORPHELINS", orphP);
+    	stats.put("VOISINS", voisP);
+    	stats.put("ZERO", zeroZoneP);
+
     	double occIn1To18 = countOccurrencesInZone(randomNumbers, WheelNumber.getEight());
     	double occIn19To36 = countOccurrencesInZone(randomNumbers, WheelNumber.getSix());
     	int oneTo18P = calculatePercentage(occIn1To18);
     	int ninethTo36P = calculatePercentage(occIn19To36);
+    	stats.put("1-18", oneTo18P);
+    	stats.put("19-36", ninethTo36P);
+    	
     
     	double occInEven = countOccurrencesInZone(randomNumbers, WheelNumber.getEven());
     	double occInOdd = countOccurrencesInZone(randomNumbers, WheelNumber.getOdd());
     	int evenP = calculatePercentage(occInEven);
     	int oddP = calculatePercentage(occInOdd);
+    	stats.put("EVEN", evenP);
+    	stats.put("ODD", oddP);
     	
     	double occInBlack = countOccurrencesInZone(randomNumbers, WheelNumber.getBlackNums());
     	double occInRed = countOccurrencesInZone(randomNumbers, WheelNumber.getRedNums());
     	int blackP = calculatePercentage(occInBlack);
     	int redP = calculatePercentage(occInRed);
-
+    	stats.put("BLACK", blackP);
+    	stats.put("RED", redP);
     	
-    	for(int i : randomNumbers) {
-    		System.out.print(","+ i);
-    	}
-    	
-    	System.out.print("\n occurence of first dozen: "+ occInDoz1);
-    	System.out.println("\n" + calculatePercentage(occInDoz1));
-    }
-
+		return stats;
+	}
 
 	private static List<Integer> generateRandomNumbers(double count, int min, int max) {
 		List<Integer> randomNumbers = new ArrayList<>();

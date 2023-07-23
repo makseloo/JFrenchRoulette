@@ -3,6 +3,7 @@ package it.unibs.pajc.server;
 import java.io.*;
 import java.net.*;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -53,7 +54,13 @@ public class MyProtocol implements Runnable {
         	 oos = new ObjectOutputStream(clientSocket.getOutputStream());
             System.out.printf("\nClient connesso: %s [%d] - Name: %s\n",
                     clientSocket.getInetAddress(), clientSocket.getPort(), clientName);
-
+            //mando le stat appena il client si connette
+            List<Integer> numbers = serverModel.getNumbers();
+            Map<String, Integer> stats = serverModel.getStats();
+            StatsMessage statsMessage = new StatsMessage(numbers, stats);
+            oos.writeObject(statsMessage);
+            oos.flush();
+            
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
@@ -89,14 +96,13 @@ public class MyProtocol implements Runnable {
     	if(!isConnected)
     		return;
         int seconds = serverModel.getSeconds();
-        List<Integer> numbers = serverModel.getNumbers();
+        
         RouletteGameState gameState = serverModel.getPrevGameState();
         try {
             TimerMessage timerMessage = new TimerMessage(gameState.toString(), seconds);
-            StatsMessage statsMessage = new StatsMessage(numbers);
+            
             
             oos.writeObject(timerMessage);
-            oos.writeObject(statsMessage);
             oos.flush();
         }catch (SocketException e) {
             // Handle the SocketException, indicating that the client has closed the connection

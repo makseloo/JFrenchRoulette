@@ -8,6 +8,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -15,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 
+import it.unibs.pajc.Colors;
 import it.unibs.pajc.WheelNumber;
 
 public class PnlStatisticsAdvanced extends JPanel {
@@ -24,48 +27,83 @@ public class PnlStatisticsAdvanced extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-    public static JPanel createInternalPanel(List<WheelNumber> statistiche) {
+    public static JPanel createInternalPanel(Map<String, Integer> stats) {
+    	
+    	Set<String> keys = stats.keySet();
+    	
         JPanel panel = new JPanel();
         panel.setPreferredSize(new Dimension(400, 400));
         panel.setBackground(Color.WHITE);
         panel.setLayout(new GridBagLayout());
         
+        GridBagConstraints gbc_dozens = new GridBagConstraints();
+        gbc_dozens.fill = GridBagConstraints.HORIZONTAL;
+        gbc_dozens.weightx = 1.0;
+        for(int i = 0; i < 3; i++) {
+        	int j = 0;
+        	JLabel labelsopra = new JLabel(stats.get((i+1) + " DOZEN")+"");
+        	JLabel labelsotto = new JLabel((i+1) + " DOZEN ");
+        	Border coloredBorder = BorderFactory.createLineBorder(Colors.getGray(), 1);
+        	labelsotto.setBorder(coloredBorder);
+        	labelsopra.setHorizontalAlignment(JLabel.CENTER);
+        	labelsotto.setHorizontalAlignment(JLabel.CENTER);
+        	gbc_dozens.gridx = i;
+        	gbc_dozens.gridy = j++;
+        	panel.add(labelsopra, gbc_dozens);
+        	gbc_dozens.gridx = i;
+        	gbc_dozens.gridy = j--;
+        	panel.add(labelsotto,gbc_dozens);
+        }
+        
+        GridBagConstraints gbc_cols = new GridBagConstraints();
+        gbc_cols.fill = GridBagConstraints.HORIZONTAL;
+        gbc_cols.weightx = 1.0;
+        for(int i = 0; i < 3; i++) {
+        	int j = 2;
+        	JLabel labelsopra = new JLabel(stats.get((i+1) + " COLUMN")+"");
+        	JLabel labelsotto = new JLabel((i+1) + " COLUMN ");
+        	Border coloredBorder = BorderFactory.createLineBorder(Colors.getGray(), 1);
+        	labelsotto.setBorder(coloredBorder);
+        	labelsopra.setHorizontalAlignment(JLabel.CENTER);
+        	labelsotto.setHorizontalAlignment(JLabel.CENTER);
+        	gbc_cols.gridx = i;
+        	gbc_cols.gridy = j++;
+        	panel.add(labelsopra, gbc_cols);
+        	gbc_cols.gridx = i;
+        	gbc_cols.gridy = j--;
+        	
+        	panel.add(labelsotto,gbc_cols);
+        }
+        GridBagConstraints gbc_zones = new GridBagConstraints();
+        gbc_zones.fill = GridBagConstraints.HORIZONTAL;
+        gbc_zones.weightx = 1.0;
+        int i = 0;
+        for(String s : WheelNumber.getZones()) {
+        	int j = 4;
+        	JLabel labelsopra = new JLabel(stats.get(s)+"");
+        	JLabel labelsotto = new JLabel(s);
+        	labelsopra.setHorizontalAlignment(JLabel.CENTER);
+        	labelsotto.setHorizontalAlignment(JLabel.CENTER);
+        	gbc_zones.gridx = i;
+        	gbc_zones.gridy = j++;
+        	
+        	panel.add(labelsopra, gbc_zones);
+        	gbc_zones.gridx = i;
+        	gbc_zones.gridy = j--;
+        	panel.add(labelsotto,gbc_zones);
+        	i++;
+        }
+        
+        /*
         GridBagConstraints gbc_last12 = new GridBagConstraints();
         gbc_last12.gridx = 0;
         gbc_last12.gridy = 0;
 		
         JLabel last12Lbl = new JLabel("0 1 2 3 4 5 6 7 8 9 10 11");
+        last12Lbl.setText(TOOL_TIP_TEXT_KEY);
         panel.add(last12Lbl, gbc_last12);
-        
-        JPanel dozensStatPnl = new JPanel(new GridLayout(1, 3));
-        GridBagConstraints gbc_dozensStat = new GridBagConstraints();
-        gbc_dozensStat.gridx = 0;
-        gbc_dozensStat.gridy = 1;
-        gbc_dozensStat.fill = GridBagConstraints.HORIZONTAL;
-        
-        for(int i = 1; i < 4; i++) {
 
-        	JLabel dozenStatLbl = new JLabel("cIAO");
-        	dozensStatPnl.add(dozenStatLbl);
-        }
-        panel.add(dozensStatPnl,gbc_dozensStat);
-        
-        
-        JPanel dozensPnl = new JPanel(new GridLayout(1, 3));
-        GridBagConstraints gbc_dozensPnl = new GridBagConstraints();
-        gbc_dozensPnl.gridx = 0;
-        gbc_dozensPnl.gridy = 2;
-
-        gbc_dozensPnl.fill = GridBagConstraints.HORIZONTAL;
-        
-        
-        for(int i = 1; i < 4; i++) {
-
-        	JLabel dozenLbl = new JLabel(""+i);
-        	dozensPnl.add(dozenLbl);
-        }
-        panel.add(dozensPnl,gbc_dozensPnl);
-
+*/
         return panel;
     }
     

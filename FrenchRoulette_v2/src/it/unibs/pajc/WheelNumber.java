@@ -2,6 +2,7 @@ package it.unibs.pajc;
 
 import java.awt.Color;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class WheelNumber implements Serializable {
 	public static List<Integer> even = Arrays.asList(2, 4, 6, 8, 10, 12, 14, 16, 18,20, 22, 24, 26, 28, 30, 32, 34, 36);
 	public static List<Integer> odd = Arrays.asList(1, 3, 5, 7, 9, 11, 13, 15, 17,19, 21, 23, 25, 27, 29, 31, 33, 35);
 	
+	public static List<String> zones = Arrays.asList("TIER","ORPHELINS","VOISINS","ZERO");
 	
 	private int value;
 	private String zone;
@@ -136,6 +138,14 @@ public class WheelNumber implements Serializable {
 
 	public String getZone() {
 		return zone;
+	}
+
+	public static List<String> getZones() {
+		return zones;
+	}
+
+	public static void setZones(List<String> zones) {
+		WheelNumber.zones = zones;
 	}
 
 	

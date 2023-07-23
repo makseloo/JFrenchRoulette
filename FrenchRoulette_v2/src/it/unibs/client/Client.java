@@ -61,16 +61,13 @@ public class Client {
 	 	                roulette.updateGameState(gameState);
 	                 } else if (receivedObject instanceof StatsMessage) {
 	                     StatsMessage statsMessage = (StatsMessage) receivedObject;
-	                     roulette.updateStats(statsMessage.getNumbers());
+	                     roulette.updateLast500(statsMessage.getNumbers());
+	                     roulette.updateStats(statsMessage.getStats());
 	                 } else {
 	                     // Handle other types of messages if needed
 	                 }
 	             }
 	            	
-	                
-	            
-			        
-
 			        // Process the response based on your application logic
 			    
 			} catch (IOException | ClassNotFoundException exc) {

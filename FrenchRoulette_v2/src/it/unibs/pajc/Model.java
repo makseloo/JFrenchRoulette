@@ -61,6 +61,7 @@ public class Model extends BaseModel{
 	}
 
 	private void initializeWheelNumbers() {
+
 		int result;
 		Color color;
 		String zone;
@@ -187,9 +188,12 @@ public class Model extends BaseModel{
 		List<WheelNumber> coloredStats = new ArrayList<>();
 		
 		for(int i : stats) {
-			for(WheelNumber w : numberList) {
+			
+			for(WheelNumber w : sortedList) {
+				
 				if(i == w.getValue())
 					coloredStats.add(w);
+					
 			}
 		}
 		

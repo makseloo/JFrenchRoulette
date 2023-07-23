@@ -7,6 +7,10 @@ import java.awt.Insets;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,6 +28,7 @@ public class Server {
 
     private static ServerModel serverModel;
     private PnlCountdown pnlCountdown;
+    private PnlClients pnlClients;
     private JLabel lblNewLabel;
     private JLabel stateLbl;
 
@@ -41,7 +46,7 @@ public class Server {
 
         serverModel = new ServerModel();
         serverModel.startTimer();
-        
+        //connectedClients = new ArrayList<>();
         int port = 1234;
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
@@ -50,14 +55,27 @@ public class Server {
             int id = 0;
             while (true) {
                 Socket client = serverSocket.accept();
-                MyProtocol clientProtocol = new MyProtocol(client, "CLI#" + id++ + "\n", serverModel);
-                Thread clientThread = new Thread(clientProtocol);
-                clientThread.start();
+                String clientName = "CLI#" + id++ + "\n";
+               
+                handleNewClient(client, clientName);
+                
+                
+                
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+	private static void handleNewClient(Socket client, String clientName) {
+		
+		MyProtocol clientProtocol = new MyProtocol(client, clientName, serverModel);
+		//connectedClients.add(clientName);
+		
+		Thread clientThread = new Thread(clientProtocol);
+        clientThread.start();
+		
+	}
 
 	/**
 	 * Create the application.
@@ -98,6 +116,16 @@ public class Server {
 		gbc_stateLbl.gridy = 1;
 		contentPane.add(stateLbl, gbc_stateLbl);
 		
+		/*
+		pnlClients = new PnlClients(connectedClients);
+		GridBagConstraints gbc_pnlClients = new GridBagConstraints();
+		gbc_pnlClients.insets = new Insets(0, 0, 5, 0);
+
+		gbc_pnlClients.gridx = 0;
+		gbc_pnlClients.gridy = 2;
+		contentPane.add(pnlClients, gbc_pnlClients);	
+		*/
+		
 		serverModel.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -114,6 +142,7 @@ public class Server {
         String state = ""+serverModel.getPrevGameState();
         pnlCountdown.updateCountdown(seconds);
         stateLbl.setText(state);
+        //pnlClients.updateTextArea();
     }
     
 

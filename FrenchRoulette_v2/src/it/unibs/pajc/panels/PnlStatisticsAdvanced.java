@@ -69,25 +69,27 @@ public class PnlStatisticsAdvanced extends JPanel {
         return panel;
     }
     
-    public static JScrollPane createlastPanel(List<WheelNumber> stats) {
-    	JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(400, 400));
+    public static JPanel createlastPanel(List<WheelNumber> stats) {
+        JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);
-        panel.setLayout(new GridLayout(20,25));
-        for(WheelNumber w : stats) {
-        	JLabel num = new JLabel(w.getValue()+"");
-        	num.setForeground(w.getColor());
-        	Border coloredBorder = BorderFactory.createLineBorder(w.getColor(),1);
-        	num.setBorder(coloredBorder);
-        	num.setHorizontalAlignment(JLabel.CENTER);
-        	panel.add(num);
+        panel.setLayout(new GridLayout(20, 25)); // Set GridLayout for a 20x25 grid
+
+        for (WheelNumber w : stats) {
+            JLabel num = new JLabel(w.getValue() + "");
+            num.setForeground(w.getColor());
+            Border coloredBorder = BorderFactory.createLineBorder(w.getColor(), 1);
+            num.setBorder(coloredBorder);
+            num.setHorizontalAlignment(JLabel.CENTER);
+            panel.add(num);
         }
+
+        // Create the JScrollPane and set the preferred size
         JScrollPane scrollPane = new JScrollPane(panel);
         scrollPane.setPreferredSize(new Dimension(400, 400));
         scrollPane.setBackground(Color.WHITE);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        return scrollPane;
-    	
+        return panel;
     }
+
 
 }

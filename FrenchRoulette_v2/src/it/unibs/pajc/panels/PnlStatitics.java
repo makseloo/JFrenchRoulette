@@ -1,5 +1,6 @@
 package it.unibs.pajc.panels;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -25,7 +26,7 @@ import java.util.Map;
 public class PnlStatitics extends JPanel {
 
 	private JPanel internalPanel;
-	private JScrollPane lastPanel;
+	private JPanel lastPanel;
 	private List<WheelNumber> stats;
 	/**
 	 * Create the panel.
@@ -39,7 +40,7 @@ public class PnlStatitics extends JPanel {
 	private void initialize() {
 		
 		setLayout(new GridBagLayout());
-		
+		setPreferredSize(new Dimension(400, 400));
 		JButton btnHotCold = new JButton("HOT/COLD");
 		GridBagConstraints gbc_btnHotCold = new GridBagConstraints();
 		gbc_btnHotCold.insets = new Insets(0, 0, 0, 5);
@@ -62,11 +63,13 @@ public class PnlStatitics extends JPanel {
 		gbc_btnLast500.gridy = 0;
 		add(btnLast500, gbc_btnLast500);
 		
+		//addLastPanel();
 		//creare l'internal frame o meno da un'altra parte ha i suoi pro e contro
 		
 		btnAdvanced.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (internalPanel == null || !internalPanel.isVisible()) {
+					hideLastPanel();
 					internalPanel = PnlStatisticsAdvanced.createInternalPanel(stats);
 
                     GridBagConstraints gbc_windowAdvanced = new GridBagConstraints();
@@ -83,19 +86,7 @@ public class PnlStatitics extends JPanel {
 		
 		btnLast500.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (lastPanel == null || !lastPanel.isVisible()) {
-					lastPanel = PnlStatisticsAdvanced.createlastPanel(stats);
-
-                    GridBagConstraints gbc_windowAdvanced = new GridBagConstraints();
-                    gbc_windowAdvanced.gridx = 0;
-                    gbc_windowAdvanced.gridy = 1;
-                    gbc_windowAdvanced.gridwidth = 3;
-                    gbc_windowAdvanced.fill = GridBagConstraints.HORIZONTAL;
-                    add(lastPanel, gbc_windowAdvanced);
-
-                    validate(); // Re-layout the panel to show the internal frame
-                }
-            
+				addLastPanel();
 			}
 		});
 		
@@ -105,4 +96,37 @@ public class PnlStatitics extends JPanel {
 		this.stats = stats;
 		repaint();
 	}
+	
+    private void hideInternalPanel() {
+        if (internalPanel != null && internalPanel.isVisible()) {
+            internalPanel.setVisible(false);
+            remove(internalPanel);
+            internalPanel = null;
+        }
+    }
+
+    private void hideLastPanel() {
+        if (lastPanel != null && lastPanel.isVisible()) {
+            lastPanel.setVisible(false);
+            remove(lastPanel);
+            lastPanel = null;
+        }
+    }
+    
+    private void addLastPanel() {
+    	if (lastPanel == null || !lastPanel.isVisible()) {
+			 hideInternalPanel();
+			lastPanel = PnlStatisticsAdvanced.createlastPanel(stats);
+
+           GridBagConstraints gbc_windowAdvanced = new GridBagConstraints();
+           gbc_windowAdvanced.gridx = 0;
+           gbc_windowAdvanced.gridy = 1;
+           gbc_windowAdvanced.gridwidth = 3;
+           
+           gbc_windowAdvanced.fill = GridBagConstraints.BOTH;
+           add(lastPanel, gbc_windowAdvanced);
+
+           validate(); // Re-layout the panel to show the internal frame
+    }
+    	}
 }

@@ -39,11 +39,23 @@ public class PnlStatisticsAdvanced extends JPanel {
         GridBagConstraints gbc_dozens = new GridBagConstraints();
         gbc_dozens.fill = GridBagConstraints.HORIZONTAL;
         gbc_dozens.weightx = 1.0;
-        for(int i = 0; i < 3; i++) {
+        JLabel labelsoprazero = new JLabel(stats.get("zeros")+"");
+    	JLabel labelsottozero = new JLabel("0");
+    	Border coloredBorder = BorderFactory.createLineBorder(Colors.getGray(), 1);
+    	labelsottozero.setBorder(coloredBorder);
+    	labelsoprazero.setHorizontalAlignment(JLabel.CENTER);
+    	labelsottozero.setHorizontalAlignment(JLabel.CENTER);
+    	gbc_dozens.gridx = 0;
+    	gbc_dozens.gridy = 0;
+    	panel.add(labelsoprazero,gbc_dozens);
+    	gbc_dozens.gridx = 0;
+    	gbc_dozens.gridy = 1;
+    	panel.add(labelsottozero,gbc_dozens);
+        for(int i = 1; i < 4; i++) {
         	int j = 0;
-        	JLabel labelsopra = new JLabel(stats.get((i+1) + " DOZEN")+"");
-        	JLabel labelsotto = new JLabel((i+1) + " DOZEN ");
-        	Border coloredBorder = BorderFactory.createLineBorder(Colors.getGray(), 1);
+        	JLabel labelsopra = new JLabel(stats.get(i + " DOZEN")+"");
+        	JLabel labelsotto = new JLabel(i + " DOZEN ");
+        	coloredBorder = BorderFactory.createLineBorder(Colors.getGray(), 1);
         	labelsotto.setBorder(coloredBorder);
         	labelsopra.setHorizontalAlignment(JLabel.CENTER);
         	labelsotto.setHorizontalAlignment(JLabel.CENTER);
@@ -62,7 +74,7 @@ public class PnlStatisticsAdvanced extends JPanel {
         	int j = 2;
         	JLabel labelsopra = new JLabel(stats.get((i+1) + " COLUMN")+"");
         	JLabel labelsotto = new JLabel((i+1) + " COLUMN ");
-        	Border coloredBorder = BorderFactory.createLineBorder(Colors.getGray(), 1);
+        	coloredBorder = BorderFactory.createLineBorder(Colors.getGray(), 1);
         	labelsotto.setBorder(coloredBorder);
         	labelsopra.setHorizontalAlignment(JLabel.CENTER);
         	labelsotto.setHorizontalAlignment(JLabel.CENTER);
@@ -93,7 +105,22 @@ public class PnlStatisticsAdvanced extends JPanel {
         	panel.add(labelsotto,gbc_zones);
         	i++;
         }
-        
+        int k = 0;
+        for(String s : WheelNumber.getOthersStat()) {
+        	int j = 6;
+        	JLabel labelsopra = new JLabel(stats.get(s)+"");
+        	JLabel labelsotto = new JLabel(s);
+        	labelsopra.setHorizontalAlignment(JLabel.CENTER);
+        	labelsotto.setHorizontalAlignment(JLabel.CENTER);
+        	gbc_zones.gridx = k;
+        	gbc_zones.gridy = j++;
+        	
+        	panel.add(labelsopra, gbc_zones);
+        	gbc_zones.gridx = k;
+        	gbc_zones.gridy = j--;
+        	panel.add(labelsotto,gbc_zones);
+        	k++;
+        }
         /*
         GridBagConstraints gbc_last12 = new GridBagConstraints();
         gbc_last12.gridx = 0;

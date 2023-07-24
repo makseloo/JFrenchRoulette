@@ -182,7 +182,7 @@ public class FrenchRoulette_v2 {
 		System.out.println(ficheTaken+"");
 	 }
 	 
-	 List<WheelNumber> getBets() {
+	 public List<WheelNumber> getBets() {
 		 return model.getNumberList();
 	 }
 	 

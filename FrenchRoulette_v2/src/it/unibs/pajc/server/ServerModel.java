@@ -1,6 +1,7 @@
 package it.unibs.pajc.server;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,12 +18,14 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
     private RouletteGameState previous_gameState;
 	private ServerTimer serverTimer;
 	private ServerStatistics serverStats;
+	private List<ClientInfo> connectedClients;
     
     public ServerModel() {
         // Initialize the initial state of the server
         gameState = RouletteGameState.BETTING;
         previous_gameState = RouletteGameState.BETTING;
         serverStats = new ServerStatistics();
+        connectedClients = new ArrayList<>();
     }
     
     public ServerStatistics getServerStats() {
@@ -88,5 +91,19 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 	public Map<String, Integer> getStats() {
 		return serverStats.getStats();
 	}
+	//managing clients
+    public void addClient(ClientInfo clientInfo) {
+        connectedClients.add(clientInfo);
+        fireClientsUpdateEvent(new ChangeEvent(this));
+    }
+
+    public void removeClient(ClientInfo clientInfo) {
+        connectedClients.remove(clientInfo);
+        fireClientsUpdateEvent(new ChangeEvent(this));
+    }
+
+    public List<ClientInfo> getConnectedClients() {
+        return connectedClients;
+    }
 
 }

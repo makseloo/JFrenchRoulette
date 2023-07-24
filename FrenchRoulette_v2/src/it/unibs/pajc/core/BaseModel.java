@@ -28,6 +28,17 @@ public class BaseModel {
             super(source);
         }
     }
+    
+    public void fireClientsUpdateEvent(Object source) {
+    	ClientsUpdateEvent clientsUpdateEvent = new ClientsUpdateEvent(source);
+        fireValuesChange(clientsUpdateEvent);
+    }
+    
+    public class ClientsUpdateEvent  extends ChangeEvent {
+        public ClientsUpdateEvent(Object source) {
+            super(source);
+        }
+    }
 }
 
 

@@ -15,14 +15,14 @@ import it.unibs.pajc.core.BaseModel.TimerExpiredEvent;
 public class MyProtocol implements Runnable {
 
     private Socket clientSocket;
-    private String clientName;
+    private ClientInfo clientInfo;
     private ServerModel serverModel;
     private boolean isConnected;
     private ObjectOutputStream oos;
 
-    public MyProtocol(Socket clientSocket, String clientName, ServerModel serverModel) {
+    public MyProtocol(Socket clientSocket, ClientInfo clientInfo, ServerModel serverModel) {
         this.clientSocket = clientSocket;
-        this.clientName = clientName;
+        this.clientInfo = clientInfo;
         this.serverModel = serverModel;
         isConnected = true;
         serverModel.addChangeListener(new ChangeListener() {
@@ -53,7 +53,7 @@ public class MyProtocol implements Runnable {
         ) {
         	 oos = new ObjectOutputStream(clientSocket.getOutputStream());
             System.out.printf("\nClient connesso: %s [%d] - Name: %s\n",
-                    clientSocket.getInetAddress(), clientSocket.getPort(), clientName);
+                    clientSocket.getInetAddress(), clientSocket.getPort(), clientInfo.getClientName());
             //mando le stat appena il client si connette
             List<Integer> numbers = serverModel.getNumbers();
             Map<String, Integer> stats = serverModel.getStats();
@@ -69,27 +69,33 @@ public class MyProtocol implements Runnable {
                 }
             }, 0, 100); // Send time update every second
 
-            while (true) {
+            Object receivedObject;
+            while ((receivedObject = ois.readObject()) != null) {
                 // Read any incoming requests from the client if necessary
                 // ...
+            	if (receivedObject instanceof BetsMessage) {
+            		
+            	}
 
                 // Wait for the next iteration
                 //Thread.sleep(10);
             }
-        } catch (IOException  ex) {
+        } catch (IOException | ClassNotFoundException ex) {
         	System.out.printf("\nClient disconnected: %s [%d] - Name: %s\n",
-                    clientSocket.getInetAddress(), clientSocket.getPort(), clientName);
+                    clientSocket.getInetAddress(), clientSocket.getPort(), clientInfo.getClientName());
 
             // Clean up resources and remove client from server data structures
             try {
+            	serverModel.removeClient(clientInfo);
                 clientSocket.close();
+                serverModel.removeClient(null);
                 isConnected = false;
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        System.out.printf("\nSessione terminata, client: %s\n", clientName);
+        System.out.printf("\nSessione terminata, client: %s\n", clientInfo.getClientName());
     }
 
     private void sendTimeUpdate() {
@@ -106,7 +112,7 @@ public class MyProtocol implements Runnable {
             oos.flush();
         }catch (SocketException e) {
             // Handle the SocketException, indicating that the client has closed the connection
-            System.out.println("Client disconnected: " + clientName);
+            System.out.println("Client disconnected: " + clientInfo.getClientName());
 
             // Clean up resources and remove client from server data structures
             try {

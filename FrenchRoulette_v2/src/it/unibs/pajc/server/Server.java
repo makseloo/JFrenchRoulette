@@ -1,5 +1,6 @@
 package it.unibs.pajc.server;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,9 +19,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import it.unibs.pajc.core.BaseModel.ClientsUpdateEvent;
 import it.unibs.pajc.panels.PnlBetBoard;
 
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JTextArea;
 
 public class Server {
     private JFrame frame;
@@ -31,6 +35,7 @@ public class Server {
     private PnlClients pnlClients;
     private JLabel lblNewLabel;
     private JLabel stateLbl;
+    private JTextArea textArea;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -69,7 +74,12 @@ public class Server {
 
 	private static void handleNewClient(Socket client, String clientName) {
 		
-		MyProtocol clientProtocol = new MyProtocol(client, clientName, serverModel);
+		ClientInfo clientInfo = new ClientInfo();
+		clientInfo.setClientName(clientName);
+		serverModel.addClient(clientInfo);
+		//balance and id has to be set
+		
+		MyProtocol clientProtocol = new MyProtocol(client, clientInfo, serverModel);
 		//connectedClients.add(clientName);
 		
 		Thread clientThread = new Thread(clientProtocol);
@@ -91,6 +101,7 @@ public class Server {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
+		frame.setPreferredSize(new Dimension(400,400));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		contentPane = new JPanel();
@@ -98,7 +109,7 @@ public class Server {
 		
 		frame.setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.rowWeights = new double[]{1.0, 0.0};
+		gbl_contentPane.rowWeights = new double[]{1.0, 0.0, 1.0};
 		gbl_contentPane.columnWeights = new double[]{1.0};
 		contentPane.setLayout(gbl_contentPane);
 		
@@ -112,9 +123,20 @@ public class Server {
 		
 		stateLbl = new JLabel(""+serverModel.getGameState());
 		GridBagConstraints gbc_stateLbl = new GridBagConstraints();
+		gbc_stateLbl.insets = new Insets(0, 0, 5, 0);
 		gbc_stateLbl.gridx = 0;
 		gbc_stateLbl.gridy = 1;
 		contentPane.add(stateLbl, gbc_stateLbl);
+		
+		textArea = new JTextArea();
+		textArea.setEditable(false);
+		GridBagConstraints gbc_textArea = new GridBagConstraints();
+		gbc_textArea.fill = GridBagConstraints.BOTH;
+		gbc_textArea.gridx = 0;
+		gbc_textArea.gridy = 2;
+		
+		contentPane.add(textArea, gbc_textArea);
+		
 		
 		/*
 		pnlClients = new PnlClients(connectedClients);
@@ -129,8 +151,15 @@ public class Server {
 		serverModel.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                updateView();
+            	if(e instanceof ClientsUpdateEvent) {
+            		updateClients();
+            	}
+            	updateView();
+            	
+                
             }
+
+
         });
 		
 		frame.pack();
@@ -144,6 +173,13 @@ public class Server {
         stateLbl.setText(state);
         //pnlClients.updateTextArea();
     }
+     
+	private void updateClients() {
+		textArea.setText("");
+		for(ClientInfo i : serverModel.getConnectedClients()) {
+			textArea.append(i.getClientName()+"\n");
+		}
+	}
     
 
 }

@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import it.unibs.pajc.FrenchRoulette_v2;
+import it.unibs.pajc.WheelNumber;
+import it.unibs.pajc.server.BetsMessage;
+import it.unibs.pajc.server.RouletteGameState;
 import it.unibs.pajc.server.StatsMessage;
 import it.unibs.pajc.server.TimerMessage;
 
@@ -57,8 +60,16 @@ public class Client {
 	                     TimerMessage timerMessage = (TimerMessage) receivedObject;
 	                    seconds = timerMessage.getSeconds();
 	 	                gameState = timerMessage.getGameState();
+	 	                
 	 	                roulette.updateTimer(seconds);
 	 	                roulette.updateGameState(gameState);
+	 	                
+	 	                if(gameState.equals("SPINNING")) {
+	 	                	List<WheelNumber> bets = roulette.getBets();
+	 	                	BetsMessage betsMessage = new BetsMessage(bets);
+	 	                	oos.writeObject(betsMessage);
+	 	                    oos.flush();
+	 	                }
 	                 } else if (receivedObject instanceof StatsMessage) {
 	                     StatsMessage statsMessage = (StatsMessage) receivedObject;
 	                     roulette.updateLast500(statsMessage.getNumbers());

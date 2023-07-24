@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -38,6 +39,7 @@ public class Server {
     private JLabel lblNewLabel;
     private JLabel stateLbl;
     private JTextArea textArea;
+    private JTextArea textArea_1;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -63,7 +65,6 @@ public class Server {
 				}else if(e instanceof GeneratedNumberEvent){
 					
 				}
-				
 			}
 
 
@@ -137,7 +138,7 @@ public class Server {
 		
 		frame.setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.rowWeights = new double[]{1.0, 0.0, 1.0};
+		gbl_contentPane.rowWeights = new double[]{1.0, 0.0, 1.0, 1.0};
 		gbl_contentPane.columnWeights = new double[]{1.0};
 		contentPane.setLayout(gbl_contentPane);
 		
@@ -159,11 +160,21 @@ public class Server {
 		textArea = new JTextArea();
 		textArea.setEditable(false);
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
+		gbc_textArea.insets = new Insets(0, 0, 5, 0);
 		gbc_textArea.fill = GridBagConstraints.BOTH;
 		gbc_textArea.gridx = 0;
 		gbc_textArea.gridy = 2;
 		
 		contentPane.add(textArea, gbc_textArea);
+		
+		textArea_1 = new JTextArea();
+		textArea_1.setEnabled(false);
+		textArea_1.setEditable(false);
+		GridBagConstraints gbc_textArea_1 = new GridBagConstraints();
+		gbc_textArea_1.fill = GridBagConstraints.BOTH;
+		gbc_textArea_1.gridx = 0;
+		gbc_textArea_1.gridy = 3;
+		contentPane.add(textArea_1, gbc_textArea_1);
 		
 		
 		/*
@@ -181,11 +192,22 @@ public class Server {
             public void stateChanged(ChangeEvent e) {
             	if(e instanceof ClientsUpdateEvent) {
             		updateClients();
+            	}else if(e instanceof GeneratedNumberEvent) {
+            		updatedLast500area();
             	}
             	updateView();
             	
                 
             }
+
+			private void updatedLast500area() {
+				textArea_1.setText("");
+				Queue<Integer> numbers = serverModel.getNumbers();
+				for(int i : numbers) {
+					textArea_1.append(i+"\n");
+				}
+				
+			}
 
 
         });

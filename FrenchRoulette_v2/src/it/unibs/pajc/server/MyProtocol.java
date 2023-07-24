@@ -26,10 +26,24 @@ public class MyProtocol implements Runnable {
         this.clientInfo = clientInfo;
         this.serverModel = serverModel;
         isConnected = true;
+        
+        serverModel.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				if(e instanceof GeneratedNumberEvent) {
+					try {
+						sendStats();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+
+		});
        
     }
-
-    
 
     
 	public void run() {
@@ -112,6 +126,7 @@ public class MyProtocol implements Runnable {
     	Queue<Integer> numbers = serverModel.getNumbers();
         Map<String, Integer> stats = serverModel.getStats();
         StatsMessage statsMessage = new StatsMessage(numbers, stats);
+        System.out.println("Client Stats mandate: \n ");
         oos.writeObject(statsMessage);
         oos.flush();
     }

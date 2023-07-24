@@ -11,7 +11,7 @@ import it.unibs.pajc.Colors;
 import it.unibs.pajc.WheelNumber;
 
 public class ServerStatistics {
-    private static double NUMBER_OF_RANDOMS = 500;
+    private static double NUMBER_OF_RANDOMS = 5;
     private static final int RANDOM_RANGE_MIN = 0;
     private static final int RANDOM_RANGE_MAX = 37;
     
@@ -156,7 +156,6 @@ public class ServerStatistics {
     	Random random = new Random();
     	randomNumbers.poll();
     	randomNumbers.add(random.nextInt(max - min + 1) + min);
-    	
     	stats = generateStats();
     	
     }

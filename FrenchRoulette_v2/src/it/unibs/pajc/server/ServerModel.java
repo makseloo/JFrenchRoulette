@@ -20,7 +20,6 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 	private ServerTimer serverTimer;
 	private ServerStatistics serverStats;
 	private List<ClientInfo> connectedClients;
-	private int lastNumber;
     
     public ServerModel() {
         // Initialize the initial state of the server
@@ -114,6 +113,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 
 	public void generateNumber() {
 		serverStats.generateSingleNumber();
+		
 		fireGeneratedNumberEvent(new ChangeEvent(this));
 	}
 

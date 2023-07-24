@@ -228,6 +228,7 @@ public class FrenchRoulette_v2 {
 
 	public void updateLast500(Queue<Integer> last500) {
 		List<WheelNumber>coloredStats =  model.turnIntoColor(last500);
+		lblLastNum.setText("Ultimo numero uscito: "+ coloredStats.get(0).getValue());
 		pnlStatitics.updateLast500(coloredStats);
 		
 	}

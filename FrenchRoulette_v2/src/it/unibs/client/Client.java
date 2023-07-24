@@ -12,6 +12,7 @@ import java.net.Socket;
 import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Queue;
 
 import it.unibs.pajc.FrenchRoulette_v2;
 import it.unibs.pajc.WheelNumber;
@@ -72,8 +73,15 @@ public class Client {
 	 	                }
 	                 } else if (receivedObject instanceof StatsMessage) {
 	                     StatsMessage statsMessage = (StatsMessage) receivedObject;
+	                     Queue<Integer> numbers = statsMessage.getNumbers();
+	                     System.out.println("Client Stats ricevute: \n ");
+	                     for(int i : numbers) {
+	                    	 System.out.println(i);
+	                     }
 	                     roulette.updateLast500(statsMessage.getNumbers());
 	                     roulette.updateStats(statsMessage.getStats());
+	                     
+	                     
 	                 } else {
 	                     // Handle other types of messages if needed
 	                 }

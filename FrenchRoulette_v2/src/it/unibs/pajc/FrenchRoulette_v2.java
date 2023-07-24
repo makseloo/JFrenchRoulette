@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -47,6 +48,7 @@ public class FrenchRoulette_v2 {
 	private PnlCountdown pnlCountdown;
 	private JLabel stateLbl;
 	private PnlWheel pnlWheel;
+	private JLabel lblLastNum;
 	/**
 	 * Launch the application.
 	 */
@@ -91,7 +93,7 @@ public class FrenchRoulette_v2 {
 		
 		frame.setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.rowWeights = new double[]{1.0, 0.0, 1.0, 0.0, 1.0, 0.0};
+		gbl_contentPane.rowWeights = new double[]{1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0};
 		gbl_contentPane.columnWeights = new double[]{1.0, 1.0};
 		contentPane.setLayout(gbl_contentPane);
 		
@@ -145,11 +147,18 @@ public class FrenchRoulette_v2 {
 		gbc_pnlCountdown.gridy = 4;
 		contentPane.add(pnlCountdown, gbc_pnlCountdown);
 		
+		lblLastNum = new JLabel("Ultimo numero uscito : ");
+		GridBagConstraints gbc_lblLastNum = new GridBagConstraints();
+		gbc_lblLastNum.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLastNum.gridx = 0;
+		gbc_lblLastNum.gridy = 5;
+		contentPane.add(lblLastNum, gbc_lblLastNum);
+		
 		stateLbl = new JLabel(""+model.getState());
 		GridBagConstraints gbc_stateLbl = new GridBagConstraints();
 		gbc_stateLbl.insets = new Insets(0, 0, 0, 5);
 		gbc_stateLbl.gridx = 0;
-		gbc_stateLbl.gridy = 5;
+		gbc_stateLbl.gridy = 6;
 		contentPane.add(stateLbl, gbc_stateLbl);
 
         
@@ -217,7 +226,7 @@ public class FrenchRoulette_v2 {
 		
 	}
 
-	public void updateLast500(List<Integer> last500) {
+	public void updateLast500(Queue<Integer> last500) {
 		List<WheelNumber>coloredStats =  model.turnIntoColor(last500);
 		pnlStatitics.updateLast500(coloredStats);
 		

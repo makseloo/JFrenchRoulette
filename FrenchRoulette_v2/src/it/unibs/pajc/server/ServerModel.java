@@ -4,6 +4,7 @@ package it.unibs.pajc.server;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import javax.swing.event.ChangeEvent;
 
@@ -19,6 +20,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 	private ServerTimer serverTimer;
 	private ServerStatistics serverStats;
 	private List<ClientInfo> connectedClients;
+	private int lastNumber;
     
     public ServerModel() {
         // Initialize the initial state of the server
@@ -84,7 +86,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 		fireTimerExpiredEvent(previous_gameState);
 	}
 	
-	public List<Integer> getNumbers(){
+	public Queue<Integer> getNumbers(){
 		return serverStats.getNumbers();
 	}
 
@@ -105,5 +107,14 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
     public List<ClientInfo> getConnectedClients() {
         return connectedClients;
     }
+
+	public void updateBets(List<WheelNumber> bets) {
+		
+	}
+
+	public void generateNumber() {
+		serverStats.generateSingleNumber();
+		fireGeneratedNumberEvent(new ChangeEvent(this));
+	}
 
 }

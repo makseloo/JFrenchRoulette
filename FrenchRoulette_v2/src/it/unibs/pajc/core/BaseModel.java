@@ -39,6 +39,17 @@ public class BaseModel {
             super(source);
         }
     }
+    
+    public class GeneratedNumberEvent  extends ChangeEvent {
+        public GeneratedNumberEvent(Object source) {
+            super(source);
+        }
+    }
+    
+    public void fireGeneratedNumberEvent(Object source) {
+    	GeneratedNumberEvent clientsUpdateEvent = new GeneratedNumberEvent(source);
+        fireValuesChange(clientsUpdateEvent);
+    }
 }
 
 

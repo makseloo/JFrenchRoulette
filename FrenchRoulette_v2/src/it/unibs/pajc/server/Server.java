@@ -20,6 +20,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import it.unibs.pajc.core.BaseModel.ClientsUpdateEvent;
+import it.unibs.pajc.core.BaseModel.GeneratedNumberEvent;
+import it.unibs.pajc.core.BaseModel.TimerExpiredEvent;
 import it.unibs.pajc.panels.PnlBetBoard;
 
 import javax.swing.JLabel;
@@ -51,8 +53,24 @@ public class Server {
 
         serverModel = new ServerModel();
         serverModel.startTimer();
+        
+        serverModel.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				if(e instanceof TimerExpiredEvent) {
+					test(e);
+				}else if(e instanceof GeneratedNumberEvent){
+					
+				}
+				
+			}
+
+
+		});
         //connectedClients = new ArrayList<>();
         int port = 1234;
+        
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("Server started. Waiting for client connection...");
@@ -72,6 +90,16 @@ public class Server {
         }
     }
 
+    
+    private static void test(ChangeEvent e) {
+    	String state =e.getSource().toString();
+    	if(state.equals("SPINNING")) {   		
+    		serverModel.generateNumber();
+    	}if(e.getSource() == "SETTLING") {
+    		
+    	}
+	}
+    
 	private static void handleNewClient(Socket client, String clientName) {
 		
 		ClientInfo clientInfo = new ClientInfo();

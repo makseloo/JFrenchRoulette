@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Queue;
 
 import javax.swing.event.ChangeEvent;
 
@@ -183,7 +184,7 @@ public class Model extends BaseModel{
 		fireValuesChange(new ChangeEvent(this));
 	}
 
-	public List<WheelNumber> turnIntoColor(List<Integer> stats) {
+	public List<WheelNumber> turnIntoColor(Queue<Integer> stats) {
 		
 		List<WheelNumber> coloredStats = new ArrayList<>();
 		

@@ -2,7 +2,9 @@ package it.unibs.pajc.server;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
 
 import it.unibs.pajc.Colors;
@@ -15,13 +17,13 @@ public class ServerStatistics {
     
     private int zero;
     private int[] dozens;
-    private List<Integer> randomNumbers;
+    private Queue<Integer> randomNumbers;
     private HashMap<String, Integer> stats;
     
     
     public ServerStatistics() {
     	this.stats = new HashMap<>();
-    	this.randomNumbers = new ArrayList<>();
+    	this.randomNumbers = new LinkedList<>();
     	randomNumbers = generateRandomNumbers(NUMBER_OF_RANDOMS, RANDOM_RANGE_MIN, RANDOM_RANGE_MAX);
     	stats = generateStats();
     }
@@ -91,8 +93,8 @@ public class ServerStatistics {
 		return stats;
 	}
 
-	private static List<Integer> generateRandomNumbers(double count, int min, int max) {
-		List<Integer> randomNumbers = new ArrayList<>();
+	private static Queue<Integer> generateRandomNumbers(double count, int min, int max) {
+		Queue<Integer> randomNumbers = new LinkedList<>();
 
         Random random = new Random();
 
@@ -114,7 +116,7 @@ public class ServerStatistics {
         return wheelNumbers;
     }
     
-    private static int countOccurrences(List<Integer> numbers, int target) {
+    private static int countOccurrences(Queue<Integer> numbers, int target) {
     	
     	int count = 0;
         for (int num : numbers) {
@@ -130,7 +132,7 @@ public class ServerStatistics {
         return (int)res;
     }
     //dozzine
-    private static int countOccurrencesInZone(List<Integer> numbers, List<Integer> targetZone) {
+    private static int countOccurrencesInZone(Queue<Integer> numbers, List<Integer> targetZone) {
         int count = 0;
 
         for (int num : numbers) {
@@ -148,12 +150,20 @@ public class ServerStatistics {
     
     //per più tardi quando c'è da giocare
 
-    private int generateSingleNumber(int min, int max) {
+    public void generateSingleNumber() {
+    	int min = RANDOM_RANGE_MIN;
+    	int max = RANDOM_RANGE_MAX;
     	Random random = new Random();
-    	return random.nextInt(max - min + 1) + min;
+    	randomNumbers.poll();
+    	randomNumbers.add(random.nextInt(max - min + 1) + min);
+    	
+    	stats = generateStats();
+    	
     }
 
-    public HashMap<String, Integer> getStats(){
+
+
+	public HashMap<String, Integer> getStats(){
     	return this.stats;
     }
     
@@ -163,7 +173,7 @@ public class ServerStatistics {
 
 
 	
-	public List<Integer> getNumbers(){
+	public Queue<Integer> getNumbers(){
 		return randomNumbers;
 	}
 

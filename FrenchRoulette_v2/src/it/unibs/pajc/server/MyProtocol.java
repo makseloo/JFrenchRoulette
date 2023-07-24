@@ -4,12 +4,13 @@ import java.io.*;
 import java.net.*;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import it.unibs.pajc.core.BaseModel.GeneratedNumberEvent;
 import it.unibs.pajc.core.BaseModel.TimerExpiredEvent;
 
 public class MyProtocol implements Runnable {
@@ -25,28 +26,12 @@ public class MyProtocol implements Runnable {
         this.clientInfo = clientInfo;
         this.serverModel = serverModel;
         isConnected = true;
-        serverModel.addChangeListener(new ChangeListener() {
-			
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				if(e instanceof TimerExpiredEvent) {
-					test(e);
-				}else {
-					
-				}
-				
-			}
-		});
+       
     }
 
-    private void test(ChangeEvent e) {
-    	if(e.getSource() == "SPINNING") {
-    		
-    	}if(e.getSource() == "SETTLING") {
-    		
-    	}
-	}
+    
 
+    
 	public void run() {
         try (
         		ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
@@ -55,11 +40,7 @@ public class MyProtocol implements Runnable {
             System.out.printf("\nClient connesso: %s [%d] - Name: %s\n",
                     clientSocket.getInetAddress(), clientSocket.getPort(), clientInfo.getClientName());
             //mando le stat appena il client si connette
-            List<Integer> numbers = serverModel.getNumbers();
-            Map<String, Integer> stats = serverModel.getStats();
-            StatsMessage statsMessage = new StatsMessage(numbers, stats);
-            oos.writeObject(statsMessage);
-            oos.flush();
+            sendStats();
             
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
@@ -74,7 +55,8 @@ public class MyProtocol implements Runnable {
                 // Read any incoming requests from the client if necessary
                 // ...
             	if (receivedObject instanceof BetsMessage) {
-            		
+            		BetsMessage betsMessage = (BetsMessage) receivedObject;
+            		serverModel.updateBets(betsMessage.getBets());
             	}
 
                 // Wait for the next iteration
@@ -124,6 +106,14 @@ public class MyProtocol implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    private void sendStats() throws IOException {
+    	Queue<Integer> numbers = serverModel.getNumbers();
+        Map<String, Integer> stats = serverModel.getStats();
+        StatsMessage statsMessage = new StatsMessage(numbers, stats);
+        oos.writeObject(statsMessage);
+        oos.flush();
     }
     
 }

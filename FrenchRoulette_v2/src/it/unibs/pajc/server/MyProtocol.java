@@ -2,7 +2,6 @@ package it.unibs.pajc.server;
 
 import java.io.*;
 import java.net.*;
-import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Timer;
@@ -11,7 +10,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import it.unibs.pajc.core.BaseModel.GeneratedNumberEvent;
-import it.unibs.pajc.core.BaseModel.TimerExpiredEvent;
+import it.unibs.pajc.core.BaseModel.UpdateBet;
+
 
 public class MyProtocol implements Runnable {
 
@@ -38,6 +38,8 @@ public class MyProtocol implements Runnable {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+				}else if(e instanceof UpdateBet) {
+					
 				}
 			}
 
@@ -70,7 +72,7 @@ public class MyProtocol implements Runnable {
                 // ...
             	if (receivedObject instanceof BetsMessage) {
             		BetsMessage betsMessage = (BetsMessage) receivedObject;
-            		serverModel.updateBets(betsMessage.getBets());
+            		serverModel.updateBets(betsMessage.getBets(),clientInfo.getClientName());
             	}
 
                 // Wait for the next iteration
@@ -102,8 +104,6 @@ public class MyProtocol implements Runnable {
         RouletteGameState gameState = serverModel.getPrevGameState();
         try {
             TimerMessage timerMessage = new TimerMessage(gameState.toString(), seconds);
-            
-            
             oos.writeObject(timerMessage);
             oos.flush();
         }catch (SocketException e) {
@@ -123,12 +123,16 @@ public class MyProtocol implements Runnable {
     }
     
     private void sendStats() throws IOException {
+    	/*
     	Queue<Integer> numbers = serverModel.getNumbers();
         Map<String, Integer> stats = serverModel.getStats();
-        StatsMessage statsMessage = new StatsMessage(numbers, stats);
-        System.out.println("Client Stats mandate: \n ");
+        */
+        StatsMessage statsMessage = new StatsMessage(serverModel.getNumbers(), serverModel.getStats());
         oos.writeObject(statsMessage);
         oos.flush();
     }
+    
+    
+
     
 }

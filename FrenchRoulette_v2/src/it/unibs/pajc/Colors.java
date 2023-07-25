@@ -1,8 +1,6 @@
 package it.unibs.pajc;
 //sto file va nel model?
 import java.awt.Color;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 	public class Colors {

@@ -1,22 +1,20 @@
 package it.unibs.pajc.panels;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+
 
 import it.unibs.pajc.WheelNumber;
 
 import javax.swing.JButton;
-import javax.swing.JInternalFrame;
+
 
 import java.awt.Insets;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
+
 import java.util.List;
 import java.awt.event.ActionEvent;
 

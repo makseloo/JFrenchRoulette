@@ -2,17 +2,11 @@ package it.unibs.pajc.panels;
 
 import javax.swing.JPanel;
 
-
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 
 import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.core.*;

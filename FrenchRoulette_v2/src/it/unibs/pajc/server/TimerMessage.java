@@ -1,6 +1,5 @@
 package it.unibs.pajc.server;
 
-import java.io.Serializable;
 
 public class TimerMessage implements Message{
 	private String gameState;

@@ -107,13 +107,17 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
         return connectedClients;
     }
 
-	public void updateBets(List<WheelNumber> bets) {
-		
+	public void updateBets(List<WheelNumber> bets, String clientName) {
+		for(ClientInfo c : connectedClients) {
+			if(c.getClientName().equals(clientName)) {
+				c.setAccountBalance(bets.get(0).getBettedValue());
+				fireUpdateBet(new ChangeEvent(this));
+			}
+		}
 	}
 
 	public void generateNumber() {
 		serverStats.generateSingleNumber();
-		
 		fireGeneratedNumberEvent(new ChangeEvent(this));
 	}
 

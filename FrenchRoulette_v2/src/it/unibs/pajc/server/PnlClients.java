@@ -1,19 +1,13 @@
 package it.unibs.pajc.server;
 
 import java.util.List;
-import java.util.Map;
+
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+
 
 import it.unibs.pajc.core.PnlBase;
-import java.awt.GridBagConstraints;
-import javax.swing.JScrollBar;
-import java.awt.Insets;
-import javax.swing.JTextPane;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+
 import java.awt.BorderLayout;
 import javax.swing.JTextArea;
 

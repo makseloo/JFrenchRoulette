@@ -2,7 +2,6 @@ package it.unibs.pajc;
 
 import java.io.*;
 import java.net.*;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 

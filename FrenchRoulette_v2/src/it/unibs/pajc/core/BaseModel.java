@@ -50,6 +50,18 @@ public class BaseModel {
     	GeneratedNumberEvent clientsUpdateEvent = new GeneratedNumberEvent(source);
         fireValuesChange(clientsUpdateEvent);
     }
+    
+    public class UpdateBet  extends ChangeEvent {
+        public UpdateBet(Object source) {
+            super(source);
+        }
+    }
+    
+    public void fireUpdateBet(Object source) {
+    	UpdateBet updateBetEvent = new UpdateBet(source);
+        fireValuesChange(updateBetEvent);
+    }
+    
 }
 
 

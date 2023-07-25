@@ -2,21 +2,16 @@ package it.unibs.pajc.panels;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Polygon;
-import java.awt.geom.AffineTransform;
+
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLayeredPane;
-import javax.swing.UIManager;
-import javax.swing.plaf.BorderUIResource;
+
 
 import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.core.PnlBase;

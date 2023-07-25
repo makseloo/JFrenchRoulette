@@ -1,5 +1,6 @@
 package it.unibs.pajc.server;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
@@ -8,10 +9,6 @@ import java.awt.Insets;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 
 import javax.swing.JFrame;
@@ -23,10 +20,11 @@ import javax.swing.event.ChangeListener;
 import it.unibs.pajc.core.BaseModel.ClientsUpdateEvent;
 import it.unibs.pajc.core.BaseModel.GeneratedNumberEvent;
 import it.unibs.pajc.core.BaseModel.TimerExpiredEvent;
-import it.unibs.pajc.panels.PnlBetBoard;
+import it.unibs.pajc.core.BaseModel.UpdateBet;
+
 
 import javax.swing.JLabel;
-import javax.swing.JList;
+
 import javax.swing.JTextArea;
 
 public class Server {
@@ -35,8 +33,6 @@ public class Server {
 
     private static ServerModel serverModel;
     private PnlCountdown pnlCountdown;
-    private PnlClients pnlClients;
-    private JLabel lblNewLabel;
     private JLabel stateLbl;
     private JTextArea textArea;
     private JTextArea textArea_1;
@@ -194,20 +190,14 @@ public class Server {
             		updateClients();
             	}else if(e instanceof GeneratedNumberEvent) {
             		updatedLast500area();
-            	}
-            	updateView();
-            	
-                
+            	}else if(e instanceof UpdateBet) {
+					updateBet();
+				}
+            	updateView();  
             }
 
-			private void updatedLast500area() {
-				textArea_1.setText("");
-				Queue<Integer> numbers = serverModel.getNumbers();
-				for(int i : numbers) {
-					textArea_1.append(i+"\n");
-				}
-				
-			}
+
+
 
 
         });
@@ -229,6 +219,26 @@ public class Server {
 		for(ClientInfo i : serverModel.getConnectedClients()) {
 			textArea.append(i.getClientName()+"\n");
 		}
+		textArea.setForeground(Color.black);
+	}
+	
+	private void updatedLast500area() {
+		textArea_1.setText("");
+		Queue<Integer> numbers = serverModel.getNumbers();
+		for(int i : numbers) {
+			textArea_1.append(i+"\n");
+		}
+		
+	}
+	
+
+	private void updateBet() {
+		textArea.setText("");
+		for(ClientInfo i : serverModel.getConnectedClients()) {
+			textArea.append(i.getClientName()+ i.getAccountBalance()+"\n");
+		}
+		textArea.setForeground(Color.black);
+		
 	}
     
 

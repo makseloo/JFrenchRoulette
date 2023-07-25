@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 
-import it.unibs.pajc.Colors;
 import it.unibs.pajc.WheelNumber;
 
 public class ServerStatistics {
@@ -156,7 +155,7 @@ public class ServerStatistics {
     	Random random = new Random();
     	randomNumbers.poll();
     	randomNumbers.add(random.nextInt(max - min + 1) + min);
-    	stats = generateStats();
+    	this.stats = generateStats();
     	
     }
 

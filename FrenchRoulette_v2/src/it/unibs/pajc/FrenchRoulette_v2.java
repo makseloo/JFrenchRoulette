@@ -1,7 +1,6 @@
 package it.unibs.pajc;
 
 import java.awt.EventQueue;
-import it.unibs.pajc.core.*;
 import it.unibs.pajc.panels.PnlBetBoard;
 import it.unibs.pajc.panels.PnlFiches;
 import it.unibs.pajc.panels.PnlStatitics;
@@ -11,18 +10,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -38,12 +33,9 @@ public class FrenchRoulette_v2 {
 	private PnlBetBoard pnlBetBoard;
 	private PnlFiches pnlFiches;
 	private PnlStatitics pnlStatitics;
-	
-	private static int remainingTime = 10;
-	//debug
+		//debug
 	private JLabel lblBalance;
 	
-	private Timer timer;
 	Thread timerThread;
 	private PnlCountdown pnlCountdown;
 	private JLabel stateLbl;

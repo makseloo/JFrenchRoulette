@@ -6,7 +6,6 @@ import it.unibs.pajc.Fiche;
 import it.unibs.pajc.core.*;
 import java.util.List;
 
-import javax.swing.JPanel;
 import java.awt.Color;
 
 public class PnlFiches extends PnlBase {

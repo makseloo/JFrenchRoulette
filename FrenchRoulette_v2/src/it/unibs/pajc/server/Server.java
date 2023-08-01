@@ -52,19 +52,6 @@ public class Server {
         serverModel = new ServerModel();
         serverModel.startTimer();
         
-        serverModel.addChangeListener(new ChangeListener() {
-			
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				if(e instanceof TimerExpiredEvent) {
-					test(e);
-				}else if(e instanceof GeneratedNumberEvent){
-					
-				}
-			}
-
-
-		});
         //connectedClients = new ArrayList<>();
         int port = 1234;
         
@@ -79,23 +66,13 @@ public class Server {
                
                 handleNewClient(client, clientName);
                 
-                
-                
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    
-    private static void test(ChangeEvent e) {
-    	String state =e.getSource().toString();
-    	if(state.equals("SPINNING")) {   		
-    		serverModel.generateNumber();
-    	}if(e.getSource() == "SETTLING") {
-    		
-    	}
-	}
+   
     
 	private static void handleNewClient(Socket client, String clientName) {
 		
@@ -171,18 +148,7 @@ public class Server {
 		gbc_textArea_1.gridx = 0;
 		gbc_textArea_1.gridy = 3;
 		contentPane.add(textArea_1, gbc_textArea_1);
-		
-		
-		/*
-		pnlClients = new PnlClients(connectedClients);
-		GridBagConstraints gbc_pnlClients = new GridBagConstraints();
-		gbc_pnlClients.insets = new Insets(0, 0, 5, 0);
-
-		gbc_pnlClients.gridx = 0;
-		gbc_pnlClients.gridy = 2;
-		contentPane.add(pnlClients, gbc_pnlClients);	
-		*/
-		
+				
 		serverModel.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -195,11 +161,6 @@ public class Server {
 				}
             	updateView();  
             }
-
-
-
-
-
         });
 		
 		frame.pack();
@@ -228,10 +189,10 @@ public class Server {
 		for(int i : numbers) {
 			textArea_1.append(i+"\n");
 		}
+		textArea_1.setForeground(Color.black);
 		
 	}
 	
-
 	private void updateBet() {
 		textArea.setText("");
 		for(ClientInfo i : serverModel.getConnectedClients()) {
@@ -240,6 +201,9 @@ public class Server {
 		textArea.setForeground(Color.black);
 		
 	}
+	
+	
     
 
 }
+

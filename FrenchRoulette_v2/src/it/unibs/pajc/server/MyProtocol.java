@@ -20,6 +20,7 @@ public class MyProtocol implements Runnable {
     private ServerModel serverModel;
     private boolean isConnected;
     private ObjectOutputStream oos;
+    private ObjectInputStream ois;
 
     public MyProtocol(Socket clientSocket, ClientInfo clientInfo, ServerModel serverModel) {
         this.clientSocket = clientSocket;
@@ -32,12 +33,8 @@ public class MyProtocol implements Runnable {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				if(e instanceof GeneratedNumberEvent) {
-					try {
-						sendStats();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					System.out.printf("Stato cambiato");
+					sendStats();
 				}else if(e instanceof UpdateBet) {
 					
 				}
@@ -49,10 +46,9 @@ public class MyProtocol implements Runnable {
 
     
 	public void run() {
-        try (
-        		ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
-        ) {
-        	 oos = new ObjectOutputStream(clientSocket.getOutputStream());
+        try {
+        	ois = new ObjectInputStream(clientSocket.getInputStream());
+        	oos = new ObjectOutputStream(clientSocket.getOutputStream());
             System.out.printf("\nClient connesso: %s [%d] - Name: %s\n",
                     clientSocket.getInetAddress(), clientSocket.getPort(), clientInfo.getClientName());
             //mando le stat appena il client si connette
@@ -65,7 +61,9 @@ public class MyProtocol implements Runnable {
                     sendTimeUpdate();
                 }
             }, 0, 100); // Send time update every second
-
+            
+            //handel reception
+            /*
             Object receivedObject;
             while ((receivedObject = ois.readObject()) != null) {
                 // Read any incoming requests from the client if necessary
@@ -78,7 +76,8 @@ public class MyProtocol implements Runnable {
                 // Wait for the next iteration
                 //Thread.sleep(10);
             }
-        } catch (IOException | ClassNotFoundException ex) {
+            */
+        } catch (IOException /*| ClassNotFoundException*/ ex) {
         	System.out.printf("\nClient disconnected: %s [%d] - Name: %s\n",
                     clientSocket.getInetAddress(), clientSocket.getPort(), clientInfo.getClientName());
 
@@ -88,12 +87,13 @@ public class MyProtocol implements Runnable {
                 clientSocket.close();
                 serverModel.removeClient(null);
                 isConnected = false;
+                System.out.println("ciao 0: " + isConnected);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        System.out.printf("\nSessione terminata, client: %s\n", clientInfo.getClientName());
+        System.out.printf("\nSessione terminata, client: %s : %b\n", clientInfo.getClientName(),isConnected );
     }
 
     private void sendTimeUpdate() {
@@ -108,28 +108,29 @@ public class MyProtocol implements Runnable {
             oos.flush();
         }catch (SocketException e) {
             // Handle the SocketException, indicating that the client has closed the connection
-            System.out.println("Client disconnected: " + clientInfo.getClientName());
-
-            // Clean up resources and remove client from server data structures
-            try {
-                clientSocket.close();
-                isConnected = false; // Set the flag to false when a client disconnects
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            System.out.println("Client disconnected  caio2: " + clientInfo.getClientName());
+            isConnected = false;
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     
-    private void sendStats() throws IOException {
-    	/*
-    	Queue<Integer> numbers = serverModel.getNumbers();
-        Map<String, Integer> stats = serverModel.getStats();
-        */
-        StatsMessage statsMessage = new StatsMessage(serverModel.getNumbers(), serverModel.getStats());
-        oos.writeObject(statsMessage);
-        oos.flush();
+    private void sendStats() {
+    	if(!isConnected)
+    		return;
+    	
+    	try {
+    		StatsMessage statsMessage = new StatsMessage(serverModel.getNumbers(), serverModel.getStats());
+    		oos.writeObject(statsMessage);
+            oos.flush();	
+            
+    	}catch (SocketException e) {
+    		System.out.println("Client disconnected casio3: " + clientInfo.getClientName());
+    		isConnected = false;
+		} catch (IOException e) {
+            e.printStackTrace();
+        }
+        
     }
     
     

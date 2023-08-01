@@ -201,11 +201,12 @@ public class FrenchRoulette_v2 {
 
 	public void updateGameState(String gameState) {
 		model.setState(gameState);
-		stateLbl.setText(gameState);
+		
 	}
 	
 	private void updateView() {
 		RouletteGameState gameState = model.getState();
+		stateLbl.setText(gameState.toString());
 	    
 		 // Disable buttons based on the game state
 	    if (gameState == RouletteGameState.BETTING) {
@@ -219,8 +220,9 @@ public class FrenchRoulette_v2 {
 	}
 
 	public void updateLast500(Queue<Integer> last500) {
+		
 		List<WheelNumber>coloredStats =  model.turnIntoColor(last500);
-		lblLastNum.setText("Ultimo numero uscito: "+ coloredStats.get(0).getValue());
+		lblLastNum.setText("Ultimo numero uscito: "+ coloredStats.get(coloredStats.size()-1).getValue());
 		pnlStatitics.updateLast500(coloredStats);
 		
 	}

@@ -32,19 +32,18 @@ public class Client {
 		int port = 1234;
 		
 		
-		try (Socket server = new Socket(serverName, port);
-				ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
-	             ObjectInputStream ois = new ObjectInputStream(server.getInputStream())
-			) {
-			   
+		try {
+			Socket server = new Socket(serverName, port);
+			ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
+            ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
+            
 			Object receivedObject;
 	            
+			
 	            while ((receivedObject = ois.readObject()) != null) {
-	            	
-	            	 
 	                 // Check the type of the received object and handle it accordingly
-	                 if (receivedObject instanceof TimerMessage) {
-	                     TimerMessage timerMessage = (TimerMessage) receivedObject;
+	            	/*if (receivedObject instanceof TimerMessage) {
+	                    TimerMessage timerMessage = (TimerMessage) receivedObject;
 	                    seconds = timerMessage.getSeconds();
 	 	                gameState = timerMessage.getGameState();
 	 	                
@@ -57,26 +56,24 @@ public class Client {
 	 	                	oos.writeObject(betsMessage);
 	 	                    oos.flush();
 	 	                }
-	                 } else if (receivedObject instanceof StatsMessage) {
+	 	                
+	                 } else*/ if (receivedObject instanceof StatsMessage) {
 	                     StatsMessage statsMessage = (StatsMessage) receivedObject;
 	                     roulette.updateLast500(statsMessage.getNumbers());
 	                     roulette.updateStats(statsMessage.getStats());
 	                     
 	                     
-	                 } else {
-	                     // Handle other types of messages if needed
+	                 } /*else if(receivedObject instanceof String){
+	                	 System.out.println("Client 67 : Received String: " + receivedObject.toString());
 	                 }
+	                 */
 	             }
 	            	
-			        // Process the response based on your application logic
-			    
 			} catch (IOException | ClassNotFoundException exc) {
 			    exc.printStackTrace();
 			}
-
 		
-		
-
 	}
 
+	
 }

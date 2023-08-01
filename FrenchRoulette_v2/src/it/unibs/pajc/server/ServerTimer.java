@@ -6,14 +6,10 @@ import java.util.TimerTask;
 public class ServerTimer {
     private Timer timer;
     private int remainingSeconds;
-    private int durationSeconds;
-    private RouletteGameState state;
     private TimerListener timerListener;
 
-    public ServerTimer(int durationSeconds, RouletteGameState state) {
-    	this.durationSeconds = durationSeconds;
-    	this.remainingSeconds = durationSeconds;
-    	this.state = state;
+    public ServerTimer(int remainingSeconds) {
+    	this.remainingSeconds = remainingSeconds;
         this.timer = new Timer();
     }
 

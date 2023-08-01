@@ -194,9 +194,7 @@ public class Model extends BaseModel{
 					coloredStats.add(w);
 					
 			}
-		}
-		
-		
+		}		
 		return coloredStats;
 	}
 	

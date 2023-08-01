@@ -19,6 +19,7 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class PnlStatitics extends JPanel {
@@ -96,8 +97,10 @@ public class PnlStatitics extends JPanel {
 	}
 
 	public void updateLast500(List<WheelNumber> last500) {
-		this.last500 = last500;
+		this.last500 = new LinkedList<WheelNumber>(last500);
+		lastPanel.repaint();
 		repaint();
+		
 	}
 	
 	public void updateStats(Map<String, Integer> stats) {

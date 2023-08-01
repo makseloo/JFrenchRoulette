@@ -11,9 +11,9 @@ import javax.swing.event.ChangeEvent;
 import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.core.BaseModel;
 public class ServerModel extends BaseModel implements ServerTimer.TimerListener {
-    private static final int BETTING_TIMER_DURATION = 10; // Duration of the timer in seconds
+    private static final int BETTING_TIMER_DURATION = 3; // Duration of the timer in seconds
     private static final int SPIN_TIMER_DURATION = 5; // the time the ball needs to spin around the wheel
-    private static final int SETTLE_TIMER_DURATION = 7; // the time the ball needs to spin around the wheel
+    private static final int SETTLE_TIMER_DURATION = 3; // the time the ball needs to spin around the wheel
 
     private RouletteGameState gameState;
     private RouletteGameState previous_gameState;
@@ -53,17 +53,24 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
     }
     
     public void startTimer() {
-        if (gameState == RouletteGameState.BETTING) {
-            serverTimer = new ServerTimer(BETTING_TIMER_DURATION, RouletteGameState.BETTING);
-            gameState = RouletteGameState.SPINNING;
-        } else if (gameState == RouletteGameState.SPINNING) {
-            serverTimer = new ServerTimer(SPIN_TIMER_DURATION, RouletteGameState.SPINNING);
-            gameState = RouletteGameState.SETTLING;
-        } else if (gameState == RouletteGameState.SETTLING){
-        	serverTimer = new ServerTimer(SETTLE_TIMER_DURATION, RouletteGameState.SETTLING);
-        	
-        	gameState = RouletteGameState.BETTING;
-        }
+    	 switch (gameState) {
+         case BETTING:
+             serverTimer = new ServerTimer(BETTING_TIMER_DURATION);
+             gameState = RouletteGameState.SPINNING;
+             break;
+         case SPINNING:
+             serverTimer = new ServerTimer(SPIN_TIMER_DURATION);
+             gameState = RouletteGameState.SETTLING;
+             serverStats.generateSingleNumber();
+             fireGeneratedNumberEvent(new ChangeEvent(this));
+             break;
+         case SETTLING:
+             serverTimer = new ServerTimer(SETTLE_TIMER_DURATION);
+             gameState = RouletteGameState.BETTING;
+             break;
+         default:
+             throw new IllegalArgumentException("Unexpected value: " + gameState);
+     }
         serverTimer.setTimerListener(this);
         serverTimer.start();
     }
@@ -114,11 +121,6 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 				fireUpdateBet(new ChangeEvent(this));
 			}
 		}
-	}
-
-	public void generateNumber() {
-		serverStats.generateSingleNumber();
-		fireGeneratedNumberEvent(new ChangeEvent(this));
 	}
 
 }

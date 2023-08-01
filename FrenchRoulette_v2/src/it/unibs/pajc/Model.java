@@ -113,6 +113,16 @@ public class Model extends BaseModel{
 		return numberList;
 	}
 	
+	public List<WheelNumber> getBets(){
+		//creo una nuova lista in cui inserisco solo i numeri con valore diverso da 0
+		List<WheelNumber> bets = new ArrayList<>();
+		for(WheelNumber w : numberList) {
+			if(w.getBettedValue() != 0)
+				bets.add(new WheelNumber(w.getValue(), w.getZone(), w.getColor()));
+		}
+		return bets;
+	}
+	
 	public List<WheelNumber> getWheelNumberList() {
 		return sortedList;
 	}

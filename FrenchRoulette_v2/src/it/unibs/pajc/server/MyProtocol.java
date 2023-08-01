@@ -9,6 +9,7 @@ import java.util.TimerTask;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.core.BaseModel.GeneratedNumberEvent;
 import it.unibs.pajc.core.BaseModel.UpdateBet;
 
@@ -62,21 +63,25 @@ public class MyProtocol implements Runnable {
             }, 0, 100); // Send time update every second
             
             //handel reception
-            /*
+            
             Object receivedObject;
             while ((receivedObject = ois.readObject()) != null) {
                 // Read any incoming requests from the client if necessary
                 // ...
             	if (receivedObject instanceof BetsMessage) {
             		BetsMessage betsMessage = (BetsMessage) receivedObject;
+            		System.out.print("MyProtocol 73: valore ricevuto");
+            		for(WheelNumber w : betsMessage.getBets()) {
+            			System.out.print(w.getBettedValue());
+            		}
             		serverModel.updateBets(betsMessage.getBets(),clientInfo.getClientName());
             	}
 
                 // Wait for the next iteration
                 //Thread.sleep(10);
             }
-            */
-        } catch (IOException /*| ClassNotFoundException*/ ex) {
+            
+        } catch (IOException | ClassNotFoundException ex) {
         	System.out.printf("\nClient disconnected: %s [%d] - Name: %s\n",
                     clientSocket.getInetAddress(), clientSocket.getPort(), clientInfo.getClientName());
 
@@ -107,6 +112,14 @@ public class MyProtocol implements Runnable {
         }catch (SocketException e) {
             // Handle the SocketException, indicating that the client has closed the connection
             isConnected = false;
+            try {
+            	serverModel.removeClient(clientInfo);
+                clientSocket.close();
+                serverModel.removeClient(null);
+                isConnected = false;
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -123,6 +136,14 @@ public class MyProtocol implements Runnable {
             
     	}catch (SocketException e) {
     		isConnected = false;
+    		try {
+            	serverModel.removeClient(clientInfo);
+                clientSocket.close();
+                serverModel.removeClient(null);
+                isConnected = false;
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
 		} catch (IOException e) {
             e.printStackTrace();
         }

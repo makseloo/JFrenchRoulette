@@ -168,9 +168,12 @@ public class FrenchRoulette_v2 {
 	}
 
 	 void bet(ActionEvent e) {
+		 double i = 0;
 		 double bet = model.getSelectedFicheVal();
 		 model.setNumberBet(e.getActionCommand(), bet);
-		 lblBalance.setText(e.getActionCommand());
+		 i += bet;
+		 //lblBalance.setText(e.getActionCommand());
+		 lblBalance.setText(i+"");
 		 //System.out.println(e.getSource());
 	}
 	 
@@ -180,11 +183,12 @@ public class FrenchRoulette_v2 {
 		 double ficheTaken;
 		 ficheTaken = Double.parseDouble(ficheString);
 		 model.selectFiche(ficheTaken);
-		System.out.println(ficheTaken+"");
 	 }
 	 
 	 public List<WheelNumber> getBets() {
-		 return model.getNumberList();
+		 
+		 
+		 return model.getBets();
 	 }
 	 
 	void dump() {
@@ -229,6 +233,5 @@ public class FrenchRoulette_v2 {
 
 	public void updateStats(Map<String, Integer> stats) {
 		pnlStatitics.updateStats(stats);
-		
 	}
 }

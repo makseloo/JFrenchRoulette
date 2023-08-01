@@ -42,7 +42,7 @@ public class Client {
 			
 	            while ((receivedObject = ois.readObject()) != null) {
 	                 // Check the type of the received object and handle it accordingly
-	            	/*if (receivedObject instanceof TimerMessage) {
+	            	if (receivedObject instanceof TimerMessage) {
 	                    TimerMessage timerMessage = (TimerMessage) receivedObject;
 	                    seconds = timerMessage.getSeconds();
 	 	                gameState = timerMessage.getGameState();
@@ -53,11 +53,15 @@ public class Client {
 	 	                if(gameState.equals("SPINNING")) {
 	 	                	List<WheelNumber> bets = roulette.getBets();
 	 	                	BetsMessage betsMessage = new BetsMessage(bets);
+	 	                	System.out.print("Client 56: valore inviato");
+	 	            		for(WheelNumber w : betsMessage.getBets()) {
+	 	            			System.out.print(w.getBettedValue());
+	 	            		}
 	 	                	oos.writeObject(betsMessage);
 	 	                    oos.flush();
 	 	                }
 	 	                
-	                 } else*/ if (receivedObject instanceof StatsMessage) {
+	                 } else if (receivedObject instanceof StatsMessage) {
 	                     StatsMessage statsMessage = (StatsMessage) receivedObject;
 	                     roulette.updateLast500(statsMessage.getNumbers());
 	                     roulette.updateStats(statsMessage.getStats());
@@ -68,6 +72,7 @@ public class Client {
 	                 }
 	                 */
 	             }
+	            System.out.print("fuori dal while");
 	            	
 			} catch (IOException | ClassNotFoundException exc) {
 			    exc.printStackTrace();

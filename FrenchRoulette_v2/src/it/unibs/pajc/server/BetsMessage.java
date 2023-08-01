@@ -1,5 +1,6 @@
 package it.unibs.pajc.server;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import it.unibs.pajc.WheelNumber;
@@ -8,7 +9,7 @@ public class BetsMessage implements Message{
 
 	public BetsMessage(List<WheelNumber> bets) {
 		super();
-		this.bets = bets;
+		this.bets = new LinkedList<WheelNumber>(bets);
 	}
 
 	public List<WheelNumber> getBets() {

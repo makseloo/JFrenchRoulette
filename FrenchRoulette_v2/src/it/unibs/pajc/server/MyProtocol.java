@@ -33,7 +33,6 @@ public class MyProtocol implements Runnable {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				if(e instanceof GeneratedNumberEvent) {
-					System.out.printf("Stato cambiato");
 					sendStats();
 				}else if(e instanceof UpdateBet) {
 					
@@ -87,7 +86,6 @@ public class MyProtocol implements Runnable {
                 clientSocket.close();
                 serverModel.removeClient(null);
                 isConnected = false;
-                System.out.println("ciao 0: " + isConnected);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -108,7 +106,6 @@ public class MyProtocol implements Runnable {
             oos.flush();
         }catch (SocketException e) {
             // Handle the SocketException, indicating that the client has closed the connection
-            System.out.println("Client disconnected  caio2: " + clientInfo.getClientName());
             isConnected = false;
         } catch (IOException e) {
             e.printStackTrace();
@@ -125,7 +122,6 @@ public class MyProtocol implements Runnable {
             oos.flush();	
             
     	}catch (SocketException e) {
-    		System.out.println("Client disconnected casio3: " + clientInfo.getClientName());
     		isConnected = false;
 		} catch (IOException e) {
             e.printStackTrace();

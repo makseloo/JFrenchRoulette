@@ -67,6 +67,7 @@ public class PnlStatitics extends JPanel {
 		gbc_btnLast500.fill = GridBagConstraints.HORIZONTAL;
 		add(btnLast500, gbc_btnLast500);
 		
+			
 		//addLastPanel();
 		//creare l'internal frame o meno da un'altra parte ha i suoi pro e contro
 		
@@ -98,15 +99,14 @@ public class PnlStatitics extends JPanel {
 
 	public void updateLast500(List<WheelNumber> last500) {
 		this.last500 = new LinkedList<WheelNumber>(last500);
-		lastPanel.repaint();
 		repaint();
 		
 	}
+
 	
 	public void updateStats(Map<String, Integer> stats) {
 		this.stats = stats;
-		repaint();
-		
+		repaint();	
 	}
 	
     private void hideInternalPanel() {
@@ -127,18 +127,19 @@ public class PnlStatitics extends JPanel {
     
     private void addLastPanel() {
     	if (lastPanel == null || !lastPanel.isVisible()) {
-			 hideInternalPanel();
+    		
+			hideInternalPanel();
 			lastPanel = PnlStatisticsAdvanced.createlastPanel(last500);
 
-           GridBagConstraints gbc_windowAdvanced = new GridBagConstraints();
-           gbc_windowAdvanced.gridx = 0;
-           gbc_windowAdvanced.gridy = 1;
-           gbc_windowAdvanced.gridwidth = 3;
-           
-           gbc_windowAdvanced.fill = GridBagConstraints.BOTH;
-           add(lastPanel, gbc_windowAdvanced);
+            GridBagConstraints gbc_windowAdvanced = new GridBagConstraints();
+            gbc_windowAdvanced.gridx = 0;
+            gbc_windowAdvanced.gridy = 1;
+            gbc_windowAdvanced.gridwidth = 3;
+            
+            gbc_windowAdvanced.fill = GridBagConstraints.BOTH;
+            add(lastPanel, gbc_windowAdvanced);
 
-           validate(); // Re-layout the panel to show the internal frame
+            validate(); // Re-layout the panel to show the internal frame
     }
     	}
 

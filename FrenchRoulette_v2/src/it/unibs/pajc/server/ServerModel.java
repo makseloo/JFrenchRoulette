@@ -2,6 +2,7 @@ package it.unibs.pajc.server;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -19,14 +20,15 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
     private RouletteGameState previous_gameState;
 	private ServerTimer serverTimer;
 	private ServerStatistics serverStats;
-	private List<ClientInfo> connectedClients;
+	//mappa perché è più veloce trovare un client specifico
+	private HashMap<Integer, ClientInfo> connectedClients;
     
     public ServerModel() {
         // Initialize the initial state of the server
         gameState = RouletteGameState.BETTING;
         previous_gameState = RouletteGameState.BETTING;
         serverStats = new ServerStatistics();
-        connectedClients = new ArrayList<>();
+        connectedClients = new HashMap<>();
     }
     
     public ServerStatistics getServerStats() {
@@ -77,6 +79,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
     }
     //version one where you can just bet on numbers
     //possibile tipo avere una tabella in cui per ogni numero ho il client e la bet puntata?
+    /*
     private void alalyzeBets() {
     	int lastNum = serverStats.getLastNumber();
 		for(ClientInfo c : connectedClients) {
@@ -88,6 +91,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 		}
 		
 	}
+	*/
 
 	private void payout(ClientInfo c, int bet) {
 		c.setAccountBalance(bet*36);
@@ -121,7 +125,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 	}
 	//managing clients
     public void addClient(ClientInfo clientInfo) {
-        connectedClients.add(clientInfo);
+        connectedClients.put(clientInfo.getAccountId(),clientInfo);
         fireClientsUpdateEvent(new ChangeEvent(this));
     }
 
@@ -130,17 +134,20 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
         fireClientsUpdateEvent(new ChangeEvent(this));
     }
 
-    public List<ClientInfo> getConnectedClients() {
+    public HashMap<Integer, ClientInfo> getConnectedClients() {
         return connectedClients;
     }
 
-	public void updateBets(List<WheelNumber> bets, String clientName) {
-		for(ClientInfo c : connectedClients) {
-			if(c.getClientName().equals(clientName)) {
-				c.setBetList(bets);
-			}
-		}
+	public void updateBets(List<WheelNumber> bets, int id) {
+		connectedClients.get(id).setBetList(bets);
+		
 		fireUpdateBet(new ChangeEvent(this));
 	}
+
+	public void updateClientInfo(int id, String name, int balance) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

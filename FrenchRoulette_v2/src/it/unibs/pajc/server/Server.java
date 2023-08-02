@@ -9,6 +9,7 @@ import java.awt.Insets;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Queue;
 
 import javax.swing.JFrame;
@@ -64,9 +65,9 @@ public class Server {
             while (true) {
                 Socket client = serverSocket.accept();
                 String clientName = "CLI#" + id++ + "\n";
-                int balance = 100;
+                int balance = 0;
                
-                handleNewClient(client, clientName, balance);
+                handleNewClient(client, clientName, balance, id);
                 
             }
         } catch (IOException e) {
@@ -76,11 +77,12 @@ public class Server {
 
    
     
-	private static void handleNewClient(Socket client, String clientName, int balance) {
+	private static void handleNewClient(Socket client, String clientName, int balance, int id) {
 		
 		ClientInfo clientInfo = new ClientInfo();
 		clientInfo.setClientName(clientName);
 		clientInfo.setAccountBalance(balance);
+		clientInfo.setAccountId(id);
 		serverModel.addClient(clientInfo);
 		//balance and id has to be set
 		
@@ -180,8 +182,9 @@ public class Server {
      
 	private void updateClients() {
 		textArea.setText("");
-		for(ClientInfo i : serverModel.getConnectedClients()) {
-			textArea.append(i.getClientName()+"\n");
+		HashMap<Integer, ClientInfo> clientMap = serverModel.getConnectedClients();
+		for(Integer key : clientMap.keySet()) {
+			textArea.append(clientMap.get(key).getClientName()+"\n");
 		}
 		textArea.setForeground(Color.black);
 	}
@@ -198,9 +201,12 @@ public class Server {
 	
 	private void updateBet() {
 		textArea.setText("");
-		for(ClientInfo i : serverModel.getConnectedClients()) {
-			textArea.append(i.getClientName()+":\n");
-			for(WheelNumber w : i.getBetList()) {
+		
+		HashMap<Integer, ClientInfo> clientMap = serverModel.getConnectedClients();
+		for(Integer key : clientMap.keySet()) {
+			ClientInfo client = clientMap.get(key);
+			textArea.append(client.getClientName()+"\n");
+			for(WheelNumber w : client.getBetList()) {
 				textArea.append(w.getValue() + ":"+ w.getBettedValue()+"\n");
 			}
 		}

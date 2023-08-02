@@ -9,12 +9,12 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 import it.unibs.pajc.FrenchRoulette_v2;
 import it.unibs.pajc.WheelNumber;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Client {
 
@@ -23,11 +23,22 @@ public class Client {
 	private static String gameState;
 	protected ObjectOutputStream oos;
 	protected ObjectInputStream ois;	
+	private static SetupView setupView;
 	public static void main(String[] args) throws InterruptedException {
 		
-		
+		setupView = new SetupView();
+		setupView.frame.setVisible(true);
 		roulette = new FrenchRoulette_v2();
-		roulette.frame.setVisible(true);
+		
+		
+		setupView.frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+            	roulette.frame.setVisible(true);
+            }
+        });
+		
+		
 
 		
 		String hostName = "localhost";
@@ -38,6 +49,12 @@ public class Client {
 			Socket server = new Socket(hostName, port);
 			ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
+            
+            //invio nome e importo al server
+            ClientInfoMessage clientInfoMsg = new ClientInfoMessage(setupView.getName(), setupView.getBalance());
+            oos.writeObject(clientInfoMsg);
+            oos.flush();
+            
             
 			Object receivedObject;
 	            
@@ -70,10 +87,11 @@ public class Client {
 	                 }
 	                 */
 	             }
-	            System.out.print("fuori dal while");
 	            	
 			} catch (IOException | ClassNotFoundException exc) {
-			    exc.printStackTrace();
+				System.out.print("nessun server trovato");
+			    //exc.printStackTrace();
+			    
 			}
 		
 	}

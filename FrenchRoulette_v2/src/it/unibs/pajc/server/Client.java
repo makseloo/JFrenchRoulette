@@ -7,7 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import java.net.Socket;
-
+import java.net.SocketException;
 import java.util.List;
 
 import it.unibs.pajc.FrenchRoulette_v2;
@@ -21,25 +21,14 @@ public class Client {
 	private static FrenchRoulette_v2 roulette;
 	private static int seconds;
 	private static String gameState;
-	protected ObjectOutputStream oos;
-	protected ObjectInputStream ois;	
 	private static SetupView setupView;
+	
 	public static void main(String[] args) throws InterruptedException {
+	
 		
 		setupView = new SetupView();
 		setupView.frame.setVisible(true);
 		roulette = new FrenchRoulette_v2();
-		
-		
-		setupView.frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-            	roulette.frame.setVisible(true);
-            }
-        });
-		
-		
-
 		
 		String hostName = "localhost";
 		int port = 1234;
@@ -48,13 +37,24 @@ public class Client {
 		try {
 			Socket server = new Socket(hostName, port);
 			ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
-            ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
+			ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             
-            //invio nome e importo al server
-            ClientInfoMessage clientInfoMsg = new ClientInfoMessage(setupView.getName(), setupView.getBalance());
-            oos.writeObject(clientInfoMsg);
-            oos.flush();
             
+    		setupView.frame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                	roulette.frame.setVisible(true);
+                	ClientInfoMessage clientInfoMsg = new ClientInfoMessage(setupView.getName(), setupView.getBalance());
+        	    	try {
+						oos.writeObject(clientInfoMsg);
+						oos.flush();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+        	        
+                }
+            });
             
 			Object receivedObject;
 	            
@@ -93,6 +93,7 @@ public class Client {
 			    //exc.printStackTrace();
 			    
 			}
+		
 		
 	}
 

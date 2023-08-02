@@ -88,7 +88,18 @@ public class SetupView {
 	}
 
 	public int getBalance() {
-		return Integer.parseInt(importTxt.getText());
+		String inputText = importTxt.getText();
+	    if (inputText.isEmpty()) {
+	        return 0; // or some default value
+	    } else {
+	        try {
+	            return Integer.parseInt(inputText);
+	        } catch (NumberFormatException e) {
+	            // Handle the situation when the input cannot be parsed into an int
+	            System.out.println("Invalid input for balance. Using default value.");
+	            return 0; // or some default value
+	        }
+	    }
 	}
 
 }

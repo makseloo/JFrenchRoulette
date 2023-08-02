@@ -130,7 +130,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
     }
 
     public void removeClient(ClientInfo clientInfo) {
-        connectedClients.remove(clientInfo);
+        connectedClients.remove(clientInfo.getAccountId());
         fireClientsUpdateEvent(new ChangeEvent(this));
     }
 
@@ -145,8 +145,8 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 	}
 
 	public void updateClientInfo(int id, String name, int balance) {
-		// TODO Auto-generated method stub
-		
+		connectedClients.get(id).setClientName(name);
+		connectedClients.get(id).setAccountBalance(balance);
 	}
 
 

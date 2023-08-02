@@ -1,6 +1,8 @@
 package it.unibs.pajc.server;
 
-public class ClientInfoMessage {
+import java.io.Serializable;
+
+public class ClientInfoMessage implements Serializable{
 
 	private String name; 
 	private int balance;

@@ -89,7 +89,6 @@ public class MyProtocol implements Runnable {
             try {
             	serverModel.removeClient(clientInfo);
                 clientSocket.close();
-                serverModel.removeClient(null);
                 isConnected = false;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -115,7 +114,6 @@ public class MyProtocol implements Runnable {
             try {
             	serverModel.removeClient(clientInfo);
                 clientSocket.close();
-                serverModel.removeClient(null);
                 isConnected = false;
             } catch (IOException ex) {
                 ex.printStackTrace();

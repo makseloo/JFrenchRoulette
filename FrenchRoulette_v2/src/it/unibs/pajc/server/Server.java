@@ -184,7 +184,7 @@ public class Server {
 		textArea.setText("");
 		HashMap<Integer, ClientInfo> clientMap = serverModel.getConnectedClients();
 		for(Integer key : clientMap.keySet()) {
-			textArea.append(clientMap.get(key).getClientName()+"\n");
+			textArea.append(clientMap.get(key).getClientName()+":"+clientMap.get(key).getAccountBalance()+"\n");
 		}
 		textArea.setForeground(Color.black);
 	}
@@ -205,7 +205,7 @@ public class Server {
 		HashMap<Integer, ClientInfo> clientMap = serverModel.getConnectedClients();
 		for(Integer key : clientMap.keySet()) {
 			ClientInfo client = clientMap.get(key);
-			textArea.append(client.getClientName()+"\n");
+			textArea.append(clientMap.get(key).getClientName()+":"+clientMap.get(key).getAccountBalance()+"\n");
 			for(WheelNumber w : client.getBetList()) {
 				textArea.append(w.getValue() + ":"+ w.getBettedValue()+"\n");
 			}

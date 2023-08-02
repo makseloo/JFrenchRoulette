@@ -22,23 +22,13 @@ public class Client {
 	private static int seconds;
 	private static String gameState;
 	protected ObjectOutputStream oos;
-	protected ObjectInputStream ois;
-	
-	private String name;
-	private int balance;
-	
-	public Client(String name, int balance) {
-		this.name = name;
-		this.balance = balance;
-		System.out.print(this.name);
-	}
-	
+	protected ObjectInputStream ois;	
 	public static void main(String[] args) throws InterruptedException {
+		
 		
 		roulette = new FrenchRoulette_v2();
 		roulette.frame.setVisible(true);
-		
-		
+
 		
 		String hostName = "localhost";
 		int port = 1234;

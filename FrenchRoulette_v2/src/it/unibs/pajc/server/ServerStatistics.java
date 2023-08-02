@@ -160,6 +160,10 @@ public class ServerStatistics {
     	this.stats = generateStats();
     	
     }
+    
+    public int getLastNumber() {
+    	return randomNumbers.peek();
+    }
 
 
 

@@ -63,7 +63,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
              gameState = RouletteGameState.SETTLING;
              serverStats.generateSingleNumber();
              fireGeneratedNumberEvent(new ChangeEvent(this));
-             alalyzeBets();
+             //alalyzeBets(); //da errore è da sistemare
              break;
          case SETTLING:
              serverTimer = new ServerTimer(SETTLE_TIMER_DURATION);
@@ -75,13 +75,23 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
         serverTimer.setTimerListener(this);
         serverTimer.start();
     }
-    
+    //version one where you can just bet on numbers
+    //possibile tipo avere una tabella in cui per ogni numero ho il client e la bet puntata?
     private void alalyzeBets() {
+    	int lastNum = serverStats.getLastNumber();
 		for(ClientInfo c : connectedClients) {
-			if(c.getClientName().equals(clientName)) {
-				c.setBetList(bets);
+			for(WheelNumber w : c.getBetList()) {
+				if(w.getValue() == lastNum) {
+					payout(c,w.getBettedValue());
+				}
 			}
 		}
+		
+	}
+
+	private void payout(ClientInfo c, int bet) {
+		c.setAccountBalance(bet*36);
+		//fire something
 		
 	}
 

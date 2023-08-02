@@ -8,14 +8,14 @@ import it.unibs.pajc.WheelNumber;
 public class ClientInfo {
 	private String clientName;
 	private int accountId;
-    private double accountBalance;
+    private int accountBalance;
     private List<WheelNumber> betList;
     
     public ClientInfo() {
     	
     }
     
-	public ClientInfo(String clientName, int accountId, double accountBalance) {
+	public ClientInfo(String clientName, int accountId, int accountBalance) {
 		super();
 		this.clientName = clientName;
 		this.accountId = accountId;
@@ -36,7 +36,7 @@ public class ClientInfo {
 	public double getAccountBalance() {
 		return accountBalance;
 	}
-	public void setAccountBalance(double accountBalance) {
+	public void setAccountBalance(int accountBalance) {
 		this.accountBalance = accountBalance;
 	}
 

@@ -1,5 +1,6 @@
 package it.unibs.pajc.server;
 
+import java.awt.EventQueue;
 import java.io.IOException;
 
 import java.io.ObjectInputStream;
@@ -8,7 +9,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import java.util.List;
-
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import it.unibs.pajc.FrenchRoulette_v2;
 import it.unibs.pajc.WheelNumber;
@@ -22,18 +24,28 @@ public class Client {
 	protected ObjectOutputStream oos;
 	protected ObjectInputStream ois;
 	
+	private String name;
+	private int balance;
+	
+	public Client(String name, int balance) {
+		this.name = name;
+		this.balance = balance;
+		System.out.print(this.name);
+	}
+	
 	public static void main(String[] args) throws InterruptedException {
 		
 		roulette = new FrenchRoulette_v2();
 		roulette.frame.setVisible(true);
-
 		
-		String serverName = "localhost";
+		
+		
+		String hostName = "localhost";
 		int port = 1234;
 		
 		
 		try {
-			Socket server = new Socket(serverName, port);
+			Socket server = new Socket(hostName, port);
 			ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             

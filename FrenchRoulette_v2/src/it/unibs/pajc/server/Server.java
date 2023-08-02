@@ -64,8 +64,9 @@ public class Server {
             while (true) {
                 Socket client = serverSocket.accept();
                 String clientName = "CLI#" + id++ + "\n";
+                int balance = 100;
                
-                handleNewClient(client, clientName);
+                handleNewClient(client, clientName, balance);
                 
             }
         } catch (IOException e) {
@@ -75,10 +76,11 @@ public class Server {
 
    
     
-	private static void handleNewClient(Socket client, String clientName) {
+	private static void handleNewClient(Socket client, String clientName, int balance) {
 		
 		ClientInfo clientInfo = new ClientInfo();
 		clientInfo.setClientName(clientName);
+		clientInfo.setAccountBalance(balance);
 		serverModel.addClient(clientInfo);
 		//balance and id has to be set
 		

@@ -24,6 +24,7 @@ import javax.swing.event.ChangeListener;
 
 import it.unibs.pajc.server.PnlCountdown;
 import it.unibs.pajc.server.RouletteGameState;
+import javax.swing.JTextArea;
 
 public class FrenchRoulette_v2 {
 
@@ -35,6 +36,7 @@ public class FrenchRoulette_v2 {
 	private PnlStatitics pnlStatitics;
 		//debug
 	private JLabel lblBalance;
+	private JTextArea testBets;
 	
 	Thread timerThread;
 	private PnlCountdown pnlCountdown;
@@ -68,7 +70,16 @@ public class FrenchRoulette_v2 {
             @Override
             public void stateChanged(ChangeEvent e) {
                 updateView();
+                updateTest();
             }
+
+			private void updateTest() {
+				 testBets.setText("");
+				 for(WheelNumber w : getBets()) {
+					 testBets.append(w.getValue() + ":"+w.getBettedValue()+"\n");
+				 }
+				
+			}
         });
 	}
 
@@ -85,7 +96,7 @@ public class FrenchRoulette_v2 {
 		
 		frame.setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.rowWeights = new double[]{1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0};
+		gbl_contentPane.rowWeights = new double[]{1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0};
 		gbl_contentPane.columnWeights = new double[]{1.0, 1.0};
 		contentPane.setLayout(gbl_contentPane);
 		
@@ -113,6 +124,15 @@ public class FrenchRoulette_v2 {
 		gbc_pnlBoard.gridx = 0;
 		gbc_pnlBoard.gridy = 1;
 		contentPane.add(pnlBetBoard, gbc_pnlBoard);
+		
+		testBets = new JTextArea();
+		testBets.setEditable(false);
+		GridBagConstraints gbc_testBets = new GridBagConstraints();
+		gbc_testBets.insets = new Insets(0, 0, 5, 0);
+		gbc_testBets.fill = GridBagConstraints.BOTH;
+		gbc_testBets.gridx = 1;
+		gbc_testBets.gridy = 1;
+		contentPane.add(testBets, gbc_testBets);
 				
 		
 		pnlFiches = new PnlFiches(model.getFicheList());
@@ -169,12 +189,9 @@ public class FrenchRoulette_v2 {
 
 	 void bet(ActionEvent e) {
 		 double i = 0;
-		 double bet = model.getSelectedFicheVal();
+		 int bet = model.getSelectedFicheVal();
+		 System.out.print(e.getActionCommand() + ":" + bet);
 		 model.setNumberBet(e.getActionCommand(), bet);
-		 i += bet;
-		 //lblBalance.setText(e.getActionCommand());
-		 lblBalance.setText(i+"");
-		 //System.out.println(e.getSource());
 	}
 	 
 	 void takeFiche(ActionEvent e) {
@@ -186,8 +203,6 @@ public class FrenchRoulette_v2 {
 	 }
 	 
 	 public List<WheelNumber> getBets() {
-		 
-		 
 		 return model.getBets();
 	 }
 	 

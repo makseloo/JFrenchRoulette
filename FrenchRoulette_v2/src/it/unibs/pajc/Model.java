@@ -118,7 +118,7 @@ public class Model extends BaseModel{
 		List<WheelNumber> bets = new ArrayList<>();
 		for(WheelNumber w : numberList) {
 			if(w.getBettedValue() != 0)
-				bets.add(new WheelNumber(w.getValue(), w.getZone(), w.getColor()));
+				bets.add(new WheelNumber(w.getValue(), w.getZone(), w.getColor(), w.getBettedValue()));
 		}
 		return bets;
 	}
@@ -135,21 +135,23 @@ public class Model extends BaseModel{
 		return ficheList;
 	}
 	
-	public double getSelectedFicheVal() {
+	public int getSelectedFicheVal() {
 		
 		for(Fiche f : ficheList) {
 			if (f.isSelected())
 					return f.getValue();
 		}
-		return -1.0;
+		return -1;
 	}
 	
-	public void setNumberBet(String inputValue, double bettedAmount) {
+	public void setNumberBet(String inputValue, int bettedAmount) {
 		for(WheelNumber w : numberList) {
 			if(w.getValue() == Integer.parseInt(inputValue)) {
 				w.setValue(bettedAmount);
+				System.out.print(w.getBettedValue());
 			}
 		}
+		
 		fireValuesChange(new ChangeEvent(this));
 	}
 	

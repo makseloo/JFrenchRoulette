@@ -53,10 +53,6 @@ public class Client {
 	 	                if(gameState.equals("SPINNING")) {
 	 	                	List<WheelNumber> bets = roulette.getBets();
 	 	                	BetsMessage betsMessage = new BetsMessage(bets);
-	 	                	System.out.print("Client 56: valore inviato");
-	 	            		for(WheelNumber w : betsMessage.getBets()) {
-	 	            			System.out.print(w.getBettedValue());
-	 	            		}
 	 	                	oos.writeObject(betsMessage);
 	 	                    oos.flush();
 	 	                }

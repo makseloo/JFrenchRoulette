@@ -11,7 +11,7 @@ import javax.swing.event.ChangeEvent;
 import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.core.BaseModel;
 public class ServerModel extends BaseModel implements ServerTimer.TimerListener {
-    private static final int BETTING_TIMER_DURATION = 3; // Duration of the timer in seconds
+    private static final int BETTING_TIMER_DURATION = 15; // Duration of the timer in seconds
     private static final int SPIN_TIMER_DURATION = 5; // the time the ball needs to spin around the wheel
     private static final int SETTLE_TIMER_DURATION = 3; // the time the ball needs to spin around the wheel
 
@@ -63,6 +63,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
              gameState = RouletteGameState.SETTLING;
              serverStats.generateSingleNumber();
              fireGeneratedNumberEvent(new ChangeEvent(this));
+             alalyzeBets();
              break;
          case SETTLING:
              serverTimer = new ServerTimer(SETTLE_TIMER_DURATION);
@@ -75,7 +76,16 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
         serverTimer.start();
     }
     
-    @Override
+    private void alalyzeBets() {
+		for(ClientInfo c : connectedClients) {
+			if(c.getClientName().equals(clientName)) {
+				c.setBetList(bets);
+			}
+		}
+		
+	}
+
+	@Override
     public void onTick(int remainingSeconds) {
     	 
     	 fireValuesChange(new ChangeEvent(this));
@@ -117,10 +127,10 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 	public void updateBets(List<WheelNumber> bets, String clientName) {
 		for(ClientInfo c : connectedClients) {
 			if(c.getClientName().equals(clientName)) {
-				c.setAccountBalance(bets.get(0).getBettedValue());
-				fireUpdateBet(new ChangeEvent(this));
+				c.setBetList(bets);
 			}
 		}
+		fireUpdateBet(new ChangeEvent(this));
 	}
 
 }

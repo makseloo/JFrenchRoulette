@@ -40,14 +40,22 @@ public class WheelNumber implements Serializable {
 	private int value;
 	private String zone;
 	private Color color;
-	private int bettedValue;
+	private int betValue;
 	
 	public WheelNumber(int value, String zone, Color color) {
 		this.value = value;
 		this.zone = zone;
 		this.color = color;
-		this.bettedValue = 0;
+		this.betValue = 0;
 	}
+	//quando devo aggiungere una puntata
+	public WheelNumber(int value, String zone, Color color, int betValue) {
+		this.value = value;
+		this.zone = zone;
+		this.color = color;
+		this.betValue = betValue;
+	}
+	
 	
 	public static List<Integer> getBlackNums() {
 		return black;
@@ -88,12 +96,12 @@ public class WheelNumber implements Serializable {
 		return color;
 	}
 
-	public void setValue(double value) {
-		this.bettedValue += value;
+	public void setValue(int value) {
+		this.betValue += value;
 	}
 
 	public int getBettedValue() {
-		return bettedValue;
+		return betValue;
 	}
 
 	public static List<Integer> getDozen1() {

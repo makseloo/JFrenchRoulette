@@ -62,7 +62,8 @@ public class MyProtocol implements Runnable {
                 }
             }, 0, 100); // Send time update every second
             
-            //handel reception
+            
+            //handle reception
             
             Object receivedObject;
             while ((receivedObject = ois.readObject()) != null) {
@@ -70,10 +71,6 @@ public class MyProtocol implements Runnable {
                 // ...
             	if (receivedObject instanceof BetsMessage) {
             		BetsMessage betsMessage = (BetsMessage) receivedObject;
-            		System.out.print("MyProtocol 73: valore ricevuto");
-            		for(WheelNumber w : betsMessage.getBets()) {
-            			System.out.print(w.getBettedValue());
-            		}
             		serverModel.updateBets(betsMessage.getBets(),clientInfo.getClientName());
             	}
 

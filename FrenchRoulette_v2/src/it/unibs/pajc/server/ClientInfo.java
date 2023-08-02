@@ -1,9 +1,15 @@
 package it.unibs.pajc.server;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import it.unibs.pajc.WheelNumber;
+
 public class ClientInfo {
 	private String clientName;
 	private int accountId;
     private double accountBalance;
+    private List<WheelNumber> betList;
     
     public ClientInfo() {
     	
@@ -33,6 +39,16 @@ public class ClientInfo {
 	public void setAccountBalance(double accountBalance) {
 		this.accountBalance = accountBalance;
 	}
+
+	public List<WheelNumber> getBetList() {
+		return betList;
+	}
+
+	public void setBetList(List<WheelNumber> betList) {
+		this.betList = new LinkedList<WheelNumber>(betList);
+	}
+	
+	
     
     
 }

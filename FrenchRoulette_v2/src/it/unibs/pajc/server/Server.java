@@ -17,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.core.BaseModel.ClientsUpdateEvent;
 import it.unibs.pajc.core.BaseModel.GeneratedNumberEvent;
 import it.unibs.pajc.core.BaseModel.TimerExpiredEvent;
@@ -196,7 +197,10 @@ public class Server {
 	private void updateBet() {
 		textArea.setText("");
 		for(ClientInfo i : serverModel.getConnectedClients()) {
-			textArea.append(i.getClientName()+ i.getAccountBalance()+"\n");
+			textArea.append(i.getClientName()+":\n");
+			for(WheelNumber w : i.getBetList()) {
+				textArea.append(w.getValue() + ":"+ w.getBettedValue()+"\n");
+			}
 		}
 		textArea.setForeground(Color.black);
 		

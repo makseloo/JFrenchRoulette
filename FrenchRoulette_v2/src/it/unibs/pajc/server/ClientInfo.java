@@ -33,19 +33,34 @@ public class ClientInfo {
 	public void setAccountId(int accountId) {
 		this.accountId = accountId;
 	}
-	public double getAccountBalance() {
+	public int getAccountBalance() {
 		return accountBalance;
 	}
 	public void setAccountBalance(int accountBalance) {
 		this.accountBalance = accountBalance;
 	}
 
+	public void addAccountBalance(int accountBalance) {
+		this.accountBalance += accountBalance;
+	}
+	
 	public List<WheelNumber> getBetList() {
 		return betList;
 	}
 
 	public void setBetList(List<WheelNumber> betList) {
 		this.betList = new LinkedList<WheelNumber>(betList);
+		// da fare in un metodo a parte
+		
+	}
+	
+	public void subAccountBalance(int totBet) {
+		this.accountBalance -= totBet;
+	}
+
+	public void resetBetList() {
+		this.betList = new LinkedList<WheelNumber>();
+		
 	}
 	
 	

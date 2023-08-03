@@ -103,6 +103,11 @@ public class WheelNumber implements Serializable {
 	public int getBettedValue() {
 		return betValue;
 	}
+	
+	public void setBetValue(int value) {
+		this.betValue = value;
+		
+	}
 
 	public static List<Integer> getDozen1() {
 		return dozen1;
@@ -161,6 +166,7 @@ public class WheelNumber implements Serializable {
 	public static void setZones(List<String> zones) {
 		WheelNumber.zones = zones;
 	}
+
 
 	
 }

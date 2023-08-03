@@ -12,6 +12,7 @@ import javax.swing.event.ChangeListener;
 import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.core.BaseModel.GeneratedNumberEvent;
 import it.unibs.pajc.core.BaseModel.UpdateBet;
+import it.unibs.pajc.core.BaseModel.UpdateState;
 
 
 public class MyProtocol implements Runnable {
@@ -35,8 +36,8 @@ public class MyProtocol implements Runnable {
 			public void stateChanged(ChangeEvent e) {
 				if(e instanceof GeneratedNumberEvent) {
 					sendStats();
-				}else if(e instanceof UpdateBet) {
-					
+				}else if(e instanceof UpdateState) {
+					sendPayouts();
 				}
 			}
 
@@ -71,7 +72,8 @@ public class MyProtocol implements Runnable {
                 // ...
             	if (receivedObject instanceof BetsMessage) {
             		BetsMessage betsMessage = (BetsMessage) receivedObject;
-            		serverModel.updateBets(betsMessage.getBets(),clientInfo.getAccountId());
+            		System.out.print("total amount received: " + betsMessage.getTotalAmount());
+            		serverModel.updateBets(betsMessage.getBets(),clientInfo.getAccountId(), betsMessage.getTotalAmount());
             	}else if(receivedObject instanceof ClientInfoMessage) {
             		ClientInfoMessage clientInfoMsg = (ClientInfoMessage) receivedObject;
             		serverModel.updateClientInfo(clientInfo.getAccountId(), clientInfoMsg.getName(), clientInfoMsg.getBalance());
@@ -126,7 +128,6 @@ public class MyProtocol implements Runnable {
     private void sendStats() {
     	if(!isConnected)
     		return;
-    	
     	try {
     		StatsMessage statsMessage = new StatsMessage(serverModel.getNumbers(), serverModel.getStats());
     		oos.writeObject(statsMessage);
@@ -148,7 +149,19 @@ public class MyProtocol implements Runnable {
         
     }
     
+    private void sendPayouts(){
+    	if(!isConnected)
+    		return;
+    	try {
+    		PayoutMessage payoutMessage = new PayoutMessage(serverModel.getPayout(clientInfo.getAccountId()));
+    		oos.writeObject(payoutMessage);
+            oos.flush();
+    	}catch (IOException ex) {
+            ex.printStackTrace();
+        }
+			
     
+    }
 
     
 }

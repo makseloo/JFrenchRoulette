@@ -62,6 +62,18 @@ public class BaseModel {
         fireValuesChange(updateBetEvent);
     }
     
+    public class UpdateState  extends ChangeEvent {
+        public UpdateState(Object source) {
+            super(source);
+        }
+    }
+    
+    public void fireStateChangedEvent(Object source) {
+    	UpdateState updateBetEvent = new UpdateState(source);
+        fireValuesChange(updateBetEvent);
+    }
+    
+    
 }
 
 

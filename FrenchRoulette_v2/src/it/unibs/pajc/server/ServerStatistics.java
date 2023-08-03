@@ -162,7 +162,8 @@ public class ServerStatistics {
     }
     
     public int getLastNumber() {
-    	return randomNumbers.peek();
+    	return 3;
+    	//return randomNumbers.peek();
     }
 
 

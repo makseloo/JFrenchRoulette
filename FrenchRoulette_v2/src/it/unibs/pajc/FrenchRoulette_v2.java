@@ -34,8 +34,13 @@ public class FrenchRoulette_v2 {
 	private PnlBetBoard pnlBetBoard;
 	private PnlFiches pnlFiches;
 	private PnlStatitics pnlStatitics;
-		//debug
+	
 	private JLabel lblBalance;
+	private JLabel lblBet;
+	
+		//debug
+	
+	
 	private JTextArea testBets;
 	
 	Thread timerThread;
@@ -71,6 +76,7 @@ public class FrenchRoulette_v2 {
             public void stateChanged(ChangeEvent e) {
                 updateView();
                 updateTest();
+                
             }
 
 			private void updateTest() {
@@ -96,7 +102,7 @@ public class FrenchRoulette_v2 {
 		
 		frame.setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.rowWeights = new double[]{1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0};
+		gbl_contentPane.rowWeights = new double[]{1.0, 1.0, 1.0, 0.0, 1.0, 0.0};
 		gbl_contentPane.columnWeights = new double[]{1.0, 1.0};
 		contentPane.setLayout(gbl_contentPane);
 		
@@ -144,11 +150,11 @@ public class FrenchRoulette_v2 {
 		contentPane.add(pnlFiches, gbc_pnlFiches);
 		
 		
-		lblBalance = new JLabel("New label");
+		lblBalance = new JLabel("Saldo");
 		GridBagConstraints gbc_lblBalance = new GridBagConstraints();
-		gbc_lblBalance.insets = new Insets(0, 0, 5, 5);
-		gbc_lblBalance.gridx = 0;
-		gbc_lblBalance.gridy = 3;
+		gbc_lblBalance.insets = new Insets(0, 0, 5, 0);
+		gbc_lblBalance.gridx = 1;
+		gbc_lblBalance.gridy = 2;
 		contentPane.add(lblBalance, gbc_lblBalance);
 		
 		pnlCountdown = new PnlCountdown();
@@ -156,21 +162,28 @@ public class FrenchRoulette_v2 {
 		gbc_pnlCountdown.insets = new Insets(0, 0, 5, 5);
 		gbc_pnlCountdown.fill = GridBagConstraints.BOTH;
 		gbc_pnlCountdown.gridx = 0;
-		gbc_pnlCountdown.gridy = 4;
+		gbc_pnlCountdown.gridy = 3;
 		contentPane.add(pnlCountdown, gbc_pnlCountdown);
+		
+		lblBet = new JLabel("Puntata");
+		GridBagConstraints gbc_lblBet = new GridBagConstraints();
+		gbc_lblBet.insets = new Insets(0, 0, 5, 0);
+		gbc_lblBet.gridx = 1;
+		gbc_lblBet.gridy = 3;
+		contentPane.add(lblBet, gbc_lblBet);
 		
 		lblLastNum = new JLabel("Ultimo numero uscito : ");
 		GridBagConstraints gbc_lblLastNum = new GridBagConstraints();
 		gbc_lblLastNum.insets = new Insets(0, 0, 5, 5);
 		gbc_lblLastNum.gridx = 0;
-		gbc_lblLastNum.gridy = 5;
+		gbc_lblLastNum.gridy = 4;
 		contentPane.add(lblLastNum, gbc_lblLastNum);
 		
 		stateLbl = new JLabel(""+model.getState());
 		GridBagConstraints gbc_stateLbl = new GridBagConstraints();
 		gbc_stateLbl.insets = new Insets(0, 0, 0, 5);
 		gbc_stateLbl.gridx = 0;
-		gbc_stateLbl.gridy = 6;
+		gbc_stateLbl.gridy = 5;
 		contentPane.add(stateLbl, gbc_stateLbl);
 
         
@@ -188,10 +201,15 @@ public class FrenchRoulette_v2 {
 	}
 
 	 void bet(ActionEvent e) {
-		 double i = 0;
 		 int bet = model.getSelectedFicheVal();
-		 System.out.print(e.getActionCommand() + ":" + bet);
-		 model.setNumberBet(e.getActionCommand(), bet);
+		 if((model.getBalance() - bet) >= 0) {
+			 model.setNumberBet(e.getActionCommand(), bet);
+			 model.setBet(bet);
+			 model.substractBalance(bet); 
+		 }else {
+			 System.out.print("Saldo insufficiente");
+		 }
+		 
 	}
 	 
 	 void takeFiche(ActionEvent e) {
@@ -224,17 +242,24 @@ public class FrenchRoulette_v2 {
 	}
 	
 	private void updateView() {
+		//model.setBet(0) non credo vada qui
 		RouletteGameState gameState = model.getState();
 		stateLbl.setText(gameState.toString());
-	    
+		lblBalance.setText("Saldo:"+model.getBalance());
+    	lblBet.setText("Puntata: "+ model.getBet());
 		 // Disable buttons based on the game state
 	    if (gameState == RouletteGameState.BETTING) {
 	        pnlBetBoard.enableButtons(true); // Enable betting buttons
 	        pnlFiches.enableButtons(true); // Enable fiche buttons
 	    } else {
 	        pnlBetBoard.enableButtons(false); // Disable betting buttons
-	        pnlFiches.enableButtons(false); // Disable fiche buttons
+	        pnlFiches.enableButtons(false); // Disable fiche buttons	        
+	        if(gameState == RouletteGameState.SETTLING) {
+	        	model.resetBet();
+	        	model.resetBets();
+	        }
 	    }
+	    
 		
 	}
 
@@ -248,5 +273,13 @@ public class FrenchRoulette_v2 {
 
 	public void updateStats(Map<String, Integer> stats) {
 		pnlStatitics.updateStats(stats);
+	}
+	
+	public void setBalance(int balance) {
+		model.setBalance(balance);
+	}
+
+	public int getTotalBet() {
+		return model.getBet();
 	}
 }

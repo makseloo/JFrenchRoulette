@@ -65,11 +65,15 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
              gameState = RouletteGameState.SETTLING;
              serverStats.generateSingleNumber();
              fireGeneratedNumberEvent(new ChangeEvent(this));
-             //alalyzeBets(); //da errore è da sistemare
+             
              break;
          case SETTLING:
+        	//da errore è da sistemare
+        	 analyzeBets();
              serverTimer = new ServerTimer(SETTLE_TIMER_DURATION);
+             resetBets();
              gameState = RouletteGameState.BETTING;
+             fireStateChangedEvent(new ChangeEvent(this));
              break;
          default:
              throw new IllegalArgumentException("Unexpected value: " + gameState);
@@ -79,22 +83,30 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
     }
     //version one where you can just bet on numbers
     //possibile tipo avere una tabella in cui per ogni numero ho il client e la bet puntata?
-    /*
-    private void alalyzeBets() {
+    
+    private void analyzeBets() {
     	int lastNum = serverStats.getLastNumber();
-		for(ClientInfo c : connectedClients) {
-			for(WheelNumber w : c.getBetList()) {
+		for(Integer key : connectedClients.keySet()) {
+			for(WheelNumber w : connectedClients.get(key).getBetList()) {
 				if(w.getValue() == lastNum) {
-					payout(c,w.getBettedValue());
+					payout(key,w.getBettedValue());
 				}
 			}
 		}
 		
 	}
-	*/
+	
 
-	private void payout(ClientInfo c, int bet) {
-		c.setAccountBalance(bet*36);
+	private void resetBets() {
+		for(int key : connectedClients.keySet()) {
+			connectedClients.get(key).resetBetList();
+		}
+		fireUpdateBet(this);
+		
+	}
+
+	private void payout(Integer key, int bet) {
+		connectedClients.get(key).addAccountBalance(bet*36);
 		//fire something
 		
 	}
@@ -138,15 +150,20 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
         return connectedClients;
     }
 
-	public void updateBets(List<WheelNumber> bets, int id) {
+	public void updateBets(List<WheelNumber> bets, int id, int totBet) {
 		connectedClients.get(id).setBetList(bets);
-		
+		connectedClients.get(id).subAccountBalance(totBet);
 		fireUpdateBet(new ChangeEvent(this));
 	}
 
 	public void updateClientInfo(int id, String name, int balance) {
 		connectedClients.get(id).setClientName(name);
 		connectedClients.get(id).setAccountBalance(balance);
+	}
+
+	public int getPayout(int id) {
+		
+		return connectedClients.get(id).getAccountBalance();
 	}
 
 

@@ -33,6 +33,9 @@ public class Model extends BaseModel{
 	List<WheelNumber> sortedList;
 	private RouletteGameState gameState;
 	
+	private int balance;
+	private int bet = 0;
+	
 	public Model() {	
 		initializeWheelNumbers();
 		initializeFiches();
@@ -123,6 +126,14 @@ public class Model extends BaseModel{
 		return bets;
 	}
 	
+	
+	public void resetBets() {
+		for(WheelNumber w : numberList) {
+			if(w.getBettedValue() != 0)
+				w.setBetValue(0);
+		}
+	}
+	
 	public List<WheelNumber> getWheelNumberList() {
 		return sortedList;
 	}
@@ -209,8 +220,32 @@ public class Model extends BaseModel{
 		}		
 		return coloredStats;
 	}
+
+	public int getBalance() {
+		return balance;
+	}
+
+	public void setBalance(int balance) {
+		this.balance = balance;
+		fireValuesChange(new ChangeEvent(this));
+	}
 	
+	public void substractBalance(int balance) {
+		this.balance -= balance;
+		fireValuesChange(new ChangeEvent(this));
+	}
 	
+	public int getBet() {
+		return bet;
+	}
+	
+	public void setBet(int bet) {
+		this.bet += bet;
+	}
+	
+	public void resetBet() {
+		this.bet = 0;
+	}
 	
 	
 

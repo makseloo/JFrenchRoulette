@@ -32,7 +32,7 @@ public class Client {
 		
 		String hostName = "localhost";
 		int port = 1234;
-		
+		boolean betsSent = false;
 		
 		try {
 			Socket server = new Socket(hostName, port);
@@ -43,6 +43,8 @@ public class Client {
     		setupView.frame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
+                	//aggiungi un controllo nel caso si chiuda la finestra senza fare nulla
+                	roulette.setBalance(setupView.getBalance());
                 	roulette.frame.setVisible(true);
                 	ClientInfoMessage clientInfoMsg = new ClientInfoMessage(setupView.getName(), setupView.getBalance());
         	    	try {
@@ -52,6 +54,7 @@ public class Client {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+        	    	
         	        
                 }
             });
@@ -69,11 +72,16 @@ public class Client {
 	 	                roulette.updateTimer(seconds);
 	 	                roulette.updateGameState(gameState);
 	 	                
-	 	                if(gameState.equals("SPINNING")) {
+	 	               if (gameState.equals("BETTING")) {
+	                        betsSent = false; // Reset the flag to false at the start of each cycle
+	                    }
+	 	                
+	 	                if(gameState.equals("SPINNING") && !betsSent) {
 	 	                	List<WheelNumber> bets = roulette.getBets();
-	 	                	BetsMessage betsMessage = new BetsMessage(bets);
+	 	                	BetsMessage betsMessage = new BetsMessage(bets, roulette.getTotalBet());
 	 	                	oos.writeObject(betsMessage);
 	 	                    oos.flush();
+	 	                    betsSent = true;
 	 	                }
 	 	                
 	                 } else if (receivedObject instanceof StatsMessage) {
@@ -82,10 +90,11 @@ public class Client {
 	                     roulette.updateStats(statsMessage.getStats());
 	                     
 	                     
-	                 } /*else if(receivedObject instanceof String){
-	                	 System.out.println("Client 67 : Received String: " + receivedObject.toString());
+	                 } else if(receivedObject instanceof PayoutMessage){
+	                	 PayoutMessage payoutMessage = (PayoutMessage) receivedObject;
+	                	 roulette.setBalance(payoutMessage.getNewBalance());
 	                 }
-	                 */
+	                 
 	             }
 	            	
 			} catch (IOException | ClassNotFoundException exc) {

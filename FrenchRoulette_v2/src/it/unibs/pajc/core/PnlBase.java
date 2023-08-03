@@ -60,6 +60,16 @@ public class PnlBase extends JPanel {
 		return btn;
 	}
 	
+	public JButton createButton(String symbol, Color color, String trigger) {
+		JButton btn = new JButton(symbol);
+		Color textColor = new Color(255,255,255);
+		btn.setBackground(color);
+		btn.setForeground(textColor);
+		btn.addActionListener(e -> fireActionListener(e));
+		btn.setActionCommand(trigger);
+		return btn;
+	}
+	
 	public JButton createTrigger(String symbol, Color color, List<JButton> btnsToTrigger, List<Integer> btnNum) {
 		JButton triggerBtn = new JButton(symbol);
 		Color textColor = new Color(255,255,255);

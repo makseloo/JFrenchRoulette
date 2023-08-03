@@ -37,6 +37,8 @@ public class WheelNumber implements Serializable {
 	
 	public static List<String> othersStat = Arrays.asList("1-18","EVEN","RED","BLACK","ODD","19-36");
 	
+	public static List<String> dozAndCols = Arrays.asList("doz1","doz2","doz3","col1","col2","col3");
+	
 	private int value;
 	private String zone;
 	private Color color;
@@ -162,11 +164,65 @@ public class WheelNumber implements Serializable {
 	public static List<String> getZones() {
 		return zones;
 	}
+	
+	public static List<String> getDozAndCols(){
+		return dozAndCols;
+	}
 
 	public static void setZones(List<String> zones) {
 		WheelNumber.zones = zones;
 	}
+	public static List<Integer> getSpecificZone(String z) {
+		switch (z) {
+		case "TIER": {
+			return getTier();
+		}
+		case "ORPHELINS": {
+			return getOrphelins();
 
+		}
+		case "VOISINS": {
+			return getVoisins();
 
+		}
+		case "1-18": {
+			return getEight();
+		}
+		case "EVEN": {
+			return getEven();
+		}
+		case "RED": {
+			return getRed();
+		}
+		case "BLACK": {
+			return getBlackNums();
+		}
+		case "ODD": {
+			return getOdd();
+		}
+		case "19-36": {
+			return getEight();
+		}
+		case "doz1": {
+			return getDozen1();
+		}case "doz2": {
+			return getDozen2();
+		}case "doz3": {
+			return getDozen3();
+		}case "col1": {
+			return getCol1();
+		}case "col2": {
+			return getCol2();
+		}
+		case "col3": {
+			return getCol3();
+		}
+		
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + z);
+		}
+	}
+
+	
 	
 }

@@ -1,5 +1,6 @@
 package it.unibs.pajc;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import it.unibs.pajc.panels.PnlBetBoard;
 import it.unibs.pajc.panels.PnlFiches;
@@ -133,6 +134,7 @@ public class FrenchRoulette_v2 {
 		
 		testBets = new JTextArea();
 		testBets.setEditable(false);
+		testBets.setPreferredSize(new Dimension(200,200));
 		GridBagConstraints gbc_testBets = new GridBagConstraints();
 		gbc_testBets.insets = new Insets(0, 0, 5, 0);
 		gbc_testBets.fill = GridBagConstraints.BOTH;
@@ -188,7 +190,18 @@ public class FrenchRoulette_v2 {
 
         
    				
-		pnlBetBoard.addActionListener(e -> this.bet(e));
+		pnlBetBoard.addActionListener(e -> {
+			if(e.getActionCommand().startsWith("Trigger doz")) {
+				this.betDoz(e);
+			}else if(e.getActionCommand().startsWith("Trigger col")){
+				this.betCol(e);
+			}else if(e.getActionCommand().startsWith("Trigger oth")){
+				this.betOther(e);
+			}else {
+				this.bet(e);
+			}
+				
+		});
 		
 		pnlFiches.addActionListener(e -> this.takeFiche(e));
 		
@@ -199,18 +212,22 @@ public class FrenchRoulette_v2 {
 		
 
 	}
+	
+	private void betOther(ActionEvent e) {
+		model.betOther(e);
+	}
 
-	 void bet(ActionEvent e) {
-		 int bet = model.getSelectedFicheVal();
-		 System.out.print(e.getActionCommand());
-		 if((model.getBalance() - bet) >= 0) {
-			 model.setNumberBet(e.getActionCommand(), bet);
-			 model.setBet(bet);
-			 model.substractBalance(bet); 
-		 }else {
-			 //System.out.print("Saldo insufficiente");
-		 }
-		 
+	 private void betCol(ActionEvent e) {
+		 model.betCol(e);
+		
+	}
+
+	private void betDoz(ActionEvent e) {
+		 model.betDoz(e);
+	}
+
+	void bet(ActionEvent e) {
+		model.betNum(e); 
 	}
 	 
 	 void takeFiche(ActionEvent e) {

@@ -61,23 +61,7 @@ public class PnlBetBoard extends PnlBase {
 		gbc_dozenPnl.fill = GridBagConstraints.HORIZONTAL;
 		
 		for(int i = 1; i < 4; i++) {
-			//ci piace come soluzione?
-			List<Integer> dozenNumbers = new ArrayList<>();
-		    switch (i) {
-		        case 1:
-		            dozenNumbers = WheelNumber.getDozen1();
-		            break;
-		        case 2:
-		            dozenNumbers = WheelNumber.getDozen2();
-		            break;
-		        case 3:
-		            dozenNumbers = WheelNumber.getDozen3();
-		            break;
-		        default:
-		            // Handle the case where i is not in the range [1, 3]
-		            break;
-		    }
-		    dozenPnl.add(createTrigger(i + "°:12", Colors.getGray(), numberButtons, dozenNumbers));
+			dozenPnl.add(createButton(i+"°:12", Colors.getGray(),"Trigger doz"+i));
 		}
 		this.add(dozenPnl, gbc_dozenPnl);
 		
@@ -88,6 +72,8 @@ public class PnlBetBoard extends PnlBase {
 		gbc_rowPnl.gridy = 0;
 		
 		for(int i = 1; i < 4; i++) {
+			rowPnl.add(createButton(i + "° row", Colors.getGray(),"Trigger col"+i));
+			/* soluzione alternativa
 			List<Integer> colNumbers = new ArrayList<>();
 		    switch (i) {
 		        case 3:
@@ -104,6 +90,7 @@ public class PnlBetBoard extends PnlBase {
 		            break;
 		    }
 		    rowPnl.add(createTrigger(i + "° row", Colors.getGray(), numberButtons, colNumbers));
+		    */
 		}
 		this.add(rowPnl, gbc_rowPnl);
 		
@@ -115,6 +102,7 @@ public class PnlBetBoard extends PnlBase {
 		gbc_othersPnl.fill = GridBagConstraints.HORIZONTAL;
 		
 		for(String s : otherStats) {
+			othersPnl.add(createButton(s, Colors.getGray(), "Trigger oth"+s));
 			List<Integer> otherNumbers = new ArrayList<>();
 		    switch (s) {
 		        case "1-18":

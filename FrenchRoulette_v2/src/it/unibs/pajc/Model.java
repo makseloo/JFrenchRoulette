@@ -1,8 +1,11 @@
 package it.unibs.pajc;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+
 import it.unibs.pajc.core.*;
 import it.unibs.pajc.server.RouletteGameState;
+import it.unibs.pajc.server.Zone;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +34,9 @@ public class Model extends BaseModel{
 	//List<Integer> zero = WheelNumber.getZero(); da gestire perché zero e voisins si includono
 	//numbers displayed as on the roulette
 	List<WheelNumber> sortedList;
+	
+	List<Zone> zones;
+	
 	private RouletteGameState gameState;
 	
 	private int balance;
@@ -39,7 +45,25 @@ public class Model extends BaseModel{
 	public Model() {	
 		initializeWheelNumbers();
 		initializeFiches();
+		initializeZones();
 		this.sortedList = sort(numberList);
+	}
+
+	private void initializeZones() {
+		for(String z : WheelNumber.getZones()) {
+			Zone zone = new Zone(z, WheelNumber.getSpecificZone(z));
+			zones.add(zone);
+		}
+		
+		for(String o : WheelNumber.getOthersStat()) {
+			Zone zone = new Zone(o, WheelNumber.getSpecificZone(o));
+			zones.add(zone);
+		}
+		
+		for(String dc : WheelNumber.getDozAndCols()) {
+			Zone zone = new Zone(dc, WheelNumber.getSpecificZone(dc));
+			zones.add(zone);
+		}
 	}
 
 	private List<WheelNumber> sort(List<WheelNumber> numberList) {
@@ -245,6 +269,121 @@ public class Model extends BaseModel{
 	
 	public void resetBet() {
 		this.bet = 0;
+	}
+
+	public void betDoz(ActionEvent e) {
+		int bet = getSelectedFicheVal();
+		System.out.print(e.getActionCommand());
+		if((balance - (bet))>=0) {
+			setBet(bet);
+			substractBalance(bet); 
+			String numberString = e.getActionCommand().substring(11);
+		    int number = Integer.parseInt(numberString);
+			for(Zone z : zones) {
+				if(z.getName().equals("doz"+number)) {
+					z.setBetValue(bet);
+				}
+			}
+			
+		}else {
+			System.out.print("Model: Saldo insufficiente");
+		}
+	}
+
+	public void betNum(ActionEvent e) {
+		int bet = getSelectedFicheVal();
+		 if((getBalance() - bet) >= 0) {
+			 setNumberBet(e.getActionCommand(), bet);
+			 setBet(bet);
+			 substractBalance(bet); 
+		 }else {
+			 System.out.print("Saldo insufficiente");
+		 }
+		
+	}
+
+	
+	public void betCol(ActionEvent e) {
+		int bet = getSelectedFicheVal();
+		int bet12 = bet * 12;
+		System.out.print(e.getActionCommand());
+		if((balance - (bet12))>=0) {
+			setBet(bet12);
+			substractBalance(bet12); 
+			for(WheelNumber w : numberList) {
+				switch (e.getActionCommand().toString()){
+				case "Trigger col1": {
+	
+					if(WheelNumber.getCol3().contains(w.getValue())) {
+						w.setValue(bet);
+					}
+					break;
+				}
+				case "Trigger col2": {
+					
+					if(WheelNumber.getCol2().contains(w.getValue())) {
+						w.setValue(bet);
+					}
+					break;
+				}
+				case "Trigger col3": {
+					
+					if(WheelNumber.getCol1().contains(w.getValue())) {
+						w.setValue(bet);
+					}
+					break;
+				}
+				default:
+					throw new IllegalArgumentException("Unexpected value: " + e.getActionCommand());
+				}
+				
+			}
+			
+		}else {
+			System.out.print("Model: Saldo insufficiente");
+		}
+	}
+
+	public void betOther(ActionEvent e) {
+		int bet = getSelectedFicheVal();
+		int bet18 = bet * 18;
+		System.out.print(e.getActionCommand());
+		if((balance - (bet))>=0) {
+			setBet(bet18);
+			substractBalance(bet18); 
+			for(WheelNumber w : numberList) {
+				switch (e.getActionCommand().toString()){
+				case "Trigger col1": {
+	
+					if(WheelNumber.getCol3().contains(w.getValue())) {
+						w.setValue(bet);
+					}
+					break;
+				}
+				case "Trigger col2": {
+					
+					if(WheelNumber.getCol2().contains(w.getValue())) {
+						w.setValue(bet);
+					}
+					break;
+				}
+				case "Trigger col3": {
+					
+					if(WheelNumber.getCol1().contains(w.getValue())) {
+						w.setValue(bet);
+					}
+					break;
+				}
+				default:
+					throw new IllegalArgumentException("Unexpected value: " + e.getActionCommand());
+				}
+				
+			}
+			
+		}else {
+			System.out.print("Model: Saldo insufficiente");
+		}
+		
 	}
 	
 	

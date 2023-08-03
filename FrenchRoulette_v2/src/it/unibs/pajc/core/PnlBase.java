@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -57,6 +58,26 @@ public class PnlBase extends JPanel {
 		btn.addActionListener(e -> fireActionListener(e));
 
 		return btn;
+	}
+	
+	public JButton createTrigger(String symbol, Color color, List<JButton> btnsToTrigger, List<Integer> btnNum) {
+		JButton triggerBtn = new JButton(symbol);
+		Color textColor = new Color(255,255,255);
+		triggerBtn.setBackground(color);
+		triggerBtn.setForeground(textColor);
+		triggerBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Automatically trigger the other buttons when the "Trigger" button is clicked
+                for(JButton b : btnsToTrigger) {
+                	
+                	if(btnNum.contains(Integer.parseInt(b.getText())))
+                		b.doClick();
+                }
+            }
+        });
+		
+		return triggerBtn;
 	}
 
 	

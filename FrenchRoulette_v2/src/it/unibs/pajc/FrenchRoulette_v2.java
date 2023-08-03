@@ -123,7 +123,7 @@ public class FrenchRoulette_v2 {
 		contentPane.add(pnlStatitics, gbc_pnlStatitics);
 		
 		
-		pnlBetBoard = new PnlBetBoard(model.getNumberList());//è giusti dal punto di vista mvc?
+		pnlBetBoard = new PnlBetBoard(model.getNumberList(), WheelNumber.getOthersStat());//è giusti dal punto di vista mvc?
 		GridBagConstraints gbc_pnlBoard = new GridBagConstraints();
 		gbc_pnlBoard.insets = new Insets(0, 0, 5, 5);
 		gbc_pnlBoard.fill = GridBagConstraints.BOTH;
@@ -202,12 +202,13 @@ public class FrenchRoulette_v2 {
 
 	 void bet(ActionEvent e) {
 		 int bet = model.getSelectedFicheVal();
+		 System.out.print(e.getActionCommand());
 		 if((model.getBalance() - bet) >= 0) {
 			 model.setNumberBet(e.getActionCommand(), bet);
 			 model.setBet(bet);
 			 model.substractBalance(bet); 
 		 }else {
-			 System.out.print("Saldo insufficiente");
+			 //System.out.print("Saldo insufficiente");
 		 }
 		 
 	}

@@ -105,7 +105,7 @@ public class Model extends BaseModel{
 		 ficheList.add(fiveFiche);
 		 
 		 Fiche twentyFiveFiche = new Fiche(25, false);
-		 ficheList.add(oneFiche);
+		 ficheList.add(twentyFiveFiche);
 		 
 		 Fiche oneHundredFiche = new Fiche(100, false);
 		 ficheList.add(oneHundredFiche);

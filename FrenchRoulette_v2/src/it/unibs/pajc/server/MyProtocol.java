@@ -72,7 +72,6 @@ public class MyProtocol implements Runnable {
                 // ...
             	if (receivedObject instanceof BetsMessage) {
             		BetsMessage betsMessage = (BetsMessage) receivedObject;
-            		System.out.print("total amount received: " + betsMessage.getTotalAmount());
             		serverModel.updateBets(betsMessage.getBets(),clientInfo.getAccountId(), betsMessage.getTotalAmount());
             	}else if(receivedObject instanceof ClientInfoMessage) {
             		ClientInfoMessage clientInfoMsg = (ClientInfoMessage) receivedObject;

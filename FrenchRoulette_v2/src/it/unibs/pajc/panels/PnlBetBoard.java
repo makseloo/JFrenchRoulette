@@ -103,31 +103,6 @@ public class PnlBetBoard extends PnlBase {
 		
 		for(String s : otherStats) {
 			othersPnl.add(createButton(s, Colors.getGray(), "Trigger oth"+s));
-			List<Integer> otherNumbers = new ArrayList<>();
-		    switch (s) {
-		        case "1-18":
-		        	otherNumbers = WheelNumber.getEight();
-		            break;
-		        case "19-36":
-		        	otherNumbers = WheelNumber.getSix();
-		            break;
-		        case "EVEN":
-		        	otherNumbers = WheelNumber.getEven();
-		            break;
-		        case "ODD":
-		        	otherNumbers = WheelNumber.getOdd();
-		            break;
-		        case "BLACK":
-		        	otherNumbers = WheelNumber.getBlackNums();
-		            break;
-		        case "RED":
-		        	otherNumbers = WheelNumber.getRedNums();
-		            break;
-		        default:
-		            // Handle the case where i is not in the range [1, 3]
-		            break;
-		    }
-			othersPnl.add(createTrigger(s, Colors.getGray(),numberButtons,otherNumbers));
 		}
 		this.add(othersPnl, gbc_othersPnl);
 	}

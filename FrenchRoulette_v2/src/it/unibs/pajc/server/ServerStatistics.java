@@ -166,8 +166,6 @@ public class ServerStatistics {
     	//return randomNumbers.peek();
     }
 
-
-
 	public HashMap<String, Integer> getStats(){
     	return this.stats;
     }

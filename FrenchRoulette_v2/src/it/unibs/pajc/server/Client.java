@@ -75,20 +75,20 @@ public class Client {
 	 	               if (gameState.equals("BETTING")) {
 	                        betsSent = false; // Reset the flag to false at the start of each cycle
 	                    }
-	 	                
+
 	 	                if(gameState.equals("SPINNING") && !betsSent) {
 	 	                	List<WheelNumber> bets = roulette.getBets();
-	 	                	BetsMessage betsMessage = new BetsMessage(bets, roulette.getTotalBet());
+	 	                	List<Zone> zoneBets = roulette.getZoneBets();
+	 	                	BetsMessage betsMessage = new BetsMessage(bets, zoneBets, roulette.getTotalBet());
 	 	                	oos.writeObject(betsMessage);
 	 	                    oos.flush();
 	 	                    betsSent = true;
 	 	                }
-	 	                
+
 	                 } else if (receivedObject instanceof StatsMessage) {
 	                     StatsMessage statsMessage = (StatsMessage) receivedObject;
 	                     roulette.updateLast500(statsMessage.getNumbers());
 	                     roulette.updateStats(statsMessage.getStats());
-	                     
 	                     
 	                 } else if(receivedObject instanceof PayoutMessage){
 	                	 PayoutMessage payoutMessage = (PayoutMessage) receivedObject;

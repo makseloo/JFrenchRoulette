@@ -25,6 +25,8 @@ import javax.swing.event.ChangeListener;
 
 import it.unibs.pajc.server.PnlCountdown;
 import it.unibs.pajc.server.RouletteGameState;
+import it.unibs.pajc.server.Zone;
+
 import javax.swing.JTextArea;
 
 public class FrenchRoulette_v2 {
@@ -242,6 +244,10 @@ public class FrenchRoulette_v2 {
 		 return model.getBets();
 	 }
 	 
+	 public List<Zone> getZoneBets() {
+		return model.getZoneBets();
+	 }	
+	 
 	void dump() {
 		System.out.println("" + model.Dump());
 	}
@@ -300,4 +306,6 @@ public class FrenchRoulette_v2 {
 	public int getTotalBet() {
 		return model.getBet();
 	}
+
+
 }

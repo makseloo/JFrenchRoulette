@@ -35,7 +35,7 @@ public class Model extends BaseModel{
 	//numbers displayed as on the roulette
 	List<WheelNumber> sortedList;
 	
-	List<Zone> zones;
+	List<Zone> zones = new ArrayList<>();
 	
 	private RouletteGameState gameState;
 	
@@ -56,12 +56,12 @@ public class Model extends BaseModel{
 		}
 		
 		for(String o : WheelNumber.getOthersStat()) {
-			Zone zone = new Zone(o, WheelNumber.getSpecificZone(o));
+			Zone zone = new Zone(o, WheelNumber.getSpecificZone(o), 2);
 			zones.add(zone);
 		}
 		
 		for(String dc : WheelNumber.getDozAndCols()) {
-			Zone zone = new Zone(dc, WheelNumber.getSpecificZone(dc));
+			Zone zone = new Zone(dc, WheelNumber.getSpecificZone(dc), 3);
 			zones.add(zone);
 		}
 	}
@@ -150,11 +150,24 @@ public class Model extends BaseModel{
 		return bets;
 	}
 	
+	public List<Zone> getZoneBets() {
+		List<Zone> zoneBets = new ArrayList<>();
+		
+		for(Zone z : zones) {
+			if(z.getBetValue() != 0)
+				zoneBets.add(z);
+		}
+		
+		return zoneBets;
+	}
 	
 	public void resetBets() {
 		for(WheelNumber w : numberList) {
 			if(w.getBettedValue() != 0)
 				w.setBetValue(0);
+		}
+		for(Zone z : zones) {
+			z.setBetValue(0);
 		}
 	}
 	
@@ -385,7 +398,5 @@ public class Model extends BaseModel{
 		}
 		
 	}
-	
-	
 
 }

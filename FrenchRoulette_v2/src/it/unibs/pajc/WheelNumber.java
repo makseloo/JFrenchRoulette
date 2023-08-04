@@ -174,6 +174,10 @@ public class WheelNumber implements Serializable {
 	}
 	public static List<Integer> getSpecificZone(String z) {
 		switch (z) {
+		
+		case "ZERO": {
+			return getZero();
+		}
 		case "TIER": {
 			return getTier();
 		}

@@ -26,6 +26,7 @@ import it.unibs.pajc.server.PnlCountdown;
 import it.unibs.pajc.server.RouletteGameState;
 
 import javax.swing.JTextArea;
+import it.unibs.pajc.panels.PnlZones;
 
 public class FrenchRoulette_v2 {
 
@@ -103,7 +104,7 @@ public class FrenchRoulette_v2 {
 		
 		frame.setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.rowWeights = new double[]{1.0, 1.0, 1.0, 0.0, 1.0, 0.0};
+		gbl_contentPane.rowWeights = new double[]{1.0, 1.0, 1.0, 0.0, 0.0, 1.0};
 		gbl_contentPane.columnWeights = new double[]{1.0, 1.0};
 		contentPane.setLayout(gbl_contentPane);
 		
@@ -132,14 +133,13 @@ public class FrenchRoulette_v2 {
 		gbc_pnlBoard.gridy = 1;
 		contentPane.add(pnlBetBoard, gbc_pnlBoard);
 		
-		testBets = new JTextArea();
-		testBets.setEditable(false);
-		GridBagConstraints gbc_testBets = new GridBagConstraints();
-		gbc_testBets.insets = new Insets(0, 0, 5, 0);
-		gbc_testBets.fill = GridBagConstraints.BOTH;
-		gbc_testBets.gridx = 1;
-		gbc_testBets.gridy = 1;
-		contentPane.add(testBets, gbc_testBets);
+		PnlZones pnlZones = new PnlZones(model.getNumberList());
+		GridBagConstraints gbc_pnlZones = new GridBagConstraints();
+		gbc_pnlZones.insets = new Insets(0, 0, 5, 0);
+		gbc_pnlZones.fill = GridBagConstraints.BOTH;
+		gbc_pnlZones.gridx = 1;
+		gbc_pnlZones.gridy = 1;
+		contentPane.add(pnlZones, gbc_pnlZones);
 				
 		
 		pnlFiches = new PnlFiches(model.getFicheList());
@@ -179,6 +179,15 @@ public class FrenchRoulette_v2 {
 		gbc_lblLastNum.gridx = 0;
 		gbc_lblLastNum.gridy = 4;
 		contentPane.add(lblLastNum, gbc_lblLastNum);
+		
+		testBets = new JTextArea();
+		testBets.setEditable(false);
+		GridBagConstraints gbc_testBets = new GridBagConstraints();
+		gbc_testBets.insets = new Insets(0, 0, 5, 0);
+		gbc_testBets.fill = GridBagConstraints.BOTH;
+		gbc_testBets.gridx = 1;
+		gbc_testBets.gridy = 4;
+		contentPane.add(testBets, gbc_testBets);
 		
 		stateLbl = new JLabel(""+model.getState());
 		GridBagConstraints gbc_stateLbl = new GridBagConstraints();
@@ -285,6 +294,4 @@ public class FrenchRoulette_v2 {
 	public int getTotalBet() {
 		return model.getBet();
 	}
-
-
 }

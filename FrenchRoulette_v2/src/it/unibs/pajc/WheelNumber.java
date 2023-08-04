@@ -38,9 +38,9 @@ public class WheelNumber implements Serializable {
 	public static List<String> othersStat = Arrays.asList("1-18","EVEN","RED","BLACK","ODD","19-36");
 	
 	public static List<Integer> up = Arrays.asList(16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12);
-	public static List<Integer> downs = Arrays.asList(15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11);
+	public static List<Integer> downs = Arrays.asList(11, 36, 13, 27, 6, 34, 17, 25, 2, 21, 4, 19, 15);
 	public static List<Integer> right = Arrays.asList(35,3,26,0,32);
-	public static List<Integer> left = Arrays.asList(30, 8, 23, 10, 5, 24);
+	public static List<Integer> left = Arrays.asList(24, 5, 10, 23, 8, 30);
 	
 	private int value;
 	private String zone;

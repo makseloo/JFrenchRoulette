@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 
 import it.unibs.pajc.core.*;
 import it.unibs.pajc.server.RouletteGameState;
-import it.unibs.pajc.server.Zone;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,9 +33,7 @@ public class Model extends BaseModel{
 	//List<Integer> zero = WheelNumber.getZero(); da gestire perché zero e voisins si includono
 	//numbers displayed as on the roulette
 	List<WheelNumber> sortedList;
-	
-	List<Zone> zones = new ArrayList<>();
-	
+
 	private RouletteGameState gameState;
 	
 	private int balance;
@@ -45,10 +42,9 @@ public class Model extends BaseModel{
 	public Model() {	
 		initializeWheelNumbers();
 		initializeFiches();
-		initializeZones();
 		this.sortedList = sort(numberList);
 	}
-
+/*
 	private void initializeZones() {
 		for(String z : WheelNumber.getZones()) {
 			Zone zone = new Zone(z, WheelNumber.getSpecificZone(z));
@@ -65,7 +61,7 @@ public class Model extends BaseModel{
 			zones.add(zone);
 		}
 	}
-
+*/
 	private List<WheelNumber> sort(List<WheelNumber> numberList) {
 		List<WheelNumber> sortedList = new ArrayList<>(numberList);
 		List<Integer> desiredOrder = WheelNumber.getNums();
@@ -150,24 +146,11 @@ public class Model extends BaseModel{
 		return bets;
 	}
 	
-	public List<Zone> getZoneBets() {
-		List<Zone> zoneBets = new ArrayList<>();
-		
-		for(Zone z : zones) {
-			if(z.getBetValue() != 0)
-				zoneBets.add(z);
-		}
-		
-		return zoneBets;
-	}
 	
 	public void resetBets() {
 		for(WheelNumber w : numberList) {
 			if(w.getBettedValue() != 0)
 				w.setBetValue(0);
-		}
-		for(Zone z : zones) {
-			z.setBetValue(0);
 		}
 	}
 	
@@ -283,7 +266,7 @@ public class Model extends BaseModel{
 	public void resetBet() {
 		this.bet = 0;
 	}
-
+//mi sa che action event qui è cannato
 	public void betDoz(ActionEvent e) {
 		int bet = getSelectedFicheVal();
 		System.out.print(e.getActionCommand());
@@ -292,12 +275,13 @@ public class Model extends BaseModel{
 			substractBalance(bet); 
 			String numberString = e.getActionCommand().substring(11);
 		    int number = Integer.parseInt(numberString);
+		    /*
 			for(Zone z : zones) {
 				if(z.getName().equals("doz"+number)) {
 					z.setBetValue(bet);
 				}
 			}
-			
+			*/
 		}else {
 			System.out.print("Model: Saldo insufficiente");
 		}

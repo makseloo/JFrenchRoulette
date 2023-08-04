@@ -90,11 +90,6 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 			for(WheelNumber w : connectedClients.get(key).getBetList()) {
 				if(w.getValue() == lastNum) {
 					payout(key,w.getBettedValue(), 36);
-					for(Zone z : connectedClients.get(key).getZoneBetsList()) {
-						System.out.print("ciao"+ z.getName());
-						if(w.getZone().equals(z.getName())) {}
-							payout(key,z.getBetValue(), z.getZonePayout());
-					}
 				}
 			}
 		}
@@ -155,9 +150,8 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
         return connectedClients;
     }
 
-	public void updateBets(List<WheelNumber> bets, List<Zone> zoneBetsList, int id, int totBet) {
+	public void updateBets(List<WheelNumber> bets, int id, int totBet) {
 		connectedClients.get(id).setBetList(bets);
-		connectedClients.get(id).setZoneBetsList(zoneBetsList);
 		connectedClients.get(id).subAccountBalance(totBet);
 		fireUpdateBet(new ChangeEvent(this));
 	}

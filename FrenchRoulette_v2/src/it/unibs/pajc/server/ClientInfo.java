@@ -10,7 +10,6 @@ public class ClientInfo {
 	private int accountId;
     private int accountBalance;
     private List<WheelNumber> betList;
-    private List<Zone> zoneBetsList;
     
     public ClientInfo() {
     	
@@ -61,18 +60,9 @@ public class ClientInfo {
 
 	public void resetBetList() {
 		this.betList = new LinkedList<WheelNumber>();
-		this.zoneBetsList = new LinkedList<Zone>();
 		
 	}
 
-	public List<Zone> getZoneBetsList() {
-		return zoneBetsList;
-	}
-
-	public void setZoneBetsList(List<Zone> zoneBetsList) {
-		this.zoneBetsList = new LinkedList<Zone>(zoneBetsList);;
-	}
-	
 	
     
     

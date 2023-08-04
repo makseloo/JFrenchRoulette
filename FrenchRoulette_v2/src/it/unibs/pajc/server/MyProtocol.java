@@ -72,7 +72,7 @@ public class MyProtocol implements Runnable {
                 // ...
             	if (receivedObject instanceof BetsMessage) {
             		BetsMessage betsMessage = (BetsMessage) receivedObject;
-            		serverModel.updateBets(betsMessage.getBets(), betsMessage.getZoneBets(), clientInfo.getAccountId(), betsMessage.getTotalAmount());
+            		serverModel.updateBets(betsMessage.getBets(),clientInfo.getAccountId(), betsMessage.getTotalAmount());
             	}else if(receivedObject instanceof ClientInfoMessage) {
             		ClientInfoMessage clientInfoMsg = (ClientInfoMessage) receivedObject;
             		serverModel.updateClientInfo(clientInfo.getAccountId(), clientInfoMsg.getName(), clientInfoMsg.getBalance());

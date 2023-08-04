@@ -78,8 +78,7 @@ public class Client {
 
 	 	                if(gameState.equals("SPINNING") && !betsSent) {
 	 	                	List<WheelNumber> bets = roulette.getBets();
-	 	                	List<Zone> zoneBets = roulette.getZoneBets();
-	 	                	BetsMessage betsMessage = new BetsMessage(bets, zoneBets, roulette.getTotalBet());
+	 	                	BetsMessage betsMessage = new BetsMessage(bets, roulette.getTotalBet());
 	 	                	oos.writeObject(betsMessage);
 	 	                    oos.flush();
 	 	                    betsSent = true;

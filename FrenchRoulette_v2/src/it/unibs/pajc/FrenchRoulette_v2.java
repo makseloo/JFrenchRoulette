@@ -3,6 +3,7 @@ package it.unibs.pajc;
 import java.awt.EventQueue;
 import it.unibs.pajc.panels.PnlBetBoard;
 import it.unibs.pajc.panels.PnlFiches;
+import it.unibs.pajc.panels.PnlRange;
 import it.unibs.pajc.panels.PnlStatitics;
 import it.unibs.pajc.panels.PnlWheel;
 
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -36,6 +38,8 @@ public class FrenchRoulette_v2 {
 	private PnlBetBoard pnlBetBoard;
 	private PnlFiches pnlFiches;
 	private PnlStatitics pnlStatitics;
+	private PnlRange pnlRange;
+	private PnlZones pnlZones;
 	
 	private JLabel lblBalance;
 	private JLabel lblBet;
@@ -105,7 +109,7 @@ public class FrenchRoulette_v2 {
 		frame.setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.rowWeights = new double[]{1.0, 1.0, 1.0, 0.0, 0.0, 1.0};
-		gbl_contentPane.columnWeights = new double[]{1.0, 1.0};
+		gbl_contentPane.columnWeights = new double[]{1.0, 1.0, 0.0};
 		contentPane.setLayout(gbl_contentPane);
 		
 		pnlWheel = new PnlWheel(model.getWheelNumberList());
@@ -118,11 +122,20 @@ public class FrenchRoulette_v2 {
 		
 		pnlStatitics = new PnlStatitics();
 		GridBagConstraints gbc_pnlStatitics = new GridBagConstraints();
-		gbc_pnlStatitics.insets = new Insets(0, 0, 5, 0);
+		gbc_pnlStatitics.insets = new Insets(0, 0, 5, 5);
 		gbc_pnlStatitics.fill = GridBagConstraints.BOTH;
 		gbc_pnlStatitics.gridx = 1;
 		gbc_pnlStatitics.gridy = 0;
 		contentPane.add(pnlStatitics, gbc_pnlStatitics);
+		
+		testBets = new JTextArea();
+		testBets.setEditable(false);
+		GridBagConstraints gbc_testBets = new GridBagConstraints();
+		gbc_testBets.insets = new Insets(0, 0, 5, 0);
+		gbc_testBets.fill = GridBagConstraints.BOTH;
+		gbc_testBets.gridx = 2;
+		gbc_testBets.gridy = 0;
+		contentPane.add(testBets, gbc_testBets);
 		
 		
 		pnlBetBoard = new PnlBetBoard(model.getNumberList(), WheelNumber.getOthersStat());//è giusti dal punto di vista mvc?
@@ -133,9 +146,9 @@ public class FrenchRoulette_v2 {
 		gbc_pnlBoard.gridy = 1;
 		contentPane.add(pnlBetBoard, gbc_pnlBoard);
 		
-		PnlZones pnlZones = new PnlZones(model.getNumberList());
+		pnlZones = new PnlZones(model.getNumberList(), model.getRange());
 		GridBagConstraints gbc_pnlZones = new GridBagConstraints();
-		gbc_pnlZones.insets = new Insets(0, 0, 5, 0);
+		gbc_pnlZones.insets = new Insets(0, 0, 5, 5);
 		gbc_pnlZones.fill = GridBagConstraints.BOTH;
 		gbc_pnlZones.gridx = 1;
 		gbc_pnlZones.gridy = 1;
@@ -149,13 +162,21 @@ public class FrenchRoulette_v2 {
 		gbc_pnlFiches.gridx = 0;
 		gbc_pnlFiches.gridy = 2;
 		contentPane.add(pnlFiches, gbc_pnlFiches);
+		//1 va passato dal model
+		pnlRange = new PnlRange(model.getRange());
+		GridBagConstraints gbc_pnlRange = new GridBagConstraints();
+		gbc_pnlRange.insets = new Insets(0, 0, 5, 5);
+		gbc_pnlRange.fill = GridBagConstraints.BOTH;
+		gbc_pnlRange.gridx = 1;
+		gbc_pnlRange.gridy = 2;
+		contentPane.add(pnlRange, gbc_pnlRange);
 		
 		
 		lblBalance = new JLabel("Saldo");
 		GridBagConstraints gbc_lblBalance = new GridBagConstraints();
-		gbc_lblBalance.insets = new Insets(0, 0, 5, 0);
+		gbc_lblBalance.insets = new Insets(0, 0, 5, 5);
 		gbc_lblBalance.gridx = 1;
-		gbc_lblBalance.gridy = 2;
+		gbc_lblBalance.gridy = 3;
 		contentPane.add(lblBalance, gbc_lblBalance);
 		
 		pnlCountdown = new PnlCountdown();
@@ -168,9 +189,9 @@ public class FrenchRoulette_v2 {
 		
 		lblBet = new JLabel("Puntata");
 		GridBagConstraints gbc_lblBet = new GridBagConstraints();
-		gbc_lblBet.insets = new Insets(0, 0, 5, 0);
+		gbc_lblBet.insets = new Insets(0, 0, 5, 5);
 		gbc_lblBet.gridx = 1;
-		gbc_lblBet.gridy = 3;
+		gbc_lblBet.gridy = 4;
 		contentPane.add(lblBet, gbc_lblBet);
 		
 		lblLastNum = new JLabel("Ultimo numero uscito : ");
@@ -179,15 +200,6 @@ public class FrenchRoulette_v2 {
 		gbc_lblLastNum.gridx = 0;
 		gbc_lblLastNum.gridy = 4;
 		contentPane.add(lblLastNum, gbc_lblLastNum);
-		
-		testBets = new JTextArea();
-		testBets.setEditable(false);
-		GridBagConstraints gbc_testBets = new GridBagConstraints();
-		gbc_testBets.insets = new Insets(0, 0, 5, 0);
-		gbc_testBets.fill = GridBagConstraints.BOTH;
-		gbc_testBets.gridx = 1;
-		gbc_testBets.gridy = 4;
-		contentPane.add(testBets, gbc_testBets);
 		
 		stateLbl = new JLabel(""+model.getState());
 		GridBagConstraints gbc_stateLbl = new GridBagConstraints();
@@ -203,6 +215,10 @@ public class FrenchRoulette_v2 {
 		pnlFiches.addActionListener(e -> this.takeFiche(e));
 		
 		pnlWheel.addActionListener(e -> this.bet(e));
+		
+		pnlRange.addActionListener(e -> this.changeRange(e));
+		
+		pnlZones.addActionListener(e -> this.betRange(e));
 
 		
 		frame.pack();
@@ -210,9 +226,34 @@ public class FrenchRoulette_v2 {
 
 	}
 
-	 void bet(ActionEvent e) {
+	 void betRange(ActionEvent e) {
+		//System.out.print(e.getActionCommand());
+		int range = model.getRange();
+		int bet = model.getSelectedFicheVal() ;
+		int betRange = bet*(range*2 +1);
+		 if((model.getBalance() - betRange) >= 0) {
+			 model.setNumberBet(e.getActionCommand(), bet);
+			 model.setRangeNumberBet(e.getActionCommand(), bet, range);
+			 model.setBet(betRange);
+			 model.substractBalance(betRange); 
+		 }else {
+			 System.out.print("Saldo insufficiente\n");
+		 }
+	}
+
+	void changeRange(ActionEvent e) {
+		int range = model.getRange();
+		
+		if(e.getActionCommand().equals("+")) {
+			model.setRange(++range);
+		}else if(e.getActionCommand().equals("-")) {
+			model.setRange(--range);
+		}
+		
+	}
+
+	void bet(ActionEvent e) {
 		 int bet = model.getSelectedFicheVal();
-		 System.out.print(e.getActionCommand());
 		 if((model.getBalance() - bet) >= 0) {
 			 model.setNumberBet(e.getActionCommand(), bet);
 			 model.setBet(bet);
@@ -259,6 +300,7 @@ public class FrenchRoulette_v2 {
 		stateLbl.setText(gameState.toString());
 		lblBalance.setText("Saldo:"+model.getBalance());
     	lblBet.setText("Puntata: "+ model.getBet());
+    	pnlRange.updateRange(model.getRange());
 		 // Disable buttons based on the game state
 	    if (gameState == RouletteGameState.BETTING) {
 	        pnlBetBoard.enableButtons(true); // Enable betting buttons

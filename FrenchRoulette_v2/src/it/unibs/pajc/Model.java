@@ -38,11 +38,13 @@ public class Model extends BaseModel{
 	
 	private int balance;
 	private int bet = 0;
+	private int range;
 	
 	public Model() {	
 		initializeWheelNumbers();
 		initializeFiches();
 		this.sortedList = sort(numberList);
+		this.range = 1;
 	}
 /*
 	private void initializeZones() {
@@ -76,8 +78,8 @@ public class Model extends BaseModel{
 	                return Integer.compare(desiredOrder.indexOf(value1), desiredOrder.indexOf(value2));
 	            }
 		});
+		//perché il metodo sort non calcola lo zero
 		sortedList.add(zero);
-		
 		
 		return sortedList;
 	}
@@ -176,11 +178,59 @@ public class Model extends BaseModel{
 		return -1;
 	}
 	
+	public void setRangeNumberBet(String inputValue, int bettedAmount, int range) {
+		int index = findIndex(inputValue);
+		
+	    List<Integer> numsToAdd = new ArrayList<>();
+	    int fixedRange = range;
+	    //aggiungo i precedenti
+
+	    for (int i = (index - 1)%37; range > 0; i--) {
+	    	if(i == -1) {
+            	i = sortedList.size()-1;
+            }
+	    	numsToAdd.add(sortedList.get(i).getValue());
+	    	System.out.print("prec agg: "+ sortedList.get(i).getValue() + "\n");
+	    	range--;
+        }
+	    //resetto range
+	    range = fixedRange;
+	    //se sforo dall'altra parte? uso il modulo altrimenti resetto l'indice
+	    
+	    //aggiungo i successivi
+	    for (int i = (index + 1)%37; i < sortedList.size() && range > 0; i++) {
+	    	numsToAdd.add(sortedList.get(i).getValue());
+	    	System.out.print("succ agg: "+ sortedList.get(i).getValue() + "\n");
+            range--;
+            if(i == sortedList.size()-1) {
+            	//-1 perché lo incrementa alla fine del ciclo
+            	i = -1;
+            }
+        }
+		
+	    for(int i : numsToAdd) {
+	    	setNumberBet(i+"",bettedAmount);
+	    }
+	    System.out.print("Fine Giro\n");
+		fireValuesChange(new ChangeEvent(this));
+	}
+	
+	private int findIndex(String inputValue) {
+		
+		for (int i = 0; i < sortedList.size(); i++) {
+			
+            if (sortedList.get(i).getValue() == Integer.parseInt(inputValue)) {
+                return i;
+            }
+        }
+		return -1;
+	}
+	
 	public void setNumberBet(String inputValue, int bettedAmount) {
 		for(WheelNumber w : numberList) {
 			if(w.getValue() == Integer.parseInt(inputValue)) {
 				w.setValue(bettedAmount);
-				System.out.print(w.getBettedValue());
+				//System.out.print(w.getBettedValue());
 			}
 		}
 		
@@ -383,5 +433,13 @@ public class Model extends BaseModel{
 		}
 		
 	}
+	public int getRange() {
+		return range;
+	}
+	public void setRange(int range) {
+		this.range = range;
+		fireValuesChange(new ChangeEvent(range));
+	}
+	
 
 }

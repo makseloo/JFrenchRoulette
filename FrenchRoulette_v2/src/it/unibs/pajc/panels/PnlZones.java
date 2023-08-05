@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 
 import it.unibs.pajc.Colors;
 import it.unibs.pajc.WheelNumber;
@@ -19,18 +20,18 @@ public class PnlZones extends PnlBase {
     private int voisex1, voisey1, voisex2, voisey2;
     private int zerx1, zery1, zerx2, zery2;
 
-    public PnlZones(List<WheelNumber> numbers) {
-        initialize(numbers);
+    public PnlZones(List<WheelNumber> numbers, int range) {
+        initialize(numbers, range);
     }
 
-    private void initialize(List<WheelNumber> numbers) {
+    private void initialize(List<WheelNumber> numbers, int range) {
 
         setLayout(null); // Set the layout to null (absolute layout)
         WheelNumber zero = new WheelNumber(0, "voisins", Colors.getGreen());
         numbers.add(zero);
         
         int buttonWidth = 50;
-        int buttonHeight = 25;
+        int buttonHeight = 16;
         int panelWidth = buttonWidth * 13;
         int panelHeight = buttonHeight * 8;
 
@@ -54,10 +55,10 @@ public class PnlZones extends PnlBase {
         // Add buttons for right section
         y = buttonHeight;
         x = buttonWidth * 12;
-        buttonHeight = 30;
+        buttonHeight = 20;
         addButtons(WheelNumber.getRight(), numbers, x, y, buttonWidth, buttonHeight,true);
 
-        buttonHeight = 25;
+        buttonHeight = 16;
         //tier line
         tierx1 = buttonWidth*2;
         tiery1 = buttonHeight;
@@ -70,21 +71,20 @@ public class PnlZones extends PnlBase {
         orhpy2 = buttonHeight*7;
 
         JButton tierBtn = createButton("TIER",Colors.getGray());
-        tierBtn.setBounds(65, 85, 72, 30);
+        tierBtn.setBounds(buttonWidth, buttonHeight*3, 72, 30);
         add(tierBtn);
         
         JButton orphBtn = createButton("ORPHELINS",Colors.getGray());
-        orphBtn.setBounds(200, 85, 105, 30);
+        orphBtn.setBounds(buttonWidth*4, buttonHeight*3, 105, 30);
         add(orphBtn);
         
         JButton voisBtn = createButton("VOISINS",Colors.getGray());
-        voisBtn.setBounds(440, 85, 85, 30);
+        voisBtn.setBounds(buttonWidth*8, buttonHeight*3, 85, 30);
         add(voisBtn);
         
         JButton zeroBtn = createButton("0",Colors.getGray());
-        zeroBtn.setBounds(550, 85, 40, 30);
+        zeroBtn.setBounds(buttonWidth*11, buttonHeight*3, 40, 30);
         add(zeroBtn);
-        
         
     }
         

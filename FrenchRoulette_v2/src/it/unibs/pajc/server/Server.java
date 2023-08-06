@@ -19,6 +19,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import it.unibs.pajc.WheelNumber;
+import it.unibs.pajc.Zone;
 import it.unibs.pajc.core.BaseModel.ClientsUpdateEvent;
 import it.unibs.pajc.core.BaseModel.GeneratedNumberEvent;
 import it.unibs.pajc.core.BaseModel.TimerExpiredEvent;
@@ -208,6 +209,9 @@ public class Server {
 			textArea.append(clientMap.get(key).getClientName()+":"+clientMap.get(key).getAccountBalance()+"\n");
 			for(WheelNumber w : client.getBetList()) {
 				textArea.append(w.getValue() + ":"+ w.getBettedValue()+"\n");
+			}
+			for(Zone z : client.getZoneBetList()) {
+				textArea.append(z.getZoneName() + ":"+ z.getBetValue()+"\n");
 			}
 		}
 		textArea.setForeground(Color.black);

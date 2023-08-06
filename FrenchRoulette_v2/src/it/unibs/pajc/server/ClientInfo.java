@@ -4,12 +4,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 import it.unibs.pajc.WheelNumber;
+import it.unibs.pajc.Zone;
 
 public class ClientInfo {
 	private String clientName;
 	private int accountId;
     private int accountBalance;
     private List<WheelNumber> betList;
+    private List<Zone> zoneBetList;
     
     public ClientInfo() {
     	
@@ -60,10 +62,18 @@ public class ClientInfo {
 
 	public void resetBetList() {
 		this.betList = new LinkedList<WheelNumber>();
+		this.zoneBetList = new LinkedList<Zone>();
+	}
+
+	public void setZoneBetList(List<Zone> betList) {
+		this.zoneBetList = new LinkedList<Zone>(betList);
+		// da fare in un metodo a parte
 		
 	}
 
-	
+	public List<Zone> getZoneBetList() {
+		return this.zoneBetList;
+	}
     
     
 }

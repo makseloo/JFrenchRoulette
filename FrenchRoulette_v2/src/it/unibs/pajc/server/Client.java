@@ -12,6 +12,7 @@ import java.util.List;
 
 import it.unibs.pajc.FrenchRoulette_v2;
 import it.unibs.pajc.WheelNumber;
+import it.unibs.pajc.Zone;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -78,7 +79,11 @@ public class Client {
 
 	 	                if(gameState.equals("SPINNING") && !betsSent) {
 	 	                	List<WheelNumber> bets = roulette.getBets();
-	 	                	BetsMessage betsMessage = new BetsMessage(bets, roulette.getTotalBet());
+	 	                	
+	 	                	List<Zone> zoneBets = roulette.getZoneBets();
+	 	                	
+	 	                	BetsMessage betsMessage = new BetsMessage(bets, roulette.getTotalBet(),zoneBets);
+	 	                	
 	 	                	oos.writeObject(betsMessage);
 	 	                    oos.flush();
 	 	                    betsSent = true;

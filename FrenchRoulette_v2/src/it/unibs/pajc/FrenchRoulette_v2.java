@@ -89,6 +89,10 @@ public class FrenchRoulette_v2 {
 				 testBets.setText("");
 				 for(WheelNumber w : getBets()) {
 					 testBets.append(w.getValue() + ":"+w.getBettedValue()+"\n");
+					 
+				 }
+				 for(Zone z : model.getZonesBets()) {
+					 testBets.append(z.getZoneName()+":"+z.getBetValue());
 				 }
 				
 			}
@@ -210,7 +214,20 @@ public class FrenchRoulette_v2 {
 
         
    				
-		pnlBetBoard.addActionListener(e -> this.bet(e));
+		pnlBetBoard.addActionListener(e -> {
+			switch (e.getActionCommand().toString()) {
+			case "1°:12":
+			case "2°:12":
+			case "3°:12":{
+				model.betDoz(e);
+				break;
+			}
+
+			default:
+				this.bet(e);
+			}
+			
+		});
 		
 		pnlFiches.addActionListener(e -> this.takeFiche(e));
 		
@@ -218,7 +235,19 @@ public class FrenchRoulette_v2 {
 		
 		pnlRange.addActionListener(e -> this.changeRange(e));
 		
-		pnlZones.addActionListener(e -> this.betRange(e));
+		pnlZones.addActionListener(e -> {
+			switch (e.getActionCommand()) {
+			case "TIER": {
+				this.betTiers();
+				break;
+			}
+			default:
+				//se non trovo nulla vuol dire che ho usato il range
+				this.betRange(e);
+			}
+			
+			
+		});
 
 		
 		frame.pack();
@@ -226,7 +255,12 @@ public class FrenchRoulette_v2 {
 
 	}
 
-	 void betRange(ActionEvent e) {
+	 private void betTiers() {
+		model.betTier();
+		
+	}
+
+	void betRange(ActionEvent e) {
 		//System.out.print(e.getActionCommand());
 		int range = model.getRange();
 		int bet = model.getSelectedFicheVal() ;
@@ -276,14 +310,6 @@ public class FrenchRoulette_v2 {
 		 return model.getBets();
 	 }
 	 
-	 
-	void dump() {
-		System.out.println("" + model.Dump());
-	}
-
-	public String getBets1() {
-		return model.Dump();
-	}
 	
 	public void updateTimer(int remainingSeconds) {
 		pnlCountdown.updateCountdown(remainingSeconds);
@@ -335,5 +361,9 @@ public class FrenchRoulette_v2 {
 
 	public int getTotalBet() {
 		return model.getBet();
+	}
+
+	public List<Zone> getZoneBets() {
+		return model.getZonesBets();
 	}
 }

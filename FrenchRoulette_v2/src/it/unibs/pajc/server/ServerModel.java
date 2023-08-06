@@ -10,6 +10,7 @@ import java.util.Queue;
 import javax.swing.event.ChangeEvent;
 
 import it.unibs.pajc.WheelNumber;
+import it.unibs.pajc.Zone;
 import it.unibs.pajc.core.BaseModel;
 public class ServerModel extends BaseModel implements ServerTimer.TimerListener {
     private static final int BETTING_TIMER_DURATION = 15; // Duration of the timer in seconds
@@ -85,13 +86,24 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
     //possibile tipo avere una tabella in cui per ogni numero ho il client e la bet puntata?
     
     private void analyzeBets() {
-    	int lastNum = serverStats.getLastNumber();
+    	
+    	WheelNumber lastNum = serverStats.getLastWheelNumber();
 		for(Integer key : connectedClients.keySet()) {
 			for(WheelNumber w : connectedClients.get(key).getBetList()) {
-				if(w.getValue() == lastNum) {
+				if(w.getValue() == lastNum.getValue()) {
 					payout(key,w.getBettedValue(), 36);
 				}
 			}
+			
+			
+			for(Zone z : connectedClients.get(key).getZoneBetList()) {
+				
+				if(z.getZoneName().equals(lastNum.getZone())) {
+					payout(key,z.getBetValue(), z.getPayout());
+				}
+			}
+			
+			
 		}
 		
 	}
@@ -150,9 +162,10 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
         return connectedClients;
     }
 
-	public void updateBets(List<WheelNumber> bets, int id, int totBet) {
+	public void updateBets(List<WheelNumber> bets, int id, int totBet, List<Zone> zones)  {
 		connectedClients.get(id).setBetList(bets);
 		connectedClients.get(id).subAccountBalance(totBet);
+		connectedClients.get(id).setZoneBetList(zones);
 		fireUpdateBet(new ChangeEvent(this));
 	}
 

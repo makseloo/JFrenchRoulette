@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 
+import it.unibs.pajc.Colors;
 import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.server.ServerTimer.TimerListener;
 
@@ -164,6 +165,13 @@ public class ServerStatistics {
     public int getLastNumber() {
     	return 3;
     	//return randomNumbers.peek();
+    }
+    
+    public WheelNumber getLastWheelNumber() {
+    	
+    	//return randomNumbers.peek();
+    	return new WheelNumber(3, "doz1", Colors.getRed());
+    	
     }
 
 	public HashMap<String, Integer> getStats(){

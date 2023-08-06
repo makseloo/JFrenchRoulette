@@ -62,6 +62,7 @@ public class PnlBetBoard extends PnlBase {
 		
 		for(int i = 1; i < 4; i++) {
 			//ci piace come soluzione?
+			dozenPnl.add(createButton(i + "°:12", Colors.getGray()));
 			List<Integer> dozenNumbers = new ArrayList<>();
 		    switch (i) {
 		        case 1:
@@ -77,7 +78,8 @@ public class PnlBetBoard extends PnlBase {
 		            // Handle the case where i is not in the range [1, 3]
 		            break;
 		    }
-		    dozenPnl.add(createTrigger(i + "°:12", Colors.getGray(), numberButtons, dozenNumbers));
+		    
+		    //dozenPnl.add(createTrigger(i + "°:12", Colors.getGray(), numberButtons, dozenNumbers));
 		}
 		this.add(dozenPnl, gbc_dozenPnl);
 		

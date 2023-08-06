@@ -35,6 +35,8 @@ public class WheelNumber implements Serializable {
 	
 	public static List<String> zones = Arrays.asList("TIER","ORPHELINS","VOISINS","ZERO");
 	
+	public static List<String> dozAndCols = Arrays.asList("doz1","doz2","doz3","col1","col2","col3");
+	
 	public static List<String> othersStat = Arrays.asList("1-18","EVEN","RED","BLACK","ODD","19-36");
 	
 	public static List<Integer> up = Arrays.asList(16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12);
@@ -206,7 +208,11 @@ public class WheelNumber implements Serializable {
 	}
 	public static void setLeft(List<Integer> left) {
 		WheelNumber.left = left;
+	}
+	public static List<String> getDozAndCols() {
+		return dozAndCols;
 	}	
+	
 	
 	
 }

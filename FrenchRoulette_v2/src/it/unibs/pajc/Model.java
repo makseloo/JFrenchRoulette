@@ -33,6 +33,7 @@ public class Model extends BaseModel{
 	//List<Integer> zero = WheelNumber.getZero(); da gestire perché zero e voisins si includono
 	//numbers displayed as on the roulette
 	List<WheelNumber> sortedList;
+	List<Zone> zones = new ArrayList<>();
 
 	private RouletteGameState gameState;
 	
@@ -43,27 +44,23 @@ public class Model extends BaseModel{
 	public Model() {	
 		initializeWheelNumbers();
 		initializeFiches();
+		initializeZones();
 		this.sortedList = sort(numberList);
 		this.range = 1;
 	}
-/*
+
 	private void initializeZones() {
-		for(String z : WheelNumber.getZones()) {
-			Zone zone = new Zone(z, WheelNumber.getSpecificZone(z));
+		for(String dc : WheelNumber.getDozAndCols()) {
+			Zone zone = new Zone(dc, WheelNumber.getSpecificZone(dc),3);
 			zones.add(zone);
 		}
 		
 		for(String o : WheelNumber.getOthersStat()) {
-			Zone zone = new Zone(o, WheelNumber.getSpecificZone(o), 2);
-			zones.add(zone);
-		}
-		
-		for(String dc : WheelNumber.getDozAndCols()) {
-			Zone zone = new Zone(dc, WheelNumber.getSpecificZone(dc), 3);
+			Zone zone = new Zone(o, WheelNumber.getSpecificZone(o),2);
 			zones.add(zone);
 		}
 	}
-*/
+
 	private List<WheelNumber> sort(List<WheelNumber> numberList) {
 		List<WheelNumber> sortedList = new ArrayList<>(numberList);
 		List<Integer> desiredOrder = WheelNumber.getNums();
@@ -149,11 +146,29 @@ public class Model extends BaseModel{
 		return bets;
 	}
 	
+	public List<Zone> getZonesBets(){
+		List<Zone> zonesBets = new ArrayList<>();
+		Zone nz = null;
+		for(Zone z : zones) {
+			if(z.getBetValue() != 0) {
+				nz = new Zone(z.getZoneName(),z.getZoneNumbers(), z.getPayout());
+				nz.setBetValue(bet);
+				zonesBets.add(nz);
+			}
+		}
+		return zonesBets;
+	}
+	
 	
 	public void resetBets() {
 		for(WheelNumber w : numberList) {
 			if(w.getBettedValue() != 0)
 				w.setBetValue(0);
+		}
+		for(Zone z : zones) {
+			if(z.getBetValue() != 0) {
+				z.setBetValue(0);
+			}
 		}
 	}
 	
@@ -190,7 +205,7 @@ public class Model extends BaseModel{
             	i = sortedList.size()-1;
             }
 	    	numsToAdd.add(sortedList.get(i).getValue());
-	    	System.out.print("prec agg: "+ sortedList.get(i).getValue() + "\n");
+	    	
 	    	range--;
         }
 	    //resetto range
@@ -200,7 +215,7 @@ public class Model extends BaseModel{
 	    //aggiungo i successivi
 	    for (int i = (index + 1)%37; i < sortedList.size() && range > 0; i++) {
 	    	numsToAdd.add(sortedList.get(i).getValue());
-	    	System.out.print("succ agg: "+ sortedList.get(i).getValue() + "\n");
+	    	
             range--;
             if(i == sortedList.size()-1) {
             	//-1 perché lo incrementa alla fine del ciclo
@@ -211,7 +226,7 @@ public class Model extends BaseModel{
 	    for(int i : numsToAdd) {
 	    	setNumberBet(i+"",bettedAmount);
 	    }
-	    System.out.print("Fine Giro\n");
+	    
 		fireValuesChange(new ChangeEvent(this));
 	}
 	
@@ -324,18 +339,19 @@ public class Model extends BaseModel{
 		if((balance - (bet))>=0) {
 			setBet(bet);
 			substractBalance(bet); 
-			String numberString = e.getActionCommand().substring(11);
-		    int number = Integer.parseInt(numberString);
-		    /*
+			char firstChar = e.getActionCommand().charAt(0);
+		    int number = Character.getNumericValue(firstChar);
+		    
 			for(Zone z : zones) {
-				if(z.getName().equals("doz"+number)) {
+				if(z.getZoneName().equals("doz"+number)) {
 					z.setBetValue(bet);
 				}
 			}
-			*/
+			
 		}else {
 			System.out.print("Model: Saldo insufficiente");
 		}
+		fireValuesChange(new ChangeEvent(this));
 	}
 
 	public void betNum(ActionEvent e) {
@@ -440,6 +456,15 @@ public class Model extends BaseModel{
 		this.range = range;
 		fireValuesChange(new ChangeEvent(range));
 	}
+	public void betTier() {
+		
+	}
+
+	public List<Zone> getZones() {
+		// TODO Auto-generated method stub
+		return this.zones;
+	}
+	
 	
 
 }

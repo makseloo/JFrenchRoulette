@@ -10,6 +10,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import it.unibs.pajc.WheelNumber;
+import it.unibs.pajc.Zone;
 import it.unibs.pajc.core.BaseModel.GeneratedNumberEvent;
 import it.unibs.pajc.core.BaseModel.UpdateBet;
 import it.unibs.pajc.core.BaseModel.UpdateState;
@@ -72,7 +73,7 @@ public class MyProtocol implements Runnable {
                 // ...
             	if (receivedObject instanceof BetsMessage) {
             		BetsMessage betsMessage = (BetsMessage) receivedObject;
-            		serverModel.updateBets(betsMessage.getBets(),clientInfo.getAccountId(), betsMessage.getTotalAmount());
+            		serverModel.updateBets(betsMessage.getBets(),clientInfo.getAccountId(), betsMessage.getTotalAmount(),betsMessage.getZones());
             	}else if(receivedObject instanceof ClientInfoMessage) {
             		ClientInfoMessage clientInfoMsg = (ClientInfoMessage) receivedObject;
             		serverModel.updateClientInfo(clientInfo.getAccountId(), clientInfoMsg.getName(), clientInfoMsg.getBalance());

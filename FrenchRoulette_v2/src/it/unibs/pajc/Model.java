@@ -376,6 +376,12 @@ public class Model extends BaseModel{
 		this.range = range;
 		fireValuesChange(new ChangeEvent(range));
 	}
+	
+	public List<Zone> getZones() {
+		// TODO Auto-generated method stub
+		return this.zones;
+	}
+	
 	public void betTier() {
 		int bet = getSelectedFicheVal();
 		double totalBet = bet*6;
@@ -391,13 +397,69 @@ public class Model extends BaseModel{
 		 }
 	}
 
-	public List<Zone> getZones() {
-		// TODO Auto-generated method stub
-		return this.zones;
+
+
+	public void betOrph() {
+		int bet = getSelectedFicheVal();
+		double totalBet = bet*5;
+		double splitBet = bet  / 2.0;
+		if((getBalance() - totalBet) >= 0) {
+			for(int i : WheelNumber.getOrphelins()) {
+				if(i == 1) {
+					setNumberBet(i, bet);
+				}else {
+					setNumberBet(i, splitBet);
+				}
+			}
+			setBet(totalBet);
+			substractBalance(totalBet); 
+		 }else {
+			 System.out.print("Saldo insufficiente");
+		 }
 	}
 
+	public void betVois() {
+		int bet = getSelectedFicheVal();
+		double totalBet = bet*9;
+		double splitBet = bet / 2.0;
+		double threedBet = (bet * 2) / 3.0;
+		double fourBet = (bet * 2) / 4.0;
+		if((getBalance() - totalBet) >= 0) {
+			for(int i : WheelNumber.getVoisins()) {
+				if(i == 0 || i == 2 || i == 3) {
+					setNumberBet(i, threedBet);
+				}else if(i == 25 || i == 26 || i == 28 || i == 29){
+					setNumberBet(i, fourBet);
+				}else {
+					setNumberBet(i, splitBet);
+				}
+			}
+			setBet(totalBet);
+			substractBalance(totalBet); 
+		 }else {
+			 System.out.print("Saldo insufficiente");
+		 }
+		
+	}
 
-	
-	
+	public void betZero() {
+		int bet = getSelectedFicheVal();
+		double totalBet = bet*4;
+		double splitBet = bet  / 2.0;
+		if((getBalance() - totalBet) >= 0) {
+			for(int i : WheelNumber.getZero()) {
+				if(i == 26) {
+					setNumberBet(i, bet);
+				}else {
+					setNumberBet(i, splitBet);
+				}
+			}
+			setBet(totalBet);
+			substractBalance(totalBet); 
+		 }else {
+			 System.out.print("Saldo insufficiente");
+		 }
+		
+	}
 
 }

@@ -85,7 +85,7 @@ public class PnlZones extends PnlBase {
         voisBtn.setBounds(buttonWidth*8, buttonHeight*3, 85, 30);
         add(voisBtn);
         
-        JButton zeroBtn = createButton("0",Colors.getGray());
+        JButton zeroBtn = createButton("Z",Colors.getGray());
         zeroBtn.setBounds(buttonWidth*11, buttonHeight*3, 40, 30);
         add(zeroBtn);
         

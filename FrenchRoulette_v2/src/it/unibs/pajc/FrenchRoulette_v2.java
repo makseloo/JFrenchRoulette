@@ -236,6 +236,18 @@ public class FrenchRoulette_v2 {
 				this.betTiers();
 				break;
 			}
+			case "ORPHELINS":{
+				model.betOrph();
+				break;
+			}
+			case "VOISINS":{
+				model.betVois();
+				break;
+			}
+			case "Z":{
+				model.betZero();
+				break;
+			}
 			default:
 				//se non trovo nulla vuol dire che ho usato il range
 				this.betRange(e);

@@ -27,7 +27,10 @@ public class PnlZones extends PnlBase {
     private void initialize(List<WheelNumber> numbers, int range) {
 
         setLayout(null); // Set the layout to null (absolute layout)
-        WheelNumber zero = new WheelNumber(0, "voisins", Colors.getGreen());
+        List<String> zeroZone = new ArrayList<>();
+		zeroZone.add("voisins");
+		
+		WheelNumber zero = new WheelNumber(0, zeroZone, Colors.getGreen());
         numbers.add(zero);
         
         int buttonWidth = 50;

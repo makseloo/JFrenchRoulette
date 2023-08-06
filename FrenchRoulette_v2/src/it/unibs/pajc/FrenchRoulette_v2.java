@@ -92,7 +92,7 @@ public class FrenchRoulette_v2 {
 					 
 				 }
 				 for(Zone z : model.getZonesBets()) {
-					 testBets.append(z.getZoneName()+":"+z.getBetValue());
+					 testBets.append(z.getZoneName()+":"+z.getBetValue()+"\n");
 				 }
 				
 			}
@@ -215,17 +215,14 @@ public class FrenchRoulette_v2 {
         
    				
 		pnlBetBoard.addActionListener(e -> {
-			switch (e.getActionCommand().toString()) {
-			case "1°:12":
-			case "2°:12":
-			case "3°:12":{
-				model.betDoz(e);
-				break;
+			String command = e.getActionCommand().toString();
+			if (command.matches("^\\d+$")) {
+
+				this.bet(e);
+			} else {
+				model.betDoz(command);
 			}
 
-			default:
-				this.bet(e);
-			}
 			
 		});
 		
@@ -262,11 +259,12 @@ public class FrenchRoulette_v2 {
 
 	void betRange(ActionEvent e) {
 		//System.out.print(e.getActionCommand());
+		int value = Integer.parseInt(e.getActionCommand());
 		int range = model.getRange();
 		int bet = model.getSelectedFicheVal() ;
 		int betRange = bet*(range*2 +1);
 		 if((model.getBalance() - betRange) >= 0) {
-			 model.setNumberBet(e.getActionCommand(), bet);
+			 model.setNumberBet(value, bet);
 			 model.setRangeNumberBet(e.getActionCommand(), bet, range);
 			 model.setBet(betRange);
 			 model.substractBalance(betRange); 
@@ -287,9 +285,10 @@ public class FrenchRoulette_v2 {
 	}
 
 	void bet(ActionEvent e) {
-		 int bet = model.getSelectedFicheVal();
-		 if((model.getBalance() - bet) >= 0) {
-			 model.setNumberBet(e.getActionCommand(), bet);
+		int value = Integer.parseInt(e.getActionCommand());
+		int bet = model.getSelectedFicheVal();
+		if((model.getBalance() - bet) >= 0) {
+			 model.setNumberBet(value, bet);
 			 model.setBet(bet);
 			 model.substractBalance(bet); 
 		 }else {

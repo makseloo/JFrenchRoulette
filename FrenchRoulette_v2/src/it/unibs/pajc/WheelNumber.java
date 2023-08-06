@@ -35,7 +35,7 @@ public class WheelNumber implements Serializable {
 	
 	public static List<String> zones = Arrays.asList("TIER","ORPHELINS","VOISINS","ZERO");
 	
-	public static List<String> dozAndCols = Arrays.asList("doz1","doz2","doz3","col1","col2","col3");
+	public static List<String> dozAndCols = Arrays.asList("1°:12","2°:12","3°:12","1° row","2° row","3° row");
 	
 	public static List<String> othersStat = Arrays.asList("1-18","EVEN","RED","BLACK","ODD","19-36");
 	
@@ -45,18 +45,18 @@ public class WheelNumber implements Serializable {
 	public static List<Integer> left = Arrays.asList(24, 5, 10, 23, 8, 30);
 	
 	private int value;
-	private String zone;
+	private List<String> zone;
 	private Color color;
 	private int betValue;
 	
-	public WheelNumber(int value, String zone, Color color) {
+	public WheelNumber(int value, List<String> zone, Color color) {
 		this.value = value;
 		this.zone = zone;
 		this.color = color;
 		this.betValue = 0;
 	}
 	//quando devo aggiungere una puntata
-	public WheelNumber(int value, String zone, Color color, int betValue) {
+	public WheelNumber(int value, List<String> zone, Color color, int betValue) {
 		this.value = value;
 		this.zone = zone;
 		this.color = color;
@@ -162,7 +162,7 @@ public class WheelNumber implements Serializable {
 		return odd;
 	}
 
-	public String getZone() {
+	public List<String> getZone() {
 		return zone;
 	}
 

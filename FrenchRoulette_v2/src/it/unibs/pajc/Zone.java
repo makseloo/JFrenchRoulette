@@ -15,6 +15,7 @@ public class Zone implements Serializable{
 		super();
 		this.zoneName = zoneName;
 		this.zoneNumbers = zoneNumbers;
+		this.betValue = 0;
 	}
 	
 
@@ -23,6 +24,7 @@ public class Zone implements Serializable{
 		this.zoneName = zoneName;
 		this.zoneNumbers = zoneNumbers;
 		this.payout = payout;
+		this.betValue = 0;
 	}
 
 
@@ -58,7 +60,11 @@ public class Zone implements Serializable{
 
 
 	public void setBetValue(int betValue) {
-		this.betValue = betValue;
+		this.betValue += betValue;
+	}
+	
+	public void resetBetValue() {
+		this.betValue = 0;
 	}
 
 	

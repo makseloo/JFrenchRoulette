@@ -64,7 +64,10 @@ public class Model extends BaseModel{
 	private List<WheelNumber> sort(List<WheelNumber> numberList) {
 		List<WheelNumber> sortedList = new ArrayList<>(numberList);
 		List<Integer> desiredOrder = WheelNumber.getNums();
-		WheelNumber zero = new WheelNumber(0, "voisins", Colors.getGreen());
+		List<String> zeroZone = new ArrayList<>();
+		zeroZone.add("voisins");
+		
+		WheelNumber zero = new WheelNumber(0, zeroZone, Colors.getGreen());
 
 		
 		Collections.sort(sortedList, new Comparator<WheelNumber>() {
@@ -85,7 +88,8 @@ public class Model extends BaseModel{
 
 		int result;
 		Color color;
-		String zone;
+		List<String> zones = new ArrayList<>();
+		
 		 for (int row = 3; row > 0; row--) {
 	            for (int column = 0; column < 36; column += 3) {
 	            	result = row + column;
@@ -96,14 +100,14 @@ public class Model extends BaseModel{
 	            		color =  new Colors().getRed();
 	            	
 	            	if(tier.contains(result)) {
-	            		zone = "tier";
+	            		zones.add("tier");
 	            	}else if(orphelins.contains(result)) {
-	            		zone = "orphelins";
+	            		zones.add("orphelins");
 	            	}else {
-	            		zone = "voisins";
+	            		zones.add("voisins");
 	            	}
 	            	
-	            	WheelNumber number = new WheelNumber(result, zone, color);
+	            	WheelNumber number = new WheelNumber(result, zones, color);
 	            	numberList.add(number);
 	                
 	            }
@@ -152,7 +156,7 @@ public class Model extends BaseModel{
 		for(Zone z : zones) {
 			if(z.getBetValue() != 0) {
 				nz = new Zone(z.getZoneName(),z.getZoneNumbers(), z.getPayout());
-				nz.setBetValue(bet);
+				nz.setBetValue(z.getBetValue());
 				zonesBets.add(nz);
 			}
 		}
@@ -167,7 +171,7 @@ public class Model extends BaseModel{
 		}
 		for(Zone z : zones) {
 			if(z.getBetValue() != 0) {
-				z.setBetValue(0);
+				z.resetBetValue();
 			}
 		}
 	}
@@ -224,7 +228,7 @@ public class Model extends BaseModel{
         }
 		
 	    for(int i : numsToAdd) {
-	    	setNumberBet(i+"",bettedAmount);
+	    	setNumberBet(i,bettedAmount);
 	    }
 	    
 		fireValuesChange(new ChangeEvent(this));
@@ -241,9 +245,9 @@ public class Model extends BaseModel{
 		return -1;
 	}
 	
-	public void setNumberBet(String inputValue, int bettedAmount) {
+	public void setNumberBet(int inputValue, int bettedAmount) {
 		for(WheelNumber w : numberList) {
-			if(w.getValue() == Integer.parseInt(inputValue)) {
+			if(w.getValue() == inputValue) {
 				w.setValue(bettedAmount);
 				//System.out.print(w.getBettedValue());
 			}
@@ -332,18 +336,15 @@ public class Model extends BaseModel{
 	public void resetBet() {
 		this.bet = 0;
 	}
-//mi sa che action event qui è cannato
-	public void betDoz(ActionEvent e) {
+	public void betDoz(String zone) {
 		int bet = getSelectedFicheVal();
-		System.out.print(e.getActionCommand());
 		if((balance - (bet))>=0) {
 			setBet(bet);
 			substractBalance(bet); 
-			char firstChar = e.getActionCommand().charAt(0);
-		    int number = Character.getNumericValue(firstChar);
+			
 		    
 			for(Zone z : zones) {
-				if(z.getZoneName().equals("doz"+number)) {
+				if(z.getZoneName().equals(zone)) {
 					z.setBetValue(bet);
 				}
 			}
@@ -353,11 +354,13 @@ public class Model extends BaseModel{
 		}
 		fireValuesChange(new ChangeEvent(this));
 	}
+	
 
 	public void betNum(ActionEvent e) {
+		int value = Integer.parseInt(e.getActionCommand());
 		int bet = getSelectedFicheVal();
 		 if((getBalance() - bet) >= 0) {
-			 setNumberBet(e.getActionCommand(), bet);
+			 setNumberBet(value, bet);
 			 setBet(bet);
 			 substractBalance(bet); 
 		 }else {
@@ -464,6 +467,8 @@ public class Model extends BaseModel{
 		// TODO Auto-generated method stub
 		return this.zones;
 	}
+
+
 	
 	
 

@@ -170,7 +170,13 @@ public class ServerStatistics {
     public WheelNumber getLastWheelNumber() {
     	
     	//return randomNumbers.peek();
-    	return new WheelNumber(3, "doz1", Colors.getRed());
+    	List<String> zones = new ArrayList<>();
+    	zones.add("1°:12");
+    	zones.add("1° row");
+    	zones.add("ODD");
+    	zones.add("1-18");
+    	zones.add("RED");
+    	return new WheelNumber(3, zones, Colors.getRed());
     	
     }
 

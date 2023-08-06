@@ -98,9 +98,13 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 			
 			for(Zone z : connectedClients.get(key).getZoneBetList()) {
 				
-				if(z.getZoneName().equals(lastNum.getZone())) {
-					payout(key,z.getBetValue(), z.getPayout());
+				List<String> zone = lastNum.getZone();
+				for(String s : zone) {
+					if(z.getZoneName().equals(s)) {
+						payout(key,z.getBetValue(), z.getPayout());
+					}
 				}
+				
 			}
 			
 			

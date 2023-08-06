@@ -63,23 +63,6 @@ public class PnlBetBoard extends PnlBase {
 		for(int i = 1; i < 4; i++) {
 			//ci piace come soluzione?
 			dozenPnl.add(createButton(i + "°:12", Colors.getGray()));
-			List<Integer> dozenNumbers = new ArrayList<>();
-		    switch (i) {
-		        case 1:
-		            dozenNumbers = WheelNumber.getDozen1();
-		            break;
-		        case 2:
-		            dozenNumbers = WheelNumber.getDozen2();
-		            break;
-		        case 3:
-		            dozenNumbers = WheelNumber.getDozen3();
-		            break;
-		        default:
-		            // Handle the case where i is not in the range [1, 3]
-		            break;
-		    }
-		    
-		    //dozenPnl.add(createTrigger(i + "°:12", Colors.getGray(), numberButtons, dozenNumbers));
 		}
 		this.add(dozenPnl, gbc_dozenPnl);
 		
@@ -90,22 +73,7 @@ public class PnlBetBoard extends PnlBase {
 		gbc_rowPnl.gridy = 0;
 		
 		for(int i = 1; i < 4; i++) {
-			List<Integer> colNumbers = new ArrayList<>();
-		    switch (i) {
-		        case 3:
-		        	colNumbers = WheelNumber.getCol1();
-		            break;
-		        case 2:
-		        	colNumbers = WheelNumber.getCol2();
-		            break;
-		        case 1:
-		        	colNumbers = WheelNumber.getCol3();
-		            break;
-		        default:
-		            // Handle the case where i is not in the range [1, 3]
-		            break;
-		    }
-		    rowPnl.add(createTrigger(i + "° row", Colors.getGray(), numberButtons, colNumbers));
+			rowPnl.add(createButton(i + "° row", Colors.getGray()));
 		}
 		this.add(rowPnl, gbc_rowPnl);
 		
@@ -117,31 +85,7 @@ public class PnlBetBoard extends PnlBase {
 		gbc_othersPnl.fill = GridBagConstraints.HORIZONTAL;
 		
 		for(String s : otherStats) {
-			List<Integer> otherNumbers = new ArrayList<>();
-		    switch (s) {
-		        case "1-18":
-		        	otherNumbers = WheelNumber.getEight();
-		            break;
-		        case "19-36":
-		        	otherNumbers = WheelNumber.getSix();
-		            break;
-		        case "EVEN":
-		        	otherNumbers = WheelNumber.getEven();
-		            break;
-		        case "ODD":
-		        	otherNumbers = WheelNumber.getOdd();
-		            break;
-		        case "BLACK":
-		        	otherNumbers = WheelNumber.getBlackNums();
-		            break;
-		        case "RED":
-		        	otherNumbers = WheelNumber.getRedNums();
-		            break;
-		        default:
-		            // Handle the case where i is not in the range [1, 3]
-		            break;
-		    }
-			othersPnl.add(createTrigger(s, Colors.getGray(),numberButtons,otherNumbers));
+			othersPnl.add(createButton(s, Colors.getGray()));
 		}
 		this.add(othersPnl, gbc_othersPnl);
 	}

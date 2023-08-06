@@ -37,8 +37,8 @@ public class Model extends BaseModel{
 
 	private RouletteGameState gameState;
 	
-	private int balance;
-	private int bet = 0;
+	private double balance;
+	private double bet = 0;
 	private int range;
 	
 	public Model() {	
@@ -245,7 +245,7 @@ public class Model extends BaseModel{
 		return -1;
 	}
 	
-	public void setNumberBet(int inputValue, int bettedAmount) {
+	public void setNumberBet(int inputValue, double bettedAmount) {
 		for(WheelNumber w : numberList) {
 			if(w.getValue() == inputValue) {
 				w.setValue(bettedAmount);
@@ -311,25 +311,25 @@ public class Model extends BaseModel{
 		return coloredStats;
 	}
 
-	public int getBalance() {
+	public double getBalance() {
 		return balance;
 	}
 
-	public void setBalance(int balance) {
+	public void setBalance(double balance) {
 		this.balance = balance;
 		fireValuesChange(new ChangeEvent(this));
 	}
 	
-	public void substractBalance(int balance) {
+	public void substractBalance(double balance) {
 		this.balance -= balance;
 		fireValuesChange(new ChangeEvent(this));
 	}
 	
-	public int getBet() {
+	public double getBet() {
 		return bet;
 	}
 	
-	public void setBet(int bet) {
+	public void setBet(double bet) {
 		this.bet += bet;
 	}
 	
@@ -369,89 +369,6 @@ public class Model extends BaseModel{
 		
 	}
 
-	
-	public void betCol(ActionEvent e) {
-		int bet = getSelectedFicheVal();
-		int bet12 = bet * 12;
-		System.out.print(e.getActionCommand());
-		if((balance - (bet12))>=0) {
-			setBet(bet12);
-			substractBalance(bet12); 
-			for(WheelNumber w : numberList) {
-				switch (e.getActionCommand().toString()){
-				case "Trigger col1": {
-	
-					if(WheelNumber.getCol3().contains(w.getValue())) {
-						w.setValue(bet);
-					}
-					break;
-				}
-				case "Trigger col2": {
-					
-					if(WheelNumber.getCol2().contains(w.getValue())) {
-						w.setValue(bet);
-					}
-					break;
-				}
-				case "Trigger col3": {
-					
-					if(WheelNumber.getCol1().contains(w.getValue())) {
-						w.setValue(bet);
-					}
-					break;
-				}
-				default:
-					throw new IllegalArgumentException("Unexpected value: " + e.getActionCommand());
-				}
-				
-			}
-			
-		}else {
-			System.out.print("Model: Saldo insufficiente");
-		}
-	}
-
-	public void betOther(ActionEvent e) {
-		int bet = getSelectedFicheVal();
-		int bet18 = bet * 18;
-		System.out.print(e.getActionCommand());
-		if((balance - (bet))>=0) {
-			setBet(bet18);
-			substractBalance(bet18); 
-			for(WheelNumber w : numberList) {
-				switch (e.getActionCommand().toString()){
-				case "Trigger col1": {
-	
-					if(WheelNumber.getCol3().contains(w.getValue())) {
-						w.setValue(bet);
-					}
-					break;
-				}
-				case "Trigger col2": {
-					
-					if(WheelNumber.getCol2().contains(w.getValue())) {
-						w.setValue(bet);
-					}
-					break;
-				}
-				case "Trigger col3": {
-					
-					if(WheelNumber.getCol1().contains(w.getValue())) {
-						w.setValue(bet);
-					}
-					break;
-				}
-				default:
-					throw new IllegalArgumentException("Unexpected value: " + e.getActionCommand());
-				}
-				
-			}
-			
-		}else {
-			System.out.print("Model: Saldo insufficiente");
-		}
-		
-	}
 	public int getRange() {
 		return range;
 	}
@@ -460,7 +377,18 @@ public class Model extends BaseModel{
 		fireValuesChange(new ChangeEvent(range));
 	}
 	public void betTier() {
-		
+		int bet = getSelectedFicheVal();
+		double totalBet = bet*6;
+		double splitBet = bet  / 2.0;
+		if((getBalance() - totalBet) >= 0) {
+			for(int i : WheelNumber.getTier()) {
+				setNumberBet(i, splitBet);
+			}
+			setBet(totalBet);
+			substractBalance(totalBet); 
+		 }else {
+			 System.out.print("Saldo insufficiente");
+		 }
 	}
 
 	public List<Zone> getZones() {

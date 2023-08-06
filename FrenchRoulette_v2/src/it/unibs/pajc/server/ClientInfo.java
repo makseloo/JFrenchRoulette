@@ -9,7 +9,7 @@ import it.unibs.pajc.Zone;
 public class ClientInfo {
 	private String clientName;
 	private int accountId;
-    private int accountBalance;
+    private double accountBalance;
     private List<WheelNumber> betList;
     private List<Zone> zoneBetList;
     
@@ -17,7 +17,7 @@ public class ClientInfo {
     	
     }
     
-	public ClientInfo(String clientName, int accountId, int accountBalance) {
+	public ClientInfo(String clientName, int accountId, double accountBalance) {
 		super();
 		this.clientName = clientName;
 		this.accountId = accountId;
@@ -35,14 +35,14 @@ public class ClientInfo {
 	public void setAccountId(int accountId) {
 		this.accountId = accountId;
 	}
-	public int getAccountBalance() {
+	public double getAccountBalance() {
 		return accountBalance;
 	}
-	public void setAccountBalance(int accountBalance) {
+	public void setAccountBalance(double accountBalance) {
 		this.accountBalance = accountBalance;
 	}
 
-	public void addAccountBalance(int accountBalance) {
+	public void addAccountBalance(double accountBalance) {
 		this.accountBalance += accountBalance;
 	}
 	
@@ -56,7 +56,7 @@ public class ClientInfo {
 		
 	}
 	
-	public void subAccountBalance(int totBet) {
+	public void subAccountBalance(double totBet) {
 		this.accountBalance -= totBet;
 	}
 

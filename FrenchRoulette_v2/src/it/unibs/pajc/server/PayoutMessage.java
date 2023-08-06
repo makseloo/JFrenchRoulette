@@ -3,18 +3,18 @@ package it.unibs.pajc.server;
 import java.io.Serializable;
 
 public class PayoutMessage implements Serializable {
-	private int newBalance;
+	private double newBalance;
 
-	public PayoutMessage(int newBalance) {
+	public PayoutMessage(double newBalance) {
 		super();
 		this.newBalance = newBalance;
 	}
 
-	public int getNewBalance() {
+	public double getNewBalance() {
 		return newBalance;
 	}
 
-	public void setNewBalance(int newBalance) {
+	public void setNewBalance(double newBalance) {
 		this.newBalance = newBalance;
 	}
 	

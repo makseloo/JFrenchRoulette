@@ -217,12 +217,10 @@ public class FrenchRoulette_v2 {
 		pnlBetBoard.addActionListener(e -> {
 			String command = e.getActionCommand().toString();
 			if (command.matches("^\\d+$")) {
-
 				this.bet(e);
 			} else {
 				model.betDoz(command);
 			}
-
 			
 		});
 		
@@ -354,11 +352,11 @@ public class FrenchRoulette_v2 {
 		pnlStatitics.updateStats(stats);
 	}
 	
-	public void setBalance(int balance) {
+	public void setBalance(double balance) {
 		model.setBalance(balance);
 	}
 
-	public int getTotalBet() {
+	public double getTotalBet() {
 		return model.getBet();
 	}
 

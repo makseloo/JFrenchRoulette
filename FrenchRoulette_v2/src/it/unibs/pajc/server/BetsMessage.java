@@ -8,10 +8,10 @@ import it.unibs.pajc.Zone;
 public class BetsMessage implements Message{
 	private List<WheelNumber> bets;
 	private List<Zone> zones;
-	private int totalAmount;
+	private double totalAmount;
 	
 
-	public BetsMessage(List<WheelNumber> bets, int totalAmount) {
+	public BetsMessage(List<WheelNumber> bets, double totalAmount) {
 		super();
 		this.bets = new LinkedList<WheelNumber>(bets);
 		this.totalAmount = totalAmount;
@@ -19,7 +19,7 @@ public class BetsMessage implements Message{
 
 	
 	
-	public BetsMessage(List<WheelNumber> bets, int totalAmount, List<Zone> zones) {
+	public BetsMessage(List<WheelNumber> bets, double totalAmount, List<Zone> zones) {
 		super();
 		this.bets = bets;
 		this.zones = zones;
@@ -36,11 +36,11 @@ public class BetsMessage implements Message{
 		this.bets = bets;
 	}
 
-	public int getTotalAmount() {
+	public double getTotalAmount() {
 		return totalAmount;
 	}
 
-	public void setTotalAmount(int totalAmount) {
+	public void setTotalAmount(double totalAmount) {
 		this.totalAmount = totalAmount;
 	}
 

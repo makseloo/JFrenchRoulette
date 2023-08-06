@@ -121,7 +121,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 		
 	}
 
-	private void payout(Integer key, int bet, int multiplier) {
+	private void payout(Integer key, double bet, int multiplier) {
 		connectedClients.get(key).addAccountBalance(bet*multiplier);
 		//fire something
 		
@@ -166,7 +166,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
         return connectedClients;
     }
 
-	public void updateBets(List<WheelNumber> bets, int id, int totBet, List<Zone> zones)  {
+	public void updateBets(List<WheelNumber> bets, int id, double totBet, List<Zone> zones)  {
 		connectedClients.get(id).setBetList(bets);
 		connectedClients.get(id).subAccountBalance(totBet);
 		connectedClients.get(id).setZoneBetList(zones);
@@ -178,7 +178,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 		connectedClients.get(id).setAccountBalance(balance);
 	}
 
-	public int getPayout(int id) {
+	public double getPayout(int id) {
 		
 		return connectedClients.get(id).getAccountBalance();
 	}

@@ -3,19 +3,13 @@ package it.unibs.pajc.core;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import java.awt.Component;
 
@@ -65,7 +59,6 @@ public class PnlBase extends JPanel {
 
 		return btn;
 	}
-	
 	
 	public JButton createTrigger(String symbol, Color color, List<JButton> btnsToTrigger, List<Integer> btnNum) {
 		JButton triggerBtn = new JButton(symbol);

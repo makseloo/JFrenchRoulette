@@ -263,7 +263,6 @@ public class Model extends BaseModel{
 				f.setSelected(true);
 				
 		}
-		fireValuesChange(new ChangeEvent(this));
 	}
 	
 	private void deactivateFiches() {

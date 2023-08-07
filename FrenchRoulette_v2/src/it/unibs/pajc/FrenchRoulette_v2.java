@@ -304,7 +304,6 @@ public class FrenchRoulette_v2 {
 		 double ficheTaken;
 		 ficheTaken = Double.parseDouble(ficheString);
 		 model.selectFiche(ficheTaken);
-		 
 	 }
 	 
 	 public List<WheelNumber> getBets() {
@@ -328,7 +327,6 @@ public class FrenchRoulette_v2 {
 		lblBalance.setText("Saldo:"+model.getBalance());
     	lblBet.setText("Puntata: "+ model.getBet());
     	pnlRange.updateRange(model.getRange());
-    	pnlFiches.glowFiche(model.getSelectedFicheVal());
 		 // Disable buttons based on the game state
 	    if (gameState == RouletteGameState.BETTING) {
 	        pnlBetBoard.enableButtons(true); // Enable betting buttons

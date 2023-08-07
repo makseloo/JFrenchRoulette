@@ -89,12 +89,7 @@ public class Client {
 	 	                    betsSent = true;
 	 	                }
 
-	                 } else if (receivedObject instanceof StatsMessage) {
-	                     StatsMessage statsMessage = (StatsMessage) receivedObject;
-	                     roulette.updateLast500(statsMessage.getNumbers());
-	                     roulette.updateStats(statsMessage.getStats());
-	                     
-	                 } else if(receivedObject instanceof PayoutMessage){
+	                 }else if(receivedObject instanceof PayoutMessage){
 	                	 PayoutMessage payoutMessage = (PayoutMessage) receivedObject;
 	                	 roulette.setBalance(payoutMessage.getNewBalance());
 	                 }

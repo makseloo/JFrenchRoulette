@@ -126,26 +126,7 @@ public class MyProtocol implements Runnable {
     }
     
     private void sendStats() {
-    	if(!isConnected)
-    		return;
-    	try {
-    		StatsMessage statsMessage = new StatsMessage(serverModel.getNumbers(), serverModel.getStats());
-    		oos.writeObject(statsMessage);
-            oos.flush();	
-            
-    	}catch (SocketException e) {
-    		isConnected = false;
-    		try {
-            	serverModel.removeClient(clientInfo);
-                clientSocket.close();
-                serverModel.removeClient(null);
-                isConnected = false;
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-		} catch (IOException e) {
-            e.printStackTrace();
-        }
+
         
     }
     

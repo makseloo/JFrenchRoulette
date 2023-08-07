@@ -4,7 +4,6 @@ import java.awt.EventQueue;
 import it.unibs.pajc.panels.PnlBetBoard;
 import it.unibs.pajc.panels.PnlFiches;
 import it.unibs.pajc.panels.PnlRange;
-import it.unibs.pajc.panels.PnlStatitics;
 import it.unibs.pajc.panels.PnlWheel;
 
 import java.awt.GridBagConstraints;
@@ -37,7 +36,6 @@ public class FrenchRoulette_v2 {
 	private Model model;
 	private PnlBetBoard pnlBetBoard;
 	private PnlFiches pnlFiches;
-	private PnlStatitics pnlStatitics;
 	private PnlRange pnlRange;
 	private PnlZones pnlZones;
 	
@@ -124,13 +122,6 @@ public class FrenchRoulette_v2 {
 		gbc_pnlWheel.gridy = 0;
 		contentPane.add(pnlWheel, gbc_pnlWheel);
 		
-		pnlStatitics = new PnlStatitics();
-		GridBagConstraints gbc_pnlStatitics = new GridBagConstraints();
-		gbc_pnlStatitics.insets = new Insets(0, 0, 5, 5);
-		gbc_pnlStatitics.fill = GridBagConstraints.BOTH;
-		gbc_pnlStatitics.gridx = 1;
-		gbc_pnlStatitics.gridy = 0;
-		contentPane.add(pnlStatitics, gbc_pnlStatitics);
 		
 		testBets = new JTextArea();
 		testBets.setEditable(false);
@@ -358,12 +349,11 @@ public class FrenchRoulette_v2 {
 		
 		List<WheelNumber>coloredStats =  model.turnIntoColor(last500);
 		lblLastNum.setText("Ultimo numero uscito: "+ coloredStats.get(coloredStats.size()-1).getValue());
-		pnlStatitics.updateLast500(coloredStats);
-		
+
 	}
 
 	public void updateStats(Map<String, Integer> stats) {
-		pnlStatitics.updateStats(stats);
+		
 	}
 	
 	public void setBalance(double balance) {

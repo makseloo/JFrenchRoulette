@@ -7,29 +7,39 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
+import it.unibs.pajc.WheelNumber;
+
 
 public class StatsMessage implements Serializable {
-	private Queue<Integer> numbers;
+	private Queue<WheelNumber> numbers;
 	private Map<String, Integer> stats;
 	
-	public StatsMessage(Queue<Integer> numbers, Map<String, Integer> stats) {
+
+	
+	public StatsMessage(Queue<WheelNumber> numbers) {
+		super();
+		this.numbers = new LinkedList<>(numbers);
+	}
+	
+	//in case you want to send the % of the different zones
+	public StatsMessage(Queue<WheelNumber> numbers, Map<String, Integer> stats) {
 		super();
 		this.numbers = new LinkedList<>(numbers);
 		this.stats = new  HashMap<>(stats);
 	}
 	
-	public Queue<Integer> getNumbers() {
+	public Queue<WheelNumber> getNumbers() {
 		return this.numbers;
 	}
 
-	public void setNumbers(Queue<Integer> numbersRec) {
+	public void setNumbers(Queue<WheelNumber> numbersRec) {
 		System.out.print("Received: \n");
-		for(int i : numbersRec) {
+		for(WheelNumber i : numbersRec) {
 			System.out.print(i+",");
 		}
 		this.numbers = numbersRec;
 		System.out.print("\nSent: \n");
-		for(int j : numbers) {
+		for(WheelNumber j : numbers) {
 			System.out.print(j+",");
 		}
 	}
@@ -41,4 +51,5 @@ public class StatsMessage implements Serializable {
 	public void setStats(Map<String, Integer> stats) {
 		this.stats = stats;
 	}
+	
 }

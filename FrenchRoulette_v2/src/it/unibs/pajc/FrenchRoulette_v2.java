@@ -27,6 +27,7 @@ import it.unibs.pajc.server.RouletteGameState;
 
 import javax.swing.JTextArea;
 import it.unibs.pajc.panels.PnlZones;
+import it.unibs.pajc.panels.PnlInfos;
 
 public class FrenchRoulette_v2 {
 
@@ -51,6 +52,7 @@ public class FrenchRoulette_v2 {
 	private JLabel stateLbl;
 	private PnlWheel pnlWheel;
 	private JLabel lblLastNum;
+	private PnlInfos pnlInfos;
 	/**
 	 * Launch the application.
 	 */
@@ -120,6 +122,14 @@ public class FrenchRoulette_v2 {
 		gbc_pnlWheel.gridx = 0;
 		gbc_pnlWheel.gridy = 0;
 		contentPane.add(pnlWheel, gbc_pnlWheel);
+		
+		pnlInfos = new PnlInfos();
+		GridBagConstraints gbc_pnlInfos = new GridBagConstraints();
+		gbc_pnlInfos.insets = new Insets(0, 0, 5, 5);
+		gbc_pnlInfos.fill = GridBagConstraints.BOTH;
+		gbc_pnlInfos.gridx = 1;
+		gbc_pnlInfos.gridy = 0;
+		contentPane.add(pnlInfos, gbc_pnlInfos);
 		
 		
 		testBets = new JTextArea();
@@ -311,6 +321,7 @@ public class FrenchRoulette_v2 {
 	 
 	
 	public void updateTimer(int remainingSeconds) {
+		pnlInfos.updateCountdown(remainingSeconds);
 		pnlCountdown.updateCountdown(remainingSeconds);
 	}
 
@@ -322,6 +333,7 @@ public class FrenchRoulette_v2 {
 	private void updateView() {
 		//model.setBet(0) non credo vada qui
 		RouletteGameState gameState = model.getState();
+		pnlInfos.updateState(gameState.toString());
 		stateLbl.setText(gameState.toString());
 		lblBalance.setText("Saldo:"+model.getBalance());
     	lblBet.setText("Puntata: "+ model.getBet());
@@ -349,8 +361,8 @@ public class FrenchRoulette_v2 {
 
 	}
 
-	public void updateStats(Map<String, Integer> stats) {
-		
+	public void updateStats(Queue<WheelNumber> stats) {
+		pnlInfos.updateStats(stats);
 	}
 	
 	public void setBalance(double balance) {

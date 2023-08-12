@@ -24,7 +24,8 @@ public class MyProtocol implements Runnable {
     private boolean isConnected;
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
-
+    private Queue<WheelNumber> stats;
+    
     public MyProtocol(Socket clientSocket, ClientInfo clientInfo, ServerModel serverModel) {
         this.clientSocket = clientSocket;
         this.clientInfo = clientInfo;
@@ -126,7 +127,17 @@ public class MyProtocol implements Runnable {
     }
     
     private void sendStats() {
-
+    	this.stats = serverModel.getStats();
+    	StatsMessage statsMessage = new StatsMessage(stats);
+    	try {
+			oos.writeObject(statsMessage);
+			oos.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.print("Error in stats message: \n"); 
+			e.printStackTrace();
+		}
+        
         
     }
     

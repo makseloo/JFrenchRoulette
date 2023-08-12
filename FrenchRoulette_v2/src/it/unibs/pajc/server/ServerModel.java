@@ -13,7 +13,7 @@ import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.Zone;
 import it.unibs.pajc.core.BaseModel;
 public class ServerModel extends BaseModel implements ServerTimer.TimerListener {
-    private static final int BETTING_TIMER_DURATION = 15; // Duration of the timer in seconds
+    private static final int BETTING_TIMER_DURATION = 5; // Duration of the timer in seconds
     private static final int SPIN_TIMER_DURATION = 5; // the time the ball needs to spin around the wheel
     private static final int SETTLE_TIMER_DURATION = 3; // the time the ball needs to spin around the wheel
 
@@ -138,9 +138,6 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 		fireTimerExpiredEvent(previous_gameState);
 	}
 	
-	public Queue<Integer> getNumbers(){
-		return serverStats.getNumbers();
-	}
 
 	//managing clients
     public void addClient(ClientInfo clientInfo) {
@@ -172,6 +169,11 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 	public double getPayout(int id) {
 		
 		return connectedClients.get(id).getAccountBalance();
+	}
+
+	public Queue<WheelNumber> getStats() {
+		return serverStats.getNumbers();
+		
 	}
 
 

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 
 import it.unibs.pajc.core.*;
+import it.unibs.pajc.server.Numbers;
 import it.unibs.pajc.server.RouletteGameState;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class Model extends BaseModel{
 	List<Integer> tier = WheelNumber.getTier();
 	List<Integer> orphelins = WheelNumber.getOrphelins();
 	List<Integer> voisins = WheelNumber.getVoisins();
-	//List<Integer> zero = WheelNumber.getZero(); da gestire perché zero e voisins si includono
+	List<Integer> zero = WheelNumber.getZero(); 
 	//numbers displayed as on the roulette
 	List<WheelNumber> sortedList;
 	List<Zone> zones = new ArrayList<>();
@@ -42,7 +43,8 @@ public class Model extends BaseModel{
 	private int range;
 	
 	public Model() {	
-		initializeWheelNumbers();
+		Numbers numbers = new Numbers();
+		numberList = numbers.getNumbers();
 		initializeFiches();
 		initializeZones();
 		this.sortedList = sort(numberList);
@@ -66,6 +68,7 @@ public class Model extends BaseModel{
 		List<Integer> desiredOrder = WheelNumber.getNums();
 		List<String> zeroZone = new ArrayList<>();
 		zeroZone.add("voisins");
+		zeroZone.add("z");
 		
 		WheelNumber zero = new WheelNumber(0, zeroZone, Colors.getGreen());
 
@@ -83,38 +86,6 @@ public class Model extends BaseModel{
 		
 		return sortedList;
 	}
-
-	private void initializeWheelNumbers() {
-
-		int result;
-		Color color;
-		List<String> zones = new ArrayList<>();
-		
-		 for (int row = 3; row > 0; row--) {
-	            for (int column = 0; column < 36; column += 3) {
-	            	result = row + column;
-	            	
-	            	if(blacks.contains(result))
-	            		color = new Colors().getBlack();
-	            	else
-	            		color =  new Colors().getRed();
-	            	
-	            	if(tier.contains(result)) {
-	            		zones.add("tier");
-	            	}else if(orphelins.contains(result)) {
-	            		zones.add("orphelins");
-	            	}else {
-	            		zones.add("voisins");
-	            	}
-	            	
-	            	WheelNumber number = new WheelNumber(result, zones, color);
-	            	numberList.add(number);
-	                
-	            }
-	        }
-		 
-	}
-
 	
 	private void initializeFiches() {
 

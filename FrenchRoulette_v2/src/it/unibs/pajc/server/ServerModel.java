@@ -104,15 +104,9 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 						payout(key,z.getBetValue(), z.getPayout());
 					}
 				}
-				
 			}
-			
-			
 		}
-		
 	}
-	
-
 	private void resetBets() {
 		for(int key : connectedClients.keySet()) {
 			connectedClients.get(key).resetBetList();
@@ -148,9 +142,6 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 		return serverStats.getNumbers();
 	}
 
-	public Map<String, Integer> getStats() {
-		return serverStats.getStats();
-	}
 	//managing clients
     public void addClient(ClientInfo clientInfo) {
         connectedClients.put(clientInfo.getAccountId(),clientInfo);

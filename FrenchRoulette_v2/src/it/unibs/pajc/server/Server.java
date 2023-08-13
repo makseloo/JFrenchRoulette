@@ -193,11 +193,13 @@ public class Server {
 	private void updatedLast500area() {
 		textArea_1.setText("");
 		Queue<WheelNumber> numbers = serverModel.getStats();
-		
-		for(WheelNumber w : numbers) {
-			//System.out.print(w.getValue()+"");
-			//textArea_1.append(w.getValue()+"\n");
+		if(numbers != null) {
+			for(WheelNumber w : numbers) {
+				textArea_1.append(w.getValue() +"\n");
+				//System.out.print(w.getValue()+"");
+			}
 		}
+		
 		textArea_1.setForeground(Color.black);
 		
 	}

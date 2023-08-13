@@ -81,7 +81,7 @@ public class Model extends BaseModel{
 	                return Integer.compare(desiredOrder.indexOf(value1), desiredOrder.indexOf(value2));
 	            }
 		});
-		//perché il metodo sort non calcola lo zero
+		//perché in numberlist non c'è lo 0
 		sortedList.add(zero);
 		
 		return sortedList;

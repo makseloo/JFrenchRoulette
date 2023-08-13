@@ -9,7 +9,7 @@ import it.unibs.pajc.WheelNumber;
 
 
 public class ServerStatistics {
-    private static double NUMBER_OF_RANDOMS = 30;
+    private static double NUMBER_OF_RANDOMS = 5;
     private static final int RANDOM_RANGE_MIN = 0;
     private static final int RANDOM_RANGE_MAX = 37;
     
@@ -23,7 +23,7 @@ public class ServerStatistics {
     	this.randomWheelNumbers = new LinkedList<>();
     	Numbers numbers = new Numbers();//si potrebbe fare static e crearli da un'altra parte ma andrebbe fatto a manO?
     	this.wheelNumbers = numbers.getNumbers();
-    	randomWheelNumbers = generateRandomNumbers(NUMBER_OF_RANDOMS, RANDOM_RANGE_MIN, RANDOM_RANGE_MAX);
+    	this.randomWheelNumbers = generateRandomNumbers(NUMBER_OF_RANDOMS, RANDOM_RANGE_MIN, RANDOM_RANGE_MAX);
     }
 
 

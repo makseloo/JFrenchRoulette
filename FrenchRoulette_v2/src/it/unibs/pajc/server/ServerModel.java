@@ -66,7 +66,6 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
              gameState = RouletteGameState.SETTLING;
              serverStats.generateSingleNumber();
              fireGeneratedNumberEvent(new ChangeEvent(this));
-             
              break;
          case SETTLING:
         	//da errore è da sistemare

@@ -53,7 +53,6 @@ public class Numbers {
 	
 	public Numbers() {
 		numbers = new ArrayList<WheelNumber>();
-		
 		int result;
 		Color color;
 		
@@ -94,6 +93,12 @@ public class Numbers {
 	            	numbers.add(number);
 	                
 	            }
+	            List<String> zeroZone = new ArrayList<>();
+	            zeroZone.add("voisins");
+	    		zeroZone.add("z");
+	    		
+	    		WheelNumber zeroNum = new WheelNumber(0, zeroZone, Colors.getGreen());
+	    		numbers.add(zeroNum);
 	        }
 	}
 

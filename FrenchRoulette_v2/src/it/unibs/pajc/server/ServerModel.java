@@ -87,24 +87,31 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
     private void analyzeBets() {
     	
     	WheelNumber lastNum = serverStats.getLastWheelNumber();
-		for(Integer key : connectedClients.keySet()) {
-			for(WheelNumber w : connectedClients.get(key).getBetList()) {
-				if(w.getValue() == lastNum.getValue()) {
-					payout(key,w.getBettedValue(), 36);
-				}
-			}
-			
-			
-			for(Zone z : connectedClients.get(key).getZoneBetList()) {
-				
-				List<String> zone = lastNum.getZone();
-				for(String s : zone) {
-					if(z.getZoneName().equals(s)) {
-						payout(key,z.getBetValue(), z.getPayout());
-					}
-				}
-			}
-		}
+    	if(connectedClients != null) {
+    		for(Integer key : connectedClients.keySet()) {
+    			if(connectedClients.get(key).getZoneBetList() != null) {
+    				for(Zone z : connectedClients.get(key).getZoneBetList()) {
+        				
+        				List<String> zone = lastNum.getZone();
+        				for(String s : zone) {
+        					if(z.getZoneName().equals(s)) {
+        						payout(key,z.getBetValue(), z.getPayout());
+        					}
+        				}
+        			}
+    				for(WheelNumber w : connectedClients.get(key).getBetList()) {
+        				if(w.getValue() == lastNum.getValue()) {
+        					payout(key,w.getBettedValue(), 36);
+        				}
+        			}
+    			}
+    			
+    			
+    			
+    			
+    		}
+    	}
+		
 	}
 	private void resetBets() {
 		for(int key : connectedClients.keySet()) {
@@ -171,6 +178,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 	}
 
 	public Queue<WheelNumber> getStats() {
+
 		return serverStats.getNumbers();
 		
 	}

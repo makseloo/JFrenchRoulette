@@ -16,6 +16,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import javax.swing.JTextArea;
@@ -57,20 +58,13 @@ public class PnlInfos extends JPanel {
 		
 		
 		lastTenPnl = new JPanel();
-		lastTenPnl.setLayout(new GridLayout(1,10));
+		lastTenPnl.setLayout(new GridLayout(3,10));
 		
 		GridBagConstraints gbc_lastTenPnl = new GridBagConstraints();
 		gbc_lastTenPnl.gridx = 0;
 		gbc_lastTenPnl.gridy = 1;
 		add(lastTenPnl, gbc_lastTenPnl);
 		
-		lastOnehundredPnl = new JPanel();
-		lastOnehundredPnl.setLayout(new GridLayout(2,10));
-		GridBagConstraints gbc_lastOnehundredPnl = new GridBagConstraints();
-		gbc_lastOnehundredPnl.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lastOnehundredPnl.gridx = 0;
-		gbc_lastOnehundredPnl.gridy = 2;
-		add(lastOnehundredPnl, gbc_lastOnehundredPnl);
 
 	}
 
@@ -85,20 +79,16 @@ public class PnlInfos extends JPanel {
 	    }
 
 	public void updateStats(Queue<WheelNumber> stats) {
-		int i = 0;
 		lastTenPnl.removeAll();
-		lastOnehundredPnl.removeAll();
-		for(WheelNumber w : stats) {
+		
+		Queue<WheelNumber> reversedStats = new LinkedList<>(stats);
+	    Collections.reverse((List<?>) reversedStats);
+		
+		for(WheelNumber w : reversedStats) {
 			JButton bw = new JButton(w.getValue()+"");
 			bw.setBackground(Colors.getGray().brighter());
 			bw.setForeground(w.getColor());
-			if(i < 10) {
-				lastTenPnl.add(bw);
-			}else {
-				lastOnehundredPnl.add(bw);
-			}
-			i++;
+			lastTenPnl.add(bw);
 		}
-		
 	}
 }

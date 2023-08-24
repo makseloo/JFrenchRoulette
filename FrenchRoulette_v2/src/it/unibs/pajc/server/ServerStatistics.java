@@ -9,7 +9,7 @@ import it.unibs.pajc.WheelNumber;
 
 
 public class ServerStatistics {
-    private static double NUMBER_OF_RANDOMS = 5;
+    private static double NUMBER_OF_RANDOMS = 30;
     private static final int RANDOM_RANGE_MIN = 0;
     private static final int RANDOM_RANGE_MAX = 37;
     
@@ -22,7 +22,7 @@ public class ServerStatistics {
     public ServerStatistics() {
     	this.randomWheelNumbers = new LinkedList<>();
     	Numbers numbers = new Numbers();//si potrebbe fare static e crearli da un'altra parte ma andrebbe fatto a manO?
-    	this.wheelNumbers = numbers.getNumbers();
+    	this.wheelNumbers = numbers.getSortedNumbers();
     	this.randomWheelNumbers = generateRandomNumbers(NUMBER_OF_RANDOMS, RANDOM_RANGE_MIN, RANDOM_RANGE_MAX);
     }
 
@@ -33,10 +33,10 @@ public class ServerStatistics {
         Random random = new Random();
 
         for (int i = 0; i < count; i++) {
-        	int randNum = random.nextInt(max - min + 1) + min;
+        	int randNum = random.nextInt(37);
         	randomNumbers.add(turnIntoWheelNumb(randNum));
         }
-        
+		
         return randomNumbers;
     }
 	
@@ -47,6 +47,7 @@ public class ServerStatistics {
     	int ran = random.nextInt(max - min + 1) + min;
     	randomWheelNumbers.poll();
     	randomWheelNumbers.add(turnIntoWheelNumb(ran));
+    	System.out.print("(SERVER STATISTIC)Num generated: " + ran +"\n");
     	
     }
    
@@ -56,9 +57,9 @@ public class ServerStatistics {
     }
 
     
-	private WheelNumber turnIntoWheelNumb(int peek) {
+	private WheelNumber turnIntoWheelNumb(int randNum) {
 		for(WheelNumber w : wheelNumbers) {
-			if(w.getValue() == peek)
+			if(w.getValue() == randNum)
 				return w;
 		}
 		return null;

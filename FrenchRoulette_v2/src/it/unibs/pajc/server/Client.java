@@ -94,10 +94,8 @@ public class Client {
 	                	 roulette.setBalance(payoutMessage.getNewBalance());
 	                 }else if(receivedObject instanceof StatsMessage) {
 	                	 StatsMessage statsMessage = (StatsMessage) receivedObject;
-	                	 for(WheelNumber w : statsMessage.getNumbers()) {
-	                		 System.out.print(w.getValue());
-	                	 }
-	                	 //roulette.updateStats(statsMessage.getNumbers());
+
+	                	 roulette.updateStats(statsMessage.getNumbers());
 	                 }
 	                 
 	             }

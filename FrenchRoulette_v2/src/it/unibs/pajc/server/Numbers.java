@@ -3,6 +3,8 @@ package it.unibs.pajc.server;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import it.unibs.pajc.Colors;
@@ -47,12 +49,16 @@ public class Numbers {
 	
 	
 	public List<WheelNumber> numbers;
+	public List<WheelNumber> sortedNumbers;
 	List<Integer> blacks = WheelNumber.getBlackNums();
 	List<Integer> reds = WheelNumber.getRedNums();
 	
 	
 	public Numbers() {
 		numbers = new ArrayList<WheelNumber>();
+		//numbers in the wheel order + the 0
+		
+		
 		int result;
 		Color color;
 		
@@ -92,19 +98,43 @@ public class Numbers {
 	            	WheelNumber number = new WheelNumber(result, zones, color);
 	            	numbers.add(number);
 	                
+	            	
 	            }
-	            List<String> zeroZone = new ArrayList<>();
-	            zeroZone.add("voisins");
-	    		zeroZone.add("z");
-	    		
-	    		WheelNumber zeroNum = new WheelNumber(0, zeroZone, Colors.getGreen());
-	    		numbers.add(zeroNum);
+	            
 	        }
+		 sortedNumbers = sort(numbers);
+		 
 	}
-
 	public List<WheelNumber> getNumbers() {
 		return numbers;
 	}
 	
+	private List<WheelNumber> sort(List<WheelNumber> numberList) {
+		List<WheelNumber> sortedList = new ArrayList<>(numberList);
+		List<Integer> desiredOrder = WheelNumber.getNums();
+		List<String> zeroZone = new ArrayList<>();
+		zeroZone.add("voisins");
+		zeroZone.add("z");
+		
+		WheelNumber zero = new WheelNumber(0, zeroZone, Colors.getGreen());
+
+		
+		Collections.sort(sortedList, new Comparator<WheelNumber>() {
+			 @Override
+	            public int compare(WheelNumber w1, WheelNumber w2) {
+	                Integer value1 = w1.getValue();
+	                Integer value2 = w2.getValue();
+	                return Integer.compare(desiredOrder.indexOf(value1), desiredOrder.indexOf(value2));
+	            }
+		});
+		//perché in numberlist non c'è lo 0
+		sortedList.add(zero);
+		
+		return sortedList;
+	}
+	
+	public List<WheelNumber> getSortedNumbers() {
+		return sortedNumbers;
+	}
 	
 }

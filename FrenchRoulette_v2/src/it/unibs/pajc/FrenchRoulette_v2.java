@@ -196,23 +196,7 @@ public class FrenchRoulette_v2 {
 		gbc_lblBet.insets = new Insets(0, 0, 5, 5);
 		gbc_lblBet.gridx = 1;
 		gbc_lblBet.gridy = 4;
-		contentPane.add(lblBet, gbc_lblBet);
-		
-		lblLastNum = new JLabel("Ultimo numero uscito : ");
-		GridBagConstraints gbc_lblLastNum = new GridBagConstraints();
-		gbc_lblLastNum.insets = new Insets(0, 0, 5, 5);
-		gbc_lblLastNum.gridx = 0;
-		gbc_lblLastNum.gridy = 4;
-		contentPane.add(lblLastNum, gbc_lblLastNum);
-		
-		stateLbl = new JLabel(""+model.getState());
-		GridBagConstraints gbc_stateLbl = new GridBagConstraints();
-		gbc_stateLbl.insets = new Insets(0, 0, 0, 5);
-		gbc_stateLbl.gridx = 0;
-		gbc_stateLbl.gridy = 5;
-		contentPane.add(stateLbl, gbc_stateLbl);
-
-        
+		contentPane.add(lblBet, gbc_lblBet);    
    				
 		pnlBetBoard.addActionListener(e -> {
 			String command = e.getActionCommand().toString();
@@ -333,8 +317,7 @@ public class FrenchRoulette_v2 {
 	private void updateView() {
 		//model.setBet(0) non credo vada qui
 		RouletteGameState gameState = model.getState();
-		pnlInfos.updateState(gameState.toString());
-		stateLbl.setText(gameState.toString());
+		pnlInfos.updateState(gameState.toString());		
 		lblBalance.setText("Saldo:"+model.getBalance());
     	lblBet.setText("Puntata: "+ model.getBet());
     	pnlRange.updateRange(model.getRange());
@@ -353,14 +336,6 @@ public class FrenchRoulette_v2 {
 	    
 		
 	}
-
-	public void updateLast500(Queue<Integer> last500) {
-		
-		List<WheelNumber>coloredStats =  model.turnIntoColor(last500);
-		lblLastNum.setText("Ultimo numero uscito: "+ coloredStats.get(coloredStats.size()-1).getValue());
-
-	}
-
 	public void updateStats(Queue<WheelNumber> stats) {
 		pnlInfos.updateStats(stats);
 	}

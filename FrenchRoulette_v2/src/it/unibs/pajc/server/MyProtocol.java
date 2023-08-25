@@ -127,6 +127,8 @@ public class MyProtocol implements Runnable {
     }
     
     private void sendStats() {
+    	if(!isConnected)
+    		return;
     	this.stats = serverModel.getStats();
     	StatsMessage statsMessage = new StatsMessage(stats);
     	try {

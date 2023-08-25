@@ -26,9 +26,9 @@ public class Numbers {
 	public static List<Integer> dozen2 = Arrays.asList(13,14,15,16,17,18,19,20,21,22,23,24);
 	public static List<Integer> dozen3 = Arrays.asList(25,26,27,28,29,30,31,32,33,34,35,36);
 	//cols
-	public static List<Integer> col1 = Arrays.asList(1,4,7,10,13,16,19,22,25,28,31,34);
+	public static List<Integer> col3 = Arrays.asList(1,4,7,10,13,16,19,22,25,28,31,34);
 	public static List<Integer> col2 = Arrays.asList(2,5,8,11,14,17,20,23,26,29,32,35);
-	public static List<Integer> col3 = Arrays.asList(3,6,9,12,15,18,21,24,27,30,33,36);
+	public static List<Integer> col1 = Arrays.asList(3,6,9,12,15,18,21,24,27,30,33,36);
 	//1-18 19-36
 	public static List<Integer> eight = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18);
 	public static List<Integer> six = Arrays.asList(19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36);
@@ -80,10 +80,27 @@ public class Numbers {
 	            	}else if(voisins.contains(result)) {
 	            		zones.add("voisins");
 	            	}
-	            	if(result <= 18) {
+	            	
+	            	if(result <= 18 && result >= 0) {
 	            		zones.add("1-18");
-	            	}else {
+	            	}else if(result >= 19 ){
 	            		zones.add("19-36");
+	            	}
+	            	
+	            	if(result >=25) {
+	            		zones.add("3°:12");
+	            	}else if(result >=13){
+	            		zones.add("2°:12");
+	            	}else if(result >= 1){
+	            		zones.add("1°:12");
+	            	}
+	            	
+	            	if(col1.contains(result)) {
+	            		zones.add("1° row");
+	            	}else if(col2.contains(result)) {
+	            		zones.add("2° row");
+	            	}else if(col3.contains(result)) {
+	            		zones.add("3° row");
 	            	}
 	            	
 	            	if(result % 2 == 0) {
@@ -97,9 +114,10 @@ public class Numbers {
 	            	
 	            	WheelNumber number = new WheelNumber(result, zones, color);
 	            	numbers.add(number);
-	                
+	            	zones = new ArrayList<>();
 	            	
 	            }
+	            
 	            
 	        }
 		 sortedNumbers = sort(numbers);

@@ -85,15 +85,7 @@ public class FrenchRoulette_v2 {
             }
 
 			private void updateTest() {
-				 testBets.setText("");
-				 for(WheelNumber w : getBets()) {
-					 testBets.append(w.getValue() + ":"+w.getBettedValue()+"\n");
-					 
-				 }
-				 for(Zone z : model.getZonesBets()) {
-					 testBets.append(z.getZoneName()+":"+z.getBetValue()+"\n");
-				 }
-				
+				pnlInfos.updateBets(getBets(),model.getZonesBets());
 			}
         });
 	}
@@ -200,10 +192,12 @@ public class FrenchRoulette_v2 {
    				
 		pnlBetBoard.addActionListener(e -> {
 			String command = e.getActionCommand().toString();
+			//se è un numero scommetto su un numero
 			if (command.matches("^\\d+$")) {
 				this.bet(e);
 			} else {
 				model.betDoz(command);
+				//pnlBetBoard.updateDoz(command);
 			}
 			
 		});
@@ -239,6 +233,8 @@ public class FrenchRoulette_v2 {
 			
 			
 		});
+		
+		pnlInfos.addActionListener(e -> bet(e));
 
 		
 		frame.pack();

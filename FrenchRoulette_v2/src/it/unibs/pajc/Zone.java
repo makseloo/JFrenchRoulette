@@ -14,7 +14,7 @@ public class Zone implements Serializable{
 	public Zone(String zoneName, List<Integer> zoneNumbers) {
 		super();
 		this.zoneName = zoneName;
-		this.zoneNumbers = zoneNumbers;
+		this.zoneNumbers = new ArrayList<>(zoneNumbers);
 		this.betValue = 0;
 	}
 	
@@ -22,7 +22,7 @@ public class Zone implements Serializable{
 	public Zone(String zoneName, List<Integer> zoneNumbers, int payout) {
 		super();
 		this.zoneName = zoneName;
-		this.zoneNumbers = zoneNumbers;
+		this.zoneNumbers = new ArrayList<>(zoneNumbers);
 		this.payout = payout;
 		this.betValue = 0;
 	}

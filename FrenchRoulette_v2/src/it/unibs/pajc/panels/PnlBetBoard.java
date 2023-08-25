@@ -6,17 +6,26 @@ import javax.swing.JPanel;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import it.unibs.pajc.Colors;
 import it.unibs.pajc.WheelNumber;
+import it.unibs.pajc.Zone;
 import it.unibs.pajc.core.*;
 
 public class PnlBetBoard extends PnlBase {
 	
 	private List<JButton> numberButtons = new ArrayList<>();
+	
+	private JPanel numbersPnl;
 	
 	public PnlBetBoard() {
 		super();
@@ -39,7 +48,7 @@ public class PnlBetBoard extends PnlBase {
 		
 		
 		//pulsanti dal 1 al 36
-		JPanel numbersPnl = new JPanel(new GridLayout(3, 12));
+		numbersPnl = new JPanel(new GridLayout(3, 12));
 		GridBagConstraints gbc_numberPnl = new GridBagConstraints();
 		gbc_numberPnl.gridx = 1;
 		gbc_numberPnl.gridy = 0;
@@ -47,9 +56,10 @@ public class PnlBetBoard extends PnlBase {
 		//prendo i numeri dal model
 		for(WheelNumber n : numbers) {
 			JButton numberBtn = createButton(n.getValue()+"", n.getColor());
-			numbersPnl.add(numberBtn);
 			numberButtons.add(numberBtn);
+			numbersPnl.add(numberBtn);
 		}
+		
 		
 		this.add(numbersPnl,gbc_numberPnl);
 		
@@ -89,6 +99,10 @@ public class PnlBetBoard extends PnlBase {
 		}
 		this.add(othersPnl, gbc_othersPnl);
 	}
-	
 
 }
+
+
+
+
+

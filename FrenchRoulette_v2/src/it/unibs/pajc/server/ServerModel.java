@@ -13,7 +13,7 @@ import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.Zone;
 import it.unibs.pajc.core.BaseModel;
 public class ServerModel extends BaseModel implements ServerTimer.TimerListener {
-    private static final int BETTING_TIMER_DURATION = 5; // Duration of the timer in seconds
+    private static final int BETTING_TIMER_DURATION = 10; // Duration of the timer in seconds
     private static final int SPIN_TIMER_DURATION = 5; // the time the ball needs to spin around the wheel
     private static final int SETTLE_TIMER_DURATION = 3; // the time the ball needs to spin around the wheel
 
@@ -90,10 +90,13 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
     	if(connectedClients != null) {
     		for(Integer key : connectedClients.keySet()) {
     			if(connectedClients.get(key).getZoneBetList() != null) {
+    				System.out.print("Zones betted on: \n");
     				for(Zone z : connectedClients.get(key).getZoneBetList()) {
-        				
+    					System.out.println(z.getZoneName());
         				List<String> zone = lastNum.getZone();
+        				System.out.print("Zones of the last num: \n");
         				for(String s : zone) {
+        					System.out.println(s);
         					if(z.getZoneName().equals(s)) {
         						payout(key,z.getBetValue(), z.getPayout());
         					}

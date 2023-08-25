@@ -2,6 +2,7 @@ package it.unibs.pajc;
 
 import java.awt.Color;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -51,14 +52,14 @@ public class WheelNumber implements Serializable {
 	
 	public WheelNumber(int value, List<String> zone, Color color) {
 		this.value = value;
-		this.zone = zone;
+		this.zone = new ArrayList<>(zone);
 		this.color = color;
 		this.betValue = 0;
 	}
 	//quando devo aggiungere una puntata
 	public WheelNumber(int value, List<String> zone, Color color, double betValue) {
 		this.value = value;
-		this.zone = zone;
+		this.zone = new ArrayList<>(zone);
 		this.color = color;
 		this.betValue = betValue;
 	}

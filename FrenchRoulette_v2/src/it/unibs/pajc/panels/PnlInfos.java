@@ -4,6 +4,8 @@ import javax.swing.JPanel;
 
 import it.unibs.pajc.Colors;
 import it.unibs.pajc.WheelNumber;
+import it.unibs.pajc.Zone;
+import it.unibs.pajc.core.PnlBase;
 
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -11,7 +13,9 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.util.ArrayList;
@@ -21,15 +25,19 @@ import java.util.List;
 import java.util.Queue;
 import javax.swing.JTextArea;
 
-public class PnlInfos extends JPanel {
+public class PnlInfos extends PnlBase {
 
 	private JPanel lastTenPnl;
 	private JPanel lastOnehundredPnl;
+	private JPanel betsPnl;
 	
 	private JLabel lblState;
 	
 	private JLabel timerLabel;
-	private JTextArea textArea;
+	
+	private JTextArea testBets;
+	
+	
 	
 	public PnlInfos() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -51,19 +59,30 @@ public class PnlInfos extends JPanel {
         timerLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
 		
 		GridBagConstraints gbc_timerLabel = new GridBagConstraints();
-		gbc_timerLabel.gridx = 1;
-		gbc_timerLabel.gridy = 0;
+		gbc_timerLabel.gridx = 0;
+		gbc_timerLabel.gridy = 1;
 		
 		add(timerLabel, gbc_timerLabel);
 		
 		
 		lastTenPnl = new JPanel();
-		lastTenPnl.setLayout(new GridLayout(3,10));
+		lastTenPnl.setLayout(new GridLayout(1,13));
 		
 		GridBagConstraints gbc_lastTenPnl = new GridBagConstraints();
 		gbc_lastTenPnl.gridx = 0;
-		gbc_lastTenPnl.gridy = 1;
+		gbc_lastTenPnl.gridy = 2;
 		add(lastTenPnl, gbc_lastTenPnl);
+		
+		betsPnl = new JPanel();
+		testBets = new JTextArea();
+		testBets.setEditable(false);
+		testBets.setColumns(50);
+		testBets.setColumns(50);
+		
+		GridBagConstraints gbc_betsPnl = new GridBagConstraints();
+		gbc_betsPnl.gridx = 0;
+		gbc_betsPnl.gridy = 3;
+		add(testBets, gbc_betsPnl);
 		
 
 	}
@@ -85,10 +104,24 @@ public class PnlInfos extends JPanel {
 	    Collections.reverse((List<?>) reversedStats);
 		
 		for(WheelNumber w : reversedStats) {
-			JButton bw = new JButton(w.getValue()+"");
-			bw.setBackground(Colors.getGray().brighter());
+			JButton bw = createButton(w.getValue()+"", Colors.getGray().brighter());
 			bw.setForeground(w.getColor());
 			lastTenPnl.add(bw);
 		}
 	}
+
+	public void updateBets(List<WheelNumber> bets, List<Zone> list) {
+
+		testBets.setText("");
+		for(WheelNumber w : bets) {
+			 testBets.append("Bet Type: Number:"+w.getValue() + ", amount: "+w.getBettedValue()+"\n");
+			 
+		 }
+		 for(Zone z : list) {
+			 testBets.append("Bet Type: Zone:"+z.getZoneName()+", amount: "+z.getBetValue()+"\n");
+		 }
+
+		
+	}
+    	
 }

@@ -9,7 +9,7 @@ import it.unibs.pajc.WheelNumber;
 
 
 public class ServerStatistics {
-    private static double NUMBER_OF_RANDOMS = 30;
+    private static double NUMBER_OF_RANDOMS = 13;
     private static final int RANDOM_RANGE_MIN = 0;
     private static final int RANDOM_RANGE_MAX = 37;
     

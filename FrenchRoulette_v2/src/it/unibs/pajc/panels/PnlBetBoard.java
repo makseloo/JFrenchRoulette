@@ -1,15 +1,22 @@
 package it.unibs.pajc.panels;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
+import java.awt.Component;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,18 +30,27 @@ import it.unibs.pajc.core.*;
 
 public class PnlBetBoard extends PnlBase {
 	
-	private List<JButton> numberButtons = new ArrayList<>();
+	private HashMap<Integer, JButton> numberButtons = new HashMap<>();
 	
 	private JPanel numbersPnl;
+	private JPanel circlesPanel;
+	private ImageIcon icon;
+	private ImageIcon resizedIcon;
+	private List<WheelNumber> numbers;
 	
 	public PnlBetBoard() {
 		super();
 	}
 	
 	public PnlBetBoard(List<WheelNumber> numbers, List<String> otherStats) {//è giusti dal punto di vista mvc?
-		initialize(numbers, otherStats);
+		this.numbers = new ArrayList<>(numbers);
+		initialize(otherStats);
 	}
-	private void initialize(List<WheelNumber> numbers, List<String> otherStats) {//è giusti dal punto di vista mvc?
+	private void initialize( List<String> otherStats) {//è giusti dal punto di vista mvc?
+		icon = new ImageIcon(getClass().getResource("/it/unibs/pajc/icons/wheel.png"));
+		Image image = icon.getImage();
+		Image resizedImage = image.getScaledInstance(10, 10, Image.SCALE_SMOOTH);
+		resizedIcon = new ImageIcon(resizedImage);
 		
 		setLayout(new GridBagLayout());
 		
@@ -56,7 +72,7 @@ public class PnlBetBoard extends PnlBase {
 		//prendo i numeri dal model
 		for(WheelNumber n : numbers) {
 			JButton numberBtn = createButton(n.getValue()+"", n.getColor());
-			numberButtons.add(numberBtn);
+			numberButtons.put(n.getValue(),numberBtn);
 			numbersPnl.add(numberBtn);
 		}
 		
@@ -98,9 +114,31 @@ public class PnlBetBoard extends PnlBase {
 			othersPnl.add(createButton(s, Colors.getGray()));
 		}
 		this.add(othersPnl, gbc_othersPnl);
+		
 	}
 
+
+	public void updateBoard(List<WheelNumber> numBets, List<Zone> zoneBets) {
+		for (WheelNumber w : numBets) {
+	        if (numberButtons.containsKey(w.getValue())) {
+	        	numberButtons.get(w.getValue()).setText("");
+	            numberButtons.get(w.getValue()).setIcon(resizedIcon);
+	        }
+	    }
+	}
+
+	public void resetBoard() {
+		for (WheelNumber w : numbers) {
+	        if (numberButtons.containsKey(w.getValue())) {
+	        	numberButtons.get(w.getValue()).setText(w.getValue()+"");
+	            numberButtons.get(w.getValue()).setIcon(null);
+	        }
+	    }
+		
+	}
 }
+
+
 
 
 

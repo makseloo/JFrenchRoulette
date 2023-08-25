@@ -45,19 +45,22 @@ public class WheelNumber implements Serializable {
 	public static List<Integer> right = Arrays.asList(35,3,26,0,32);
 	public static List<Integer> left = Arrays.asList(24, 5, 10, 23, 8, 30);
 	
+	private int id;
 	private int value;
 	private List<String> zone;
 	private Color color;
 	private double betValue;
 	
-	public WheelNumber(int value, List<String> zone, Color color) {
+	public WheelNumber(int id, int value, List<String> zone, Color color) {
+		this.id = id;
 		this.value = value;
 		this.zone = new ArrayList<>(zone);
 		this.color = color;
 		this.betValue = 0;
 	}
 	//quando devo aggiungere una puntata
-	public WheelNumber(int value, List<String> zone, Color color, double betValue) {
+	public WheelNumber(int id,int value, List<String> zone, Color color, double betValue) {
+		this.id = id;
 		this.value = value;
 		this.zone = new ArrayList<>(zone);
 		this.color = color;

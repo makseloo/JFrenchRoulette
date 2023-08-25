@@ -70,7 +70,7 @@ public class Model extends BaseModel{
 		zeroZone.add("voisins");
 		zeroZone.add("z");
 		
-		WheelNumber zero = new WheelNumber(0, zeroZone, Colors.getGreen());
+		WheelNumber zero = new WheelNumber(0,0, zeroZone, Colors.getGreen());
 
 		
 		Collections.sort(sortedList, new Comparator<WheelNumber>() {
@@ -116,7 +116,7 @@ public class Model extends BaseModel{
 		List<WheelNumber> bets = new ArrayList<>();
 		for(WheelNumber w : numberList) {
 			if(w.getBettedValue() != 0)
-				bets.add(new WheelNumber(w.getValue(), w.getZone(), w.getColor(), w.getBettedValue()));
+				bets.add(new WheelNumber(w.getValue(),w.getValue(), w.getZone(), w.getColor(), w.getBettedValue()));
 		}
 		return bets;
 	}
@@ -323,7 +323,7 @@ public class Model extends BaseModel{
 		}else {
 			System.out.print("Model: Saldo insufficiente");
 		}
-		fireValuesChange(new ChangeEvent(this));
+		fireUpdateBet(new ChangeEvent(this));
 	}
 	
 
@@ -337,6 +337,7 @@ public class Model extends BaseModel{
 		 }else {
 			 System.out.print("Saldo insufficiente");
 		 }
+		 fireUpdateBet(new ChangeEvent(this));
 		
 	}
 

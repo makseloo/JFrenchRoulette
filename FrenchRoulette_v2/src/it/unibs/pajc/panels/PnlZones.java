@@ -30,7 +30,7 @@ public class PnlZones extends PnlBase {
         List<String> zeroZone = new ArrayList<>();
 		zeroZone.add("voisins");
 		
-		WheelNumber zero = new WheelNumber(0, zeroZone, Colors.getGreen());
+		WheelNumber zero = new WheelNumber(0,0, zeroZone, Colors.getGreen());
         numbers.add(zero);
         
         int buttonWidth = 50;

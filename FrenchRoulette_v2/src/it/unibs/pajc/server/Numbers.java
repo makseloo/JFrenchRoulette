@@ -112,7 +112,7 @@ public class Numbers {
 	            	if(zero.contains(result))
 	            		zones.add("z");
 	            	
-	            	WheelNumber number = new WheelNumber(result, zones, color);
+	            	WheelNumber number = new WheelNumber(result,result, zones, color);
 	            	numbers.add(number);
 	            	zones = new ArrayList<>();
 	            	
@@ -134,7 +134,7 @@ public class Numbers {
 		zeroZone.add("voisins");
 		zeroZone.add("z");
 		
-		WheelNumber zero = new WheelNumber(0, zeroZone, Colors.getGreen());
+		WheelNumber zero = new WheelNumber(0,0, zeroZone, Colors.getGreen());
 
 		
 		Collections.sort(sortedList, new Comparator<WheelNumber>() {

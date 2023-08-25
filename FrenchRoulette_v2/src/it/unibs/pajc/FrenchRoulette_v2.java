@@ -1,6 +1,8 @@
 package it.unibs.pajc;
 
 import java.awt.EventQueue;
+
+import it.unibs.pajc.core.BaseModel.UpdateBet;
 import it.unibs.pajc.panels.PnlBetBoard;
 import it.unibs.pajc.panels.PnlFiches;
 import it.unibs.pajc.panels.PnlRange;
@@ -48,7 +50,6 @@ public class FrenchRoulette_v2 {
 	private JTextArea testBets;
 	
 	Thread timerThread;
-	private PnlCountdown pnlCountdown;
 	private JLabel stateLbl;
 	private PnlWheel pnlWheel;
 	private JLabel lblLastNum;
@@ -80,13 +81,11 @@ public class FrenchRoulette_v2 {
             @Override
             public void stateChanged(ChangeEvent e) {
                 updateView();
-                updateTest();
-                
+                if(e instanceof UpdateBet) {
+                	updateTest();
+                }
             }
-
-			private void updateTest() {
-				pnlInfos.updateBets(getBets(),model.getZonesBets());
-			}
+			
         });
 	}
 
@@ -103,7 +102,7 @@ public class FrenchRoulette_v2 {
 		
 		frame.setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.rowWeights = new double[]{1.0, 1.0, 1.0, 0.0, 0.0, 1.0};
+		gbl_contentPane.rowWeights = new double[]{1.0, 1.0, 1.0, 0.0, 0.0};
 		gbl_contentPane.columnWeights = new double[]{1.0, 1.0, 0.0};
 		contentPane.setLayout(gbl_contentPane);
 		
@@ -175,14 +174,6 @@ public class FrenchRoulette_v2 {
 		gbc_lblBalance.gridy = 3;
 		contentPane.add(lblBalance, gbc_lblBalance);
 		
-		pnlCountdown = new PnlCountdown();
-		GridBagConstraints gbc_pnlCountdown = new GridBagConstraints();
-		gbc_pnlCountdown.insets = new Insets(0, 0, 5, 5);
-		gbc_pnlCountdown.fill = GridBagConstraints.BOTH;
-		gbc_pnlCountdown.gridx = 0;
-		gbc_pnlCountdown.gridy = 3;
-		contentPane.add(pnlCountdown, gbc_pnlCountdown);
-		
 		lblBet = new JLabel("Puntata");
 		GridBagConstraints gbc_lblBet = new GridBagConstraints();
 		gbc_lblBet.insets = new Insets(0, 0, 5, 5);
@@ -194,7 +185,9 @@ public class FrenchRoulette_v2 {
 			String command = e.getActionCommand().toString();
 			//se è un numero scommetto su un numero
 			if (command.matches("^\\d+$")) {
-				this.bet(e);
+				//this.bet(e);
+				model.betNum(e);
+				pnlBetBoard.updateBoard(getBets(),model.getZonesBets());
 			} else {
 				model.betDoz(command);
 				//pnlBetBoard.updateDoz(command);
@@ -319,12 +312,14 @@ public class FrenchRoulette_v2 {
     	pnlRange.updateRange(model.getRange());
 		 // Disable buttons based on the game state
 	    if (gameState == RouletteGameState.BETTING) {
+	    	
 	        pnlBetBoard.enableButtons(true); // Enable betting buttons
 	        pnlFiches.enableButtons(true); // Enable fiche buttons
 	    } else {
 	        pnlBetBoard.enableButtons(false); // Disable betting buttons
 	        pnlFiches.enableButtons(false); // Disable fiche buttons	        
 	        if(gameState == RouletteGameState.SETTLING) {
+	        	pnlBetBoard.resetBoard();
 	        	model.resetBet();
 	        	model.resetBets();
 	        }
@@ -334,6 +329,11 @@ public class FrenchRoulette_v2 {
 	}
 	public void updateStats(Queue<WheelNumber> stats) {
 		pnlInfos.updateStats(stats);
+	}
+	
+	private void updateTest() {
+		
+		//pnlInfos.updateBets(getBets(),model.getZonesBets());
 	}
 	
 	public void setBalance(double balance) {

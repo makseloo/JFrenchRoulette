@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
@@ -24,6 +25,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import javax.swing.JTextArea;
+import javax.swing.JTable;
 
 public class PnlInfos extends PnlBase {
 
@@ -34,8 +36,7 @@ public class PnlInfos extends PnlBase {
 	private JLabel lblState;
 	
 	private JLabel timerLabel;
-	
-	private JTextArea testBets;
+	private JTable table;
 	
 	
 	
@@ -74,16 +75,12 @@ public class PnlInfos extends PnlBase {
 		add(lastTenPnl, gbc_lastTenPnl);
 		
 		betsPnl = new JPanel();
-		testBets = new JTextArea();
-		testBets.setEditable(false);
-		testBets.setColumns(50);
-		testBets.setColumns(50);
-		
+		betsPnl.setLayout(new GridBagLayout());
 		GridBagConstraints gbc_betsPnl = new GridBagConstraints();
 		gbc_betsPnl.gridx = 0;
 		gbc_betsPnl.gridy = 3;
-		add(testBets, gbc_betsPnl);
 		
+		add(betsPnl, gbc_betsPnl);
 
 	}
 
@@ -104,24 +101,50 @@ public class PnlInfos extends PnlBase {
 	    Collections.reverse((List<?>) reversedStats);
 		
 		for(WheelNumber w : reversedStats) {
+			//ogni tanto riga 104 esplode
 			JButton bw = createButton(w.getValue()+"", Colors.getGray().brighter());
 			bw.setForeground(w.getColor());
 			lastTenPnl.add(bw);
 		}
 	}
-
+/*
 	public void updateBets(List<WheelNumber> bets, List<Zone> list) {
+		betsPnl.removeAll();
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+        gbc.gridy = 0;
+        
+        int columnCounter = 0;
+        int itemsPerColumn = 12; 
+        
+        for (WheelNumber w : bets) {
+            if (columnCounter >= itemsPerColumn) {
+                columnCounter = 0; // Reset the column counter
+                gbc.gridx +=4; // Move to the next column
+                gbc.gridy = 0; // Reset the row counter for the new column
+            }
 
-		testBets.setText("");
-		for(WheelNumber w : bets) {
-			 testBets.append("Bet Type: Number:"+w.getValue() + ", amount: "+w.getBettedValue()+"\n");
-			 
-		 }
+            JButton numberBtn = createButton(w.getValue() + "", w.getColor());
+            numberBtn.setPreferredSize(new Dimension(50,30));
+            JButton betValue = createButton(w.getBettedValue() + "", Color.GREEN);
+            betValue.setEnabled(false);
+            betValue.setPreferredSize(new Dimension(50,30));
+
+            // Add number on the left and value on the right
+            betsPnl.add(numberBtn, gbc);
+
+            gbc.gridx++;
+            betsPnl.add(betValue, gbc);
+            
+            gbc.gridx--;
+            
+            gbc.gridy++;
+            columnCounter++;
+        }
 		 for(Zone z : list) {
-			 testBets.append("Bet Type: Zone:"+z.getZoneName()+", amount: "+z.getBetValue()+"\n");
+			 //testBets.append("Bet Type: Zone:"+z.getZoneName()+", amount: "+z.getBetValue()+"\n");
 		 }
-
 		
 	}
-    	
+    */
 }

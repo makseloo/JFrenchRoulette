@@ -1,6 +1,7 @@
 package it.unibs.pajc.panels;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import it.unibs.pajc.Colors;
 import it.unibs.pajc.WheelNumber;
@@ -30,14 +31,16 @@ import javax.swing.JTable;
 public class PnlInfos extends PnlBase {
 
 	private JPanel lastTenPnl;
-	private JPanel lastOnehundredPnl;
 	private JPanel betsPnl;
+	private JPanel infoPnl;
 	
 	private JLabel lblState;
+	private JLabel lblBalance;
+	private JLabel lblBet;
 	
 	private JLabel timerLabel;
-	private JTable table;
 	
+	private JTextArea betsJTxt;
 	
 	
 	public PnlInfos() {
@@ -48,11 +51,20 @@ public class PnlInfos extends PnlBase {
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		lblState = new JLabel("New label");
+
+		lastTenPnl = new JPanel();
+		lastTenPnl.setLayout(new GridLayout(1,13));
+		
+		GridBagConstraints gbc_lastTenPnl = new GridBagConstraints();
+		gbc_lastTenPnl.gridx = 0;
+		gbc_lastTenPnl.gridy = 0;
+		add(lastTenPnl, gbc_lastTenPnl);
+		
+		lblState = new JLabel("STATO");
 		GridBagConstraints gbc_lblState = new GridBagConstraints();
 		gbc_lblState.insets = new Insets(0, 0, 5, 0);
 		gbc_lblState.gridx = 0;
-		gbc_lblState.gridy = 0;
+		gbc_lblState.gridy = 1;
 		//gbc_lblState.fill = GridBagConstraints.HORIZONTAL;
 		add(lblState, gbc_lblState);
 		
@@ -61,26 +73,61 @@ public class PnlInfos extends PnlBase {
 		
 		GridBagConstraints gbc_timerLabel = new GridBagConstraints();
 		gbc_timerLabel.gridx = 0;
-		gbc_timerLabel.gridy = 1;
+		gbc_timerLabel.gridy = 2;
 		
 		add(timerLabel, gbc_timerLabel);
 		
+		lblBalance = new JLabel("Saldo: ");
+		GridBagConstraints gbc_lblBalance = new GridBagConstraints();
+		gbc_lblBalance.insets = new Insets(0, 0, 5, 0);
+		gbc_lblBalance.gridx = 0;
+		gbc_lblBalance.gridy = 3;
+		//gbc_lblState.fill = GridBagConstraints.HORIZONTAL;
+		add(lblBalance, gbc_lblBalance);
 		
-		lastTenPnl = new JPanel();
-		lastTenPnl.setLayout(new GridLayout(1,13));
+		lblBet = new JLabel("Puntata");
 		
-		GridBagConstraints gbc_lastTenPnl = new GridBagConstraints();
-		gbc_lastTenPnl.gridx = 0;
-		gbc_lastTenPnl.gridy = 2;
-		add(lastTenPnl, gbc_lastTenPnl);
+		GridBagConstraints gbc_lblBet = new GridBagConstraints();
+		gbc_lblBet.gridx = 0;
+		gbc_lblBet.gridy = 4;
+		
+		add(lblBet, gbc_lblBet);
+		
 		
 		betsPnl = new JPanel();
 		betsPnl.setLayout(new GridBagLayout());
 		GridBagConstraints gbc_betsPnl = new GridBagConstraints();
 		gbc_betsPnl.gridx = 0;
-		gbc_betsPnl.gridy = 3;
+		gbc_betsPnl.gridy = 5;
+		gbc_betsPnl.fill = GridBagConstraints.BOTH;
+		
+		betsJTxt = new JTextArea();
+		betsJTxt.setEditable(false);
+		betsJTxt.setLineWrap(true); // Abilita il riavvolgimento automatico delle righe
+		betsJTxt.setWrapStyleWord(true);
+		
+		JScrollPane scrollPane = new JScrollPane(betsJTxt);
+		scrollPane.setPreferredSize(new Dimension(650, 200));
+
+		betsPnl.add(scrollPane); // Add the scroll pane instead of the JTextArea
 		
 		add(betsPnl, gbc_betsPnl);
+		/*
+		infoPnl = new JPanel();
+		infoPnl.setLayout(new GridBagLayout());
+		GridBagConstraints gbc_infoPnl = new GridBagConstraints();
+		gbc_infoPnl.gridx = 0;
+		gbc_infoPnl.gridy = 3;
+		gbc_infoPnl.fill = GridBagConstraints.BOTH;
+		
+		JTextArea infoJTxt = new JTextArea();
+		infoJTxt.setPreferredSize(new Dimension(650,100));
+		infoJTxt.setEditable(false);
+		infoJTxt.append("infoJTxt");
+		infoPnl.add(infoJTxt);
+		
+		add(infoPnl, gbc_infoPnl);
+		*/
 
 	}
 
@@ -102,49 +149,33 @@ public class PnlInfos extends PnlBase {
 		
 		for(WheelNumber w : reversedStats) {
 			//ogni tanto riga 104 esplode
-			JButton bw = createButton(w.getValue()+"", Colors.getGray().brighter());
+			JButton bw = createButton(w.getValue()+"", Color.white);
 			bw.setForeground(w.getColor());
 			lastTenPnl.add(bw);
 		}
 	}
-/*
+
 	public void updateBets(List<WheelNumber> bets, List<Zone> list) {
-		betsPnl.removeAll();
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-        gbc.gridy = 0;
-        
-        int columnCounter = 0;
-        int itemsPerColumn = 12; 
-        
+		betsJTxt.setText("");
         for (WheelNumber w : bets) {
-            if (columnCounter >= itemsPerColumn) {
-                columnCounter = 0; // Reset the column counter
-                gbc.gridx +=4; // Move to the next column
-                gbc.gridy = 0; // Reset the row counter for the new column
-            }
-
-            JButton numberBtn = createButton(w.getValue() + "", w.getColor());
-            numberBtn.setPreferredSize(new Dimension(50,30));
-            JButton betValue = createButton(w.getBettedValue() + "", Color.GREEN);
-            betValue.setEnabled(false);
-            betValue.setPreferredSize(new Dimension(50,30));
-
-            // Add number on the left and value on the right
-            betsPnl.add(numberBtn, gbc);
-
-            gbc.gridx++;
-            betsPnl.add(betValue, gbc);
-            
-            gbc.gridx--;
-            
-            gbc.gridy++;
-            columnCounter++;
+        	betsJTxt.append("bet on number " +w.getValue()+" : "+w.getBettedValue()+"\n");
         }
 		 for(Zone z : list) {
+			 betsJTxt.append("bet on zone " +z.getZoneName()+" : "+z.getBetValue()+"\n");
 			 //testBets.append("Bet Type: Zone:"+z.getZoneName()+", amount: "+z.getBetValue()+"\n");
 		 }
 		
 	}
-    */
+
+	public void updateBalanceLbl(double balance) {
+		lblBalance.setText("Saldo:"+balance);
+    	
+		
+	}
+
+	public void updateBetLbl(double bet) {
+		lblBet.setText("Puntata: "+ bet);
+		
+	}
+
 }

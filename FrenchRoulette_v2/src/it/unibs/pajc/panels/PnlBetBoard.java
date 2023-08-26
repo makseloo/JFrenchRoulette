@@ -31,22 +31,27 @@ import it.unibs.pajc.core.*;
 public class PnlBetBoard extends PnlBase {
 	
 	private HashMap<Integer, JButton> numberButtons = new HashMap<>();
+	private HashMap<String, JButton> ohtersButtons = new HashMap<>();
 	
 	private JPanel numbersPnl;
 	private JPanel circlesPanel;
 	private ImageIcon icon;
 	private ImageIcon resizedIcon;
 	private List<WheelNumber> numbers;
+	private List<String> otherStats;
+	private List<String> dozCols;
 	
 	public PnlBetBoard() {
 		super();
 	}
 	
-	public PnlBetBoard(List<WheelNumber> numbers, List<String> otherStats) {//è giusti dal punto di vista mvc?
+	public PnlBetBoard(List<WheelNumber> numbers, List<String> otherStats, List<String> dozCols) {//è giusti dal punto di vista mvc?
 		this.numbers = new ArrayList<>(numbers);
-		initialize(otherStats);
+		this.otherStats = new ArrayList<>(otherStats);
+		this.dozCols = new ArrayList<>(dozCols);
+		initialize();
 	}
-	private void initialize( List<String> otherStats) {//è giusti dal punto di vista mvc?
+	private void initialize() {
 		icon = new ImageIcon(getClass().getResource("/it/unibs/pajc/icons/wheel.png"));
 		Image image = icon.getImage();
 		Image resizedImage = image.getScaledInstance(10, 10, Image.SCALE_SMOOTH);
@@ -59,8 +64,9 @@ public class PnlBetBoard extends PnlBase {
 		gbc_zeroPnl.gridx = 0;
 		gbc_zeroPnl.gridy = 0;
 		gbc_zeroPnl.fill = GridBagConstraints.VERTICAL;
-		
-		this.add(createButton("0", new Color(0,128,0)), gbc_zeroPnl);//this si riferisce a questo pannello
+		JButton zeroBtn = createButton("0", Colors.getGreen());
+		numberButtons.put(0,zeroBtn);
+		this.add(zeroBtn, gbc_zeroPnl);//this si riferisce a questo pannello
 		
 		
 		//pulsanti dal 1 al 36
@@ -87,8 +93,10 @@ public class PnlBetBoard extends PnlBase {
 		gbc_dozenPnl.fill = GridBagConstraints.HORIZONTAL;
 		
 		for(int i = 1; i < 4; i++) {
-			//ci piace come soluzione?
-			dozenPnl.add(createButton(i + "°:12", Colors.getGray()));
+			JButton dozenBtn = createButton(i + "°:12", Colors.getGray());
+			ohtersButtons.put(i + "°:12",dozenBtn);
+			dozenPnl.add(dozenBtn);
+			
 		}
 		this.add(dozenPnl, gbc_dozenPnl);
 		
@@ -99,7 +107,9 @@ public class PnlBetBoard extends PnlBase {
 		gbc_rowPnl.gridy = 0;
 		
 		for(int i = 1; i < 4; i++) {
-			rowPnl.add(createButton(i + "° row", Colors.getGray()));
+			JButton rowBtn = createButton(i + "° row", Colors.getGray());
+			ohtersButtons.put(i + "° row",rowBtn);
+			rowPnl.add(rowBtn);
 		}
 		this.add(rowPnl, gbc_rowPnl);
 		
@@ -111,22 +121,32 @@ public class PnlBetBoard extends PnlBase {
 		gbc_othersPnl.fill = GridBagConstraints.HORIZONTAL;
 		
 		for(String s : otherStats) {
-			othersPnl.add(createButton(s, Colors.getGray()));
+			JButton otherBtn = createButton(s, Colors.getGray());
+			ohtersButtons.put(s,otherBtn);
+			othersPnl.add(otherBtn);
 		}
 		this.add(othersPnl, gbc_othersPnl);
 		
 	}
 
 
-	public void updateBoard(List<WheelNumber> numBets, List<Zone> zoneBets) {
+	public void updateNumBetBoard(List<WheelNumber> numBets) {
 		for (WheelNumber w : numBets) {
 	        if (numberButtons.containsKey(w.getValue())) {
 	        	numberButtons.get(w.getValue()).setText("");
 	            numberButtons.get(w.getValue()).setIcon(resizedIcon);
 	        }
 	    }
+		
 	}
-
+	public void updateZoneBetBoard(List<Zone> zoneBets) {		
+		for (Zone z : zoneBets) {
+	        if (ohtersButtons.containsKey(z.getZoneName())) {
+	        	ohtersButtons.get(z.getZoneName()).setText("");
+	        	ohtersButtons.get(z.getZoneName()).setIcon(resizedIcon);
+	        }
+	    }
+	}
 	public void resetBoard() {
 		for (WheelNumber w : numbers) {
 	        if (numberButtons.containsKey(w.getValue())) {
@@ -134,6 +154,22 @@ public class PnlBetBoard extends PnlBase {
 	            numberButtons.get(w.getValue()).setIcon(null);
 	        }
 	    }
+		
+		for (String s : otherStats) {
+			System.out.print(s);
+	        if (ohtersButtons.containsKey(s)) {
+	        	ohtersButtons.get(s).setText(s);
+	        	ohtersButtons.get(s).setIcon(null);
+	        }
+	    }
+		for (String dc : dozCols) {
+			System.out.print(dc);
+	        if (ohtersButtons.containsKey(dc)) {
+	        	ohtersButtons.get(dc).setText(dc);
+	        	ohtersButtons.get(dc).setIcon(null);
+	        }
+	    }
+		
 		
 	}
 }

@@ -2,6 +2,7 @@ package it.unibs.pajc.server;
 
 import java.io.*;
 import java.net.*;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Timer;
@@ -24,7 +25,7 @@ public class MyProtocol implements Runnable {
     private boolean isConnected;
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
-    private Queue<WheelNumber> stats;
+    private List<WheelNumber> stats;
     
     public MyProtocol(Socket clientSocket, ClientInfo clientInfo, ServerModel serverModel) {
         this.clientSocket = clientSocket;

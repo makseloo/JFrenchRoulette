@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Queue;
 
 import javax.swing.JFrame;
@@ -192,7 +193,7 @@ public class Server {
 	
 	private void updatedLast500area() {
 		textArea_1.setText("");
-		Queue<WheelNumber> numbers = serverModel.getStats();
+		List<WheelNumber> numbers = serverModel.getStats();
 		if(numbers != null) {
 			for(WheelNumber w : numbers) {
 				textArea_1.append(w.getValue() +"\n");

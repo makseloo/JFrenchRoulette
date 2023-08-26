@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
+import java.util.List;
 import javax.swing.JTextArea;
 import javax.swing.JTable;
 
@@ -94,10 +94,10 @@ public class PnlInfos extends PnlBase {
 		 repaint();
 	    }
 
-	public void updateStats(Queue<WheelNumber> stats) {
+	public void updateStats(List<WheelNumber> stats) {
 		lastTenPnl.removeAll();
 		
-		Queue<WheelNumber> reversedStats = new LinkedList<>(stats);
+		List<WheelNumber> reversedStats = new LinkedList<>(stats);
 	    Collections.reverse((List<?>) reversedStats);
 		
 		for(WheelNumber w : reversedStats) {

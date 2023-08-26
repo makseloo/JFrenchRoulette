@@ -103,6 +103,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
         				}
         			}
     				for(WheelNumber w : connectedClients.get(key).getBetList()) {
+    					System.out.print("Server model: w : "+w.getValue()+"\nlast num: "+lastNum.getValue()+"\n");
         				if(w.getValue() == lastNum.getValue()) {
         					payout(key,w.getBettedValue(), 36);
         				}
@@ -180,7 +181,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 		return connectedClients.get(id).getAccountBalance();
 	}
 
-	public Queue<WheelNumber> getStats() {
+	public List<WheelNumber> getStats() {
 
 		return serverStats.getNumbers();
 		

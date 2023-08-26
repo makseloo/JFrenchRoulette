@@ -14,7 +14,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -295,7 +295,6 @@ public class FrenchRoulette_v2 {
 	
 	public void updateTimer(int remainingSeconds) {
 		pnlInfos.updateCountdown(remainingSeconds);
-		pnlCountdown.updateCountdown(remainingSeconds);
 	}
 
 	public void updateGameState(String gameState) {
@@ -327,7 +326,7 @@ public class FrenchRoulette_v2 {
 	    
 		
 	}
-	public void updateStats(Queue<WheelNumber> stats) {
+	public void updateStats(List<WheelNumber> stats) {
 		pnlInfos.updateStats(stats);
 	}
 	

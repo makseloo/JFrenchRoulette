@@ -15,7 +15,7 @@ public class ServerStatistics {
     
     private int zero;
     private int[] dozens;
-    private Queue<WheelNumber> randomWheelNumbers;
+    private List<WheelNumber> randomWheelNumbers;
     private List<WheelNumber> wheelNumbers;
 
     
@@ -27,8 +27,8 @@ public class ServerStatistics {
     }
 
 
-	private Queue<WheelNumber> generateRandomNumbers(double count, int min, int max) {
-		Queue<WheelNumber> randomNumbers = new LinkedList<>();
+	private List<WheelNumber> generateRandomNumbers(double count, int min, int max) {
+		List<WheelNumber> randomNumbers = new LinkedList<>();
 
         Random random = new Random();
 
@@ -45,7 +45,7 @@ public class ServerStatistics {
     	int max = RANDOM_RANGE_MAX;
     	Random random = new Random();
     	int ran = random.nextInt(max - min + 1) + min;
-    	randomWheelNumbers.poll();
+    	randomWheelNumbers.remove(0);
     	randomWheelNumbers.add(turnIntoWheelNumb(ran));
     	System.out.print("(SERVER STATISTIC)Num generated: " + ran +"\n");
     	
@@ -53,7 +53,8 @@ public class ServerStatistics {
    
     
     public WheelNumber getLastWheelNumber() {
-    	return randomWheelNumbers.peek();
+    	int lastIndex = randomWheelNumbers.size() - 1;
+    	return randomWheelNumbers.get(lastIndex);
     }
 
     
@@ -70,7 +71,7 @@ public class ServerStatistics {
 		return zero;
 	}
 
-	public Queue<WheelNumber> getNumbers(){
+	public List<WheelNumber> getNumbers(){
 		return randomWheelNumbers;
 	}
 

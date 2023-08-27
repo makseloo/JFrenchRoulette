@@ -44,7 +44,7 @@ public class ServerStatistics {
     	int min = RANDOM_RANGE_MIN;
     	int max = RANDOM_RANGE_MAX;
     	Random random = new Random();
-    	int ran = random.nextInt(max - min + 1) + min;
+    	int ran = random.nextInt(max);
     	randomWheelNumbers.remove(0);
     	randomWheelNumbers.add(turnIntoWheelNumb(ran));
     	System.out.print("(SERVER STATISTIC)Num generated: " + ran +"\n");

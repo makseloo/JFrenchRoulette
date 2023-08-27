@@ -438,10 +438,15 @@ public class Model extends BaseModel{
 
 	public void updateLastTen(List<WheelNumber> stats) {
 		this.lastTen = new ArrayList<>(stats);	
+		fireLastTenChanged(new ChangeEvent(this));
 	}
 	
 	public WheelNumber getLastNumber() {
-		return lastTen.get(lastTen.size() - 1);
+		return lastTen.get(lastTen.size()-1);
+	}
+
+	public List<WheelNumber> getLastTen() {
+		return lastTen;
 	}
 	
 	

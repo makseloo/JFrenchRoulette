@@ -38,7 +38,7 @@ public class PnlWheel extends PnlBase {
     public PnlWheel(List<WheelNumber> wheelNums) {
         super();
         this.wheelNums = wheelNums;
-        initialize(wheelNums);
+        initialize();
         
         animationTimer = new Timer(100, new ActionListener() {
 			@Override
@@ -48,6 +48,7 @@ public class PnlWheel extends PnlBase {
 				
 				if (animationCount >= numberLanded) {
 					animationTimer.stop();
+					fireActionListener(e);
 		        }
 			}
         });
@@ -55,7 +56,7 @@ public class PnlWheel extends PnlBase {
         animationTimer.start();
     }
 
-    private void initialize(List<WheelNumber> wheelNums) {
+    private void initialize() {
    
     	setLayout(null);
         setPreferredSize(new Dimension(400, 400));
@@ -71,7 +72,6 @@ public class PnlWheel extends PnlBase {
 	    int centerY = getHeight() / 2;
 	    int radius = 120; // Adjust the radius as needed
 	    int dotRadius = 10; // Adjust the dot radius as needed
-
 	    if (dotIndex < 37) {
 	        double angle = 2 * Math.PI * dotIndex / 37;
 	        double startX = centerX + radius * Math.cos(angle);
@@ -87,7 +87,6 @@ public class PnlWheel extends PnlBase {
 	    } else {
 	        dotIndex = 0;
 	    }
-    
     }
 
 
@@ -118,8 +117,8 @@ public class PnlWheel extends PnlBase {
 		this.numberLanded = Numbers.indexOf(lastNumber);
 		animationCount = 0; // Reset animation count
         animationTimer.start();
-	}
+        }
 
-    }
+}
     
 

@@ -73,6 +73,16 @@ public class BaseModel {
         fireValuesChange(updateBetEvent);
     }
     
+    public class lastTenChanged  extends ChangeEvent {
+        public lastTenChanged(Object source) {
+            super(source);
+        }
+    }
+    
+    public void fireLastTenChanged(Object source) {
+    	lastTenChanged lastTenChangedEvent = new lastTenChanged(source);
+        fireValuesChange(lastTenChangedEvent);
+    }
     
 }
 

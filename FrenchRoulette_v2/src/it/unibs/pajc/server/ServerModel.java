@@ -13,8 +13,8 @@ import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.Zone;
 import it.unibs.pajc.core.BaseModel;
 public class ServerModel extends BaseModel implements ServerTimer.TimerListener {
-    private static final int BETTING_TIMER_DURATION = 15; // Duration of the timer in seconds
-    private static final int SPIN_TIMER_DURATION = 5; // the time the ball needs to spin around the wheel
+    private static final int BETTING_TIMER_DURATION = 3; // Duration of the timer in seconds
+    private static final int SPIN_TIMER_DURATION = 10; // the time the ball needs to spin around the wheel
     private static final int SETTLE_TIMER_DURATION = 3; // the time the ball needs to spin around the wheel
 
     private RouletteGameState gameState;
@@ -65,15 +65,20 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
              serverTimer = new ServerTimer(SPIN_TIMER_DURATION);
              gameState = RouletteGameState.SETTLING;
              serverStats.generateSingleNumber();
+             
+             analyzeBets();
              fireGeneratedNumberEvent(new ChangeEvent(this));
+             fireStateChangedEvent(new ChangeEvent(this));
+            
              break;
          case SETTLING:
         	//da errore è da sistemare
-        	 analyzeBets();
+        	 
              serverTimer = new ServerTimer(SETTLE_TIMER_DURATION);
              resetBets();
              gameState = RouletteGameState.BETTING;
-             fireStateChangedEvent(new ChangeEvent(this));
+             
+             
              break;
          default:
              throw new IllegalArgumentException("Unexpected value: " + gameState);

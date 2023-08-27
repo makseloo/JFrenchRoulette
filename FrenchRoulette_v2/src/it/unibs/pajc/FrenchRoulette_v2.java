@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import it.unibs.pajc.core.BaseModel.UpdateBet;
 import it.unibs.pajc.core.BaseModel.UpdateState;
+import it.unibs.pajc.core.BaseModel.lastTenChanged;
 import it.unibs.pajc.panels.PnlBetBoard;
 import it.unibs.pajc.panels.PnlFiches;
 import it.unibs.pajc.panels.PnlRange;
@@ -83,6 +84,10 @@ public class FrenchRoulette_v2 {
                 }
                 if(e instanceof UpdateState) {
                 	updateState();
+                }
+                if(e instanceof lastTenChanged) {
+                	pnlWheel.startAnimation(model.getLastNumber());
+                	
                 }
             }		
         });
@@ -174,7 +179,7 @@ public class FrenchRoulette_v2 {
 		
 		pnlFiches.addActionListener(e -> this.takeFiche(e));
 		
-		pnlWheel.addActionListener(e -> this.bet(e));
+		pnlWheel.addActionListener(e -> this.updateLastTen());
 		
 		pnlRange.addActionListener(e -> this.changeRange(e));
 		
@@ -212,7 +217,11 @@ public class FrenchRoulette_v2 {
 
 	}
 
-	 private void betTiers() {
+	 private void updateLastTen() {
+		 pnlInfos.updateStats(model.getLastTen());
+	}
+
+	private void betTiers() {
 		model.betTier();
 		
 	}
@@ -292,10 +301,6 @@ public class FrenchRoulette_v2 {
 	}
 	public void updateStats(List<WheelNumber> stats) {
 		model.updateLastTen(stats);
-		//in teoria il model si aggiorna, lancia un fire, il controller lo riceve e aggiorna la view
-		//qui invece abbiamo fatto che il controller del server manda un messaggio al controller del client
-		//che dice direttamente alla view di aggiornarsi
-		pnlInfos.updateStats(stats);
 	}
 	
 	private void updateTest() {
@@ -329,21 +334,20 @@ public class FrenchRoulette_v2 {
 	private void updateState() {
 		RouletteGameState gameState = model.getState();
 		pnlInfos.updateState(gameState.toString());
-		
+
 		if (gameState == RouletteGameState.BETTING) {
 	        pnlBetBoard.enableButtons(true); // Enable betting buttons
 	        pnlFiches.enableButtons(true); // Enable fiche buttons
-	    } else {
+	        
+	    } else if(gameState == RouletteGameState.SPINNING){
 	        pnlBetBoard.enableButtons(false); // Disable betting buttons
-	        pnlFiches.enableButtons(false); // Disable fiche buttons	        
-	        if(gameState == RouletteGameState.SETTLING) {
-	        	pnlBetBoard.resetBoard();
-	        	model.resetBet();
-	        	model.resetBets();
-	        }else {
-	        	pnlWheel.startAnimation(model.getLastNumber());
-	        }
-	    }
+	        pnlFiches.enableButtons(false); // Disable fiche buttons
+	        
+	    } else if(gameState == RouletteGameState.SETTLING) {
+        	pnlBetBoard.resetBoard();
+        	model.resetBet();
+        	model.resetBets();
+        }
 		
 	}
 }

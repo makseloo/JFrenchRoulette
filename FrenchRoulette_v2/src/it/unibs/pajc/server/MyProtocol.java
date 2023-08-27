@@ -39,6 +39,7 @@ public class MyProtocol implements Runnable {
 			public void stateChanged(ChangeEvent e) {
 				if(e instanceof GeneratedNumberEvent) {
 					sendStats();
+					
 				}else if(e instanceof UpdateState) {
 					sendPayouts();
 				}

@@ -148,7 +148,9 @@ public class MyProtocol implements Runnable {
     	if(!isConnected)
     		return;
     	try {
-    		PayoutMessage payoutMessage = new PayoutMessage(serverModel.getPayout(clientInfo.getAccountId()));
+    		double newBalance = serverModel.getNewBalance(clientInfo.getAccountId());
+    		double lastWin = serverModel.getLastWin(clientInfo.getAccountId());
+    		PayoutMessage payoutMessage = new PayoutMessage(newBalance, lastWin);
     		oos.writeObject(payoutMessage);
             oos.flush();
     	}catch (IOException ex) {

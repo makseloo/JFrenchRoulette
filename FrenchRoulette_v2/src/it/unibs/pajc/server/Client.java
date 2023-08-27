@@ -91,10 +91,11 @@ public class Client {
 
 	                 }else if(receivedObject instanceof PayoutMessage){
 	                	 PayoutMessage payoutMessage = (PayoutMessage) receivedObject;
+	                	 roulette.popup(payoutMessage.getLastWin());
 	                	 roulette.setBalance(payoutMessage.getNewBalance());
+	                	 
 	                 }else if(receivedObject instanceof StatsMessage) {
 	                	 StatsMessage statsMessage = (StatsMessage) receivedObject;
-
 	                	 roulette.updateStats(statsMessage.getNumbers());
 	                 }
 	                 

@@ -51,6 +51,10 @@ public class WheelNumber implements Serializable {
 	private Color color;
 	private double betValue;
 	
+	public WheelNumber() {
+		
+	}
+	
 	public WheelNumber(int id, int value, List<String> zone, Color color) {
 		this.id = id;
 		this.value = value;
@@ -215,6 +219,12 @@ public class WheelNumber implements Serializable {
 	}
 	public static List<String> getDozAndCols() {
 		return dozAndCols;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}	
 	
 	

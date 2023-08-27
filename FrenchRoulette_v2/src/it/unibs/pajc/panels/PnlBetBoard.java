@@ -156,14 +156,12 @@ public class PnlBetBoard extends PnlBase {
 	    }
 		
 		for (String s : otherStats) {
-			System.out.print(s);
 	        if (ohtersButtons.containsKey(s)) {
 	        	ohtersButtons.get(s).setText(s);
 	        	ohtersButtons.get(s).setIcon(null);
 	        }
 	    }
 		for (String dc : dozCols) {
-			System.out.print(dc);
 	        if (ohtersButtons.containsKey(dc)) {
 	        	ohtersButtons.get(dc).setText(dc);
 	        	ohtersButtons.get(dc).setIcon(null);

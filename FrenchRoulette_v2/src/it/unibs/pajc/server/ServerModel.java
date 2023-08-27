@@ -90,32 +90,38 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
     	if(connectedClients != null) {
     		for(Integer key : connectedClients.keySet()) {
     			if(connectedClients.get(key).getZoneBetList() != null) {
-    				
+    				boolean won = false;
     				for(Zone z : connectedClients.get(key).getZoneBetList()) {
     					
         				List<String> zone = lastNum.getZone();
         				
         				for(String s : zone) {
-        					
         					if(z.getZoneName().equals(s)) {
         						payout(key,z.getBetValue(), z.getPayout());
+        						won = true;
         					}
         				}
         			}
     				for(WheelNumber w : connectedClients.get(key).getBetList()) {
         				if(w.getValue() == lastNum.getValue()) {
         					payout(key,w.getBettedValue(), 36);
+        					won = true;
         				}
         			}
+    				//se non vince ho messo l'ultima vincita a 0
+    				if(!won) {
+    					setLastWin(key,0);
+    				}
     			}
-    			
-    			
-    			
-    			
     		}
     	}
 		
 	}
+	private void setLastWin(Integer key, int i) {
+		connectedClients.get(key).setLastWin(i);
+		
+	}
+
 	private void resetBets() {
 		for(int key : connectedClients.keySet()) {
 			connectedClients.get(key).resetBetList();
@@ -126,6 +132,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 
 	private void payout(Integer key, double bet, int multiplier) {
 		connectedClients.get(key).addAccountBalance(bet*multiplier);
+		connectedClients.get(key).setLastWin(bet*multiplier);
 		//fire something
 		
 	}
@@ -175,7 +182,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 		connectedClients.get(id).setAccountBalance(balance);
 	}
 
-	public double getPayout(int id) {
+	public double getNewBalance(int id) {
 		
 		return connectedClients.get(id).getAccountBalance();
 	}
@@ -184,6 +191,10 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 
 		return serverStats.getNumbers();
 		
+	}
+
+	public double getLastWin(int id) {
+		return connectedClients.get(id).getLastWin();
 	}
 
 

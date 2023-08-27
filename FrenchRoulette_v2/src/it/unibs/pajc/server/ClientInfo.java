@@ -10,6 +10,7 @@ public class ClientInfo {
 	private String clientName;
 	private int accountId;
     private double accountBalance;
+    private double lastWin;
     private List<WheelNumber> betList;
     private List<Zone> zoneBetList;
     
@@ -22,6 +23,7 @@ public class ClientInfo {
 		this.clientName = clientName;
 		this.accountId = accountId;
 		this.accountBalance = accountBalance;
+		this.lastWin = 0;
 	}
 	public String getClientName() {
 		return clientName;
@@ -74,6 +76,13 @@ public class ClientInfo {
 	public List<Zone> getZoneBetList() {
 		return this.zoneBetList;
 	}
+
+	public double getLastWin() {
+		return lastWin;
+	}
     
+	public void setLastWin(double win) {
+		this.lastWin = win;
+	}
     
 }

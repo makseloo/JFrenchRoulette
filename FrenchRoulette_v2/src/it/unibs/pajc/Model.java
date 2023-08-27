@@ -35,6 +35,8 @@ public class Model extends BaseModel{
 	//numbers displayed as on the roulette
 	List<WheelNumber> sortedList;
 	List<Zone> zones = new ArrayList<>();
+	
+	private List<WheelNumber> lastTen;
 
 	private RouletteGameState gameState;
 	
@@ -263,7 +265,7 @@ public class Model extends BaseModel{
 	}
 	public void setState(String gameState) {
 		this.gameState = RouletteGameState.valueOf(gameState);
-		fireValuesChange(new ChangeEvent(this));
+		fireStateChangedEvent(new ChangeEvent(this));
 	}
 
 	public List<WheelNumber> turnIntoColor(Queue<Integer> stats) {
@@ -433,6 +435,16 @@ public class Model extends BaseModel{
 		 }
 		
 	}
+
+	public void updateLastTen(List<WheelNumber> stats) {
+		this.lastTen = new ArrayList<>(stats);	
+	}
+	
+	public WheelNumber getLastNumber() {
+		return lastTen.get(lastTen.size() - 1);
+	}
+	
+	
 
 
 }

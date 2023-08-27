@@ -3,6 +3,7 @@ package it.unibs.pajc;
 import java.awt.EventQueue;
 
 import it.unibs.pajc.core.BaseModel.UpdateBet;
+import it.unibs.pajc.core.BaseModel.UpdateState;
 import it.unibs.pajc.panels.PnlBetBoard;
 import it.unibs.pajc.panels.PnlFiches;
 import it.unibs.pajc.panels.PnlRange;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import javax.swing.border.EmptyBorder;
@@ -79,8 +81,10 @@ public class FrenchRoulette_v2 {
                 if(e instanceof UpdateBet) {
                 	updateTest();
                 }
-            }
-			
+                if(e instanceof UpdateState) {
+                	updateState();
+                }
+            }		
         });
 	}
 
@@ -276,30 +280,21 @@ public class FrenchRoulette_v2 {
 	}
 	
 	private void updateView() {
-		//model.setBet(0) non credo vada qui
-		RouletteGameState gameState = model.getState();
-		pnlInfos.updateState(gameState.toString());		
+		//model.setBet(0) non credo vada qui	
 		pnlInfos.updateBalanceLbl(model.getBalance());
 		pnlInfos.updateBetLbl(model.getBet());
     	pnlRange.updateRange(model.getRange());
 		 // Disable buttons based on the game state
-	    if (gameState == RouletteGameState.BETTING) {
-	    	
-	        pnlBetBoard.enableButtons(true); // Enable betting buttons
-	        pnlFiches.enableButtons(true); // Enable fiche buttons
-	    } else {
-	        pnlBetBoard.enableButtons(false); // Disable betting buttons
-	        pnlFiches.enableButtons(false); // Disable fiche buttons	        
-	        if(gameState == RouletteGameState.SETTLING) {
-	        	pnlBetBoard.resetBoard();
-	        	model.resetBet();
-	        	model.resetBets();
-	        }
-	    }
+    	//continua a attivarli??
+	    
 	    
 		
 	}
 	public void updateStats(List<WheelNumber> stats) {
+		model.updateLastTen(stats);
+		//in teoria il model si aggiorna, lancia un fire, il controller lo riceve e aggiorna la view
+		//qui invece abbiamo fatto che il controller del server manda un messaggio al controller del client
+		//che dice direttamente alla view di aggiornarsi
 		pnlInfos.updateStats(stats);
 	}
 	
@@ -318,5 +313,37 @@ public class FrenchRoulette_v2 {
 
 	public List<Zone> getZoneBets() {
 		return model.getZonesBets();
+	}
+//se avanza tempo crea un timer che lo faccia scomparire quando c'è da scommettere
+	public void popup(double lastWin) {
+		System.out.print("Ultima vincita : "+ lastWin+"\n");
+		int lastNum = model.getLastNumber().getValue();
+		if(lastWin != 0) {
+			JOptionPane.showMessageDialog(null,"Ultimo numero uscito: "+ lastNum +"\nHai vinto : "+lastWin, null, JOptionPane.INFORMATION_MESSAGE);
+		}else {
+			JOptionPane.showMessageDialog(null,"Ultimo numero uscito: "+ lastNum, null, JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+	
+
+	private void updateState() {
+		RouletteGameState gameState = model.getState();
+		pnlInfos.updateState(gameState.toString());
+		
+		if (gameState == RouletteGameState.BETTING) {
+	        pnlBetBoard.enableButtons(true); // Enable betting buttons
+	        pnlFiches.enableButtons(true); // Enable fiche buttons
+	    } else {
+	        pnlBetBoard.enableButtons(false); // Disable betting buttons
+	        pnlFiches.enableButtons(false); // Disable fiche buttons	        
+	        if(gameState == RouletteGameState.SETTLING) {
+	        	pnlBetBoard.resetBoard();
+	        	model.resetBet();
+	        	model.resetBets();
+	        }else {
+	        	pnlWheel.startAnimation(model.getLastNumber());
+	        }
+	    }
+		
 	}
 }

@@ -83,7 +83,7 @@ public class FrenchRoulette_v2 {
                 	updateTest();
                 }
                 if(e instanceof UpdateState) {
-                	updateState();
+                	updateState(e);
                 }
                 if(e instanceof lastTenChanged) {
                 	pnlWheel.startAnimation(model.getLastNumber());
@@ -179,7 +179,7 @@ public class FrenchRoulette_v2 {
 		
 		pnlFiches.addActionListener(e -> this.takeFiche(e));
 		
-		pnlWheel.addActionListener(e -> this.updateLastTen());
+		pnlWheel.addActionListener(e -> this.updateInfoStats());
 		
 		pnlRange.addActionListener(e -> this.changeRange(e));
 		
@@ -217,7 +217,7 @@ public class FrenchRoulette_v2 {
 
 	}
 
-	 private void updateLastTen() {
+	 private void updateInfoStats() {
 		 pnlInfos.updateStats(model.getLastTen());
 	}
 
@@ -331,19 +331,19 @@ public class FrenchRoulette_v2 {
 	}
 	
 
-	private void updateState() {
-		RouletteGameState gameState = model.getState();
-		pnlInfos.updateState(gameState.toString());
+	private void updateState(ChangeEvent e) {
+		String gameState = e.getSource().toString();
+		pnlInfos.updateState(gameState);
 
-		if (gameState == RouletteGameState.BETTING) {
+		if (gameState.equals("BETTING")) {
 	        pnlBetBoard.enableButtons(true); // Enable betting buttons
 	        pnlFiches.enableButtons(true); // Enable fiche buttons
 	        
-	    } else if(gameState == RouletteGameState.SPINNING){
+	    } else if(gameState.equals("SPINNING")){
 	        pnlBetBoard.enableButtons(false); // Disable betting buttons
 	        pnlFiches.enableButtons(false); // Disable fiche buttons
 	        
-	    } else if(gameState == RouletteGameState.SETTLING) {
+	    } else if(gameState.equals("SETTLING")) {
         	pnlBetBoard.resetBoard();
         	model.resetBet();
         	model.resetBets();

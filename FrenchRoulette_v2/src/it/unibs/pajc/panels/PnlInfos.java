@@ -142,8 +142,10 @@ public class PnlInfos extends PnlBase {
 	    }
 
 	public void updateStats(List<WheelNumber> stats) {
-		lastTenPnl.removeAll();
 		
+		lastTenPnl.removeAll();
+		if(stats == null)
+			return;
 		List<WheelNumber> reversedStats = new LinkedList<>(stats);
 	    Collections.reverse((List<?>) reversedStats);
 		
@@ -178,4 +180,7 @@ public class PnlInfos extends PnlBase {
 		
 	}
 
+	public void resetInfo() {
+		betsJTxt.setText("");
+	}
 }

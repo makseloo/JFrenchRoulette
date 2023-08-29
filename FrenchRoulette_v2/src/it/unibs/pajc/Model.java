@@ -265,7 +265,7 @@ public class Model extends BaseModel{
 	}
 	public void setState(String gameState) {
 		this.gameState = RouletteGameState.valueOf(gameState);
-		fireStateChangedEvent(new ChangeEvent(this));
+		fireStateChangedEvent(gameState);
 	}
 
 	public List<WheelNumber> turnIntoColor(Queue<Integer> stats) {

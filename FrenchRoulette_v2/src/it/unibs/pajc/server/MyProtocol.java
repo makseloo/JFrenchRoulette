@@ -37,9 +37,10 @@ public class MyProtocol implements Runnable {
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
+				//sending the stats to the client whenever a new number is generated
 				if(e instanceof GeneratedNumberEvent) {
 					sendStats();
-					
+				//sending the payouts when the bets have bene analyzed
 				}else if(e instanceof UpdateState) {
 					sendPayouts();
 				}

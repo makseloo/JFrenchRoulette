@@ -183,4 +183,5 @@ public class PnlInfos extends PnlBase {
 	public void resetInfo() {
 		betsJTxt.setText("");
 	}
+
 }

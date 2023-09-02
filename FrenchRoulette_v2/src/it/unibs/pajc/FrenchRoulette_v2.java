@@ -80,7 +80,7 @@ public class FrenchRoulette_v2 {
             public void stateChanged(ChangeEvent e) {
                 updateView();
                 if(e instanceof UpdateBet) {
-                	updateTest();
+                	pnlInfos.updateBets(getBets(), getZoneBets());
                 }
                 if(e instanceof UpdateState) {
                 	updateState(e);
@@ -167,13 +167,13 @@ public class FrenchRoulette_v2 {
 			if (command.matches("^\\d+$")) {
 				//this.bet(e);
 				model.betNum(e);
-				pnlBetBoard.updateNumBetBoard(getBets());
+				//pnlBetBoard.updateNumBetBoard(getBets());
 			} else {
 				model.betDoz(command);
 				pnlBetBoard.updateZoneBetBoard(getZoneBets());
 				//pnlBetBoard.updateDoz(command);
 			}
-			pnlInfos.updateBets(getBets(), getZoneBets());
+			
 			
 		});
 		
@@ -227,19 +227,11 @@ public class FrenchRoulette_v2 {
 	}
 
 	void betRange(ActionEvent e) {
+		
+		model.betRange(e);
 		//System.out.print(e.getActionCommand());
-		int value = Integer.parseInt(e.getActionCommand());
-		int range = model.getRange();
-		int bet = model.getSelectedFicheVal() ;
-		int betRange = bet*(range*2 +1);
-		 if((model.getBalance() - betRange) >= 0) {
-			 model.setNumberBet(value, bet);
-			 model.setRangeNumberBet(e.getActionCommand(), bet, range);
-			 model.setBet(betRange);
-			 model.substractBalance(betRange); 
-		 }else {
-			 System.out.print("Saldo insufficiente\n");
-		 }
+		
+		 
 	}
 
 	void changeRange(ActionEvent e) {
@@ -303,10 +295,6 @@ public class FrenchRoulette_v2 {
 		model.updateLastTen(stats);
 	}
 	
-	private void updateTest() {
-		
-		//pnlInfos.updateBets(getBets(),model.getZonesBets());
-	}
 	
 	public void setBalance(double balance) {
 		model.setBalance(balance);
@@ -338,13 +326,16 @@ public class FrenchRoulette_v2 {
 		if (gameState.equals("BETTING")) {
 	        pnlBetBoard.enableButtons(true); // Enable betting buttons
 	        pnlFiches.enableButtons(true); // Enable fiche buttons
+	        pnlZones.enableButtons(true);
 	        
 	    } else if(gameState.equals("SPINNING")){
 	        pnlBetBoard.enableButtons(false); // Disable betting buttons
 	        pnlFiches.enableButtons(false); // Disable fiche buttons
+	        pnlZones.enableButtons(false);
 	        
 	    } else if(gameState.equals("SETTLING")) {
         	pnlBetBoard.resetBoard();
+        	pnlInfos.resetInfo();
         	model.resetBet();
         	model.resetBets();
         }

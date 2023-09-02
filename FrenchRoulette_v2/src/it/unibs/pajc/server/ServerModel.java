@@ -13,8 +13,8 @@ import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.Zone;
 import it.unibs.pajc.core.BaseModel;
 public class ServerModel extends BaseModel implements ServerTimer.TimerListener {
-    private static final int BETTING_TIMER_DURATION = 3; // Duration of the timer in seconds
-    private static final int SPIN_TIMER_DURATION = 10; // the time the ball needs to spin around the wheel
+    private static final int BETTING_TIMER_DURATION = 10; // Duration of the timer in seconds
+    private static final int SPIN_TIMER_DURATION = 8; // the time the ball needs to spin around the wheel
     private static final int SETTLE_TIMER_DURATION = 3; // the time the ball needs to spin around the wheel
 
     private RouletteGameState gameState;
@@ -66,14 +66,13 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
              gameState = RouletteGameState.SETTLING;
              serverStats.generateSingleNumber();
              
-             analyzeBets();
              fireGeneratedNumberEvent(new ChangeEvent(this));
-             fireStateChangedEvent(new ChangeEvent(this));
+             
             
              break;
          case SETTLING:
-        	//da errore è da sistemare
-        	 
+        	 analyzeBets();
+        	 fireUpdateStateEvent(new ChangeEvent(this));
              serverTimer = new ServerTimer(SETTLE_TIMER_DURATION);
              resetBets();
              gameState = RouletteGameState.BETTING;
@@ -92,14 +91,13 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
     private void analyzeBets() {
     	
     	WheelNumber lastNum = serverStats.getLastWheelNumber();
+    	List<String> zone = lastNum.getZone();
+    	int lastNumValue = lastNum.getValue();
     	if(connectedClients != null) {
     		for(Integer key : connectedClients.keySet()) {
     			if(connectedClients.get(key).getZoneBetList() != null) {
     				boolean won = false;
     				for(Zone z : connectedClients.get(key).getZoneBetList()) {
-    					
-        				List<String> zone = lastNum.getZone();
-        				
         				for(String s : zone) {
         					if(z.getZoneName().equals(s)) {
         						payout(key,z.getBetValue(), z.getPayout());
@@ -108,7 +106,8 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
         				}
         			}
     				for(WheelNumber w : connectedClients.get(key).getBetList()) {
-        				if(w.getValue() == lastNum.getValue()) {
+        				if(w.getValue() == lastNumValue) {
+        					
         					payout(key,w.getBettedValue(), 36);
         					won = true;
         				}

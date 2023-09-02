@@ -68,7 +68,7 @@ public class BaseModel {
         }
     }
     
-    public void fireStateChangedEvent(Object source) {
+    public void fireUpdateStateEvent(Object source) {
     	UpdateState updateBetEvent = new UpdateState(source);
         fireValuesChange(updateBetEvent);
     }

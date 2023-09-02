@@ -265,7 +265,7 @@ public class Model extends BaseModel{
 	}
 	public void setState(String gameState) {
 		this.gameState = RouletteGameState.valueOf(gameState);
-		fireStateChangedEvent(gameState);
+		fireUpdateStateEvent(gameState);
 	}
 
 	public List<WheelNumber> turnIntoColor(Queue<Integer> stats) {
@@ -340,7 +340,6 @@ public class Model extends BaseModel{
 			 System.out.print("Saldo insufficiente");
 		 }
 		 fireUpdateBet(new ChangeEvent(this));
-		
 	}
 
 	public int getRange() {
@@ -369,6 +368,7 @@ public class Model extends BaseModel{
 		 }else {
 			 System.out.print("Saldo insufficiente");
 		 }
+		fireUpdateBet(new ChangeEvent(this));
 	}
 
 
@@ -390,6 +390,7 @@ public class Model extends BaseModel{
 		 }else {
 			 System.out.print("Saldo insufficiente");
 		 }
+		fireUpdateBet(new ChangeEvent(this));
 	}
 
 	public void betVois() {
@@ -413,6 +414,7 @@ public class Model extends BaseModel{
 		 }else {
 			 System.out.print("Saldo insufficiente");
 		 }
+		fireUpdateBet(new ChangeEvent(this));
 		
 	}
 
@@ -433,6 +435,7 @@ public class Model extends BaseModel{
 		 }else {
 			 System.out.print("Saldo insufficiente");
 		 }
+		fireUpdateBet(new ChangeEvent(this));
 		
 	}
 
@@ -448,8 +451,37 @@ public class Model extends BaseModel{
 	public List<WheelNumber> getLastTen() {
 		return lastTen;
 	}
+
+	public void betRange(ActionEvent e) {
+		int value = Integer.parseInt(e.getActionCommand());
+		int range = getRange();
+		int bet = getSelectedFicheVal() ;
+		int betRange = bet*(range*2 +1);
+		 if((getBalance() - betRange) >= 0) {
+			 setNumberBet(value, bet);
+			 setRangeNumberBet(e.getActionCommand(), bet, range);
+			 setBet(betRange);
+			 substractBalance(betRange); 
+		 }else {
+			 System.out.print("Saldo insufficiente\n");
+		 }
+		 fireUpdateBet(new ChangeEvent(this));
+	}
 	
-	
+	/*
+	 * 	public void betNum(ActionEvent e) {
+		int value = Integer.parseInt(e.getActionCommand());
+		int bet = getSelectedFicheVal();
+		 if((getBalance() - bet) >= 0) {
+			 setNumberBet(value, bet);
+			 setBet(bet);
+			 substractBalance(bet); 
+		 }else {
+			 System.out.print("Saldo insufficiente");
+		 }
+		 fireUpdateBet(new ChangeEvent(this));
+	}
+	 */
 
 
 }

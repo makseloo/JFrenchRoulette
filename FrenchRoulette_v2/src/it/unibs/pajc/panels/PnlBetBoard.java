@@ -6,7 +6,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import java.awt.Component;
-
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,6 +66,7 @@ public class PnlBetBoard extends PnlBase {
 		gbc_zeroPnl.fill = GridBagConstraints.VERTICAL;
 		JButton zeroBtn = createButton("0", Colors.getGreen());
 		numberButtons.put(0,zeroBtn);
+		zeroBtn.setPreferredSize(new Dimension(40,78));
 		this.add(zeroBtn, gbc_zeroPnl);//this si riferisce a questo pannello
 		
 		
@@ -79,6 +80,7 @@ public class PnlBetBoard extends PnlBase {
 		for(WheelNumber n : numbers) {
 			JButton numberBtn = createButton(n.getValue()+"", n.getColor());
 			numberButtons.put(n.getValue(),numberBtn);
+			numberBtn.setPreferredSize(new Dimension(47,26));
 			numbersPnl.add(numberBtn);
 		}
 		
@@ -95,6 +97,7 @@ public class PnlBetBoard extends PnlBase {
 		for(int i = 1; i < 4; i++) {
 			JButton dozenBtn = createButton(i + "°:12", Colors.getGray());
 			ohtersButtons.put(i + "°:12",dozenBtn);
+			dozenBtn.setPreferredSize(new Dimension(188,26));
 			dozenPnl.add(dozenBtn);
 			
 		}
@@ -109,6 +112,7 @@ public class PnlBetBoard extends PnlBase {
 		for(int i = 1; i < 4; i++) {
 			JButton rowBtn = createButton(i + "° row", Colors.getGray());
 			ohtersButtons.put(i + "° row",rowBtn);
+			rowBtn.setPreferredSize(new Dimension(69,26));
 			rowPnl.add(rowBtn);
 		}
 		this.add(rowPnl, gbc_rowPnl);
@@ -123,6 +127,7 @@ public class PnlBetBoard extends PnlBase {
 		for(String s : otherStats) {
 			JButton otherBtn = createButton(s, Colors.getGray());
 			ohtersButtons.put(s,otherBtn);
+			otherBtn.setPreferredSize(new Dimension(94,26));
 			othersPnl.add(otherBtn);
 		}
 		this.add(othersPnl, gbc_othersPnl);
@@ -148,19 +153,26 @@ public class PnlBetBoard extends PnlBase {
 	    }
 	}
 	public void resetBoard() {
+		//40x78
+		numberButtons.get(0).setText(0+"");
+        numberButtons.get(0).setIcon(null);
+        
+		//26x47
 		for (WheelNumber w : numbers) {
 	        if (numberButtons.containsKey(w.getValue())) {
 	        	numberButtons.get(w.getValue()).setText(w.getValue()+"");
 	            numberButtons.get(w.getValue()).setIcon(null);
 	        }
 	    }
-		
+		//26x94
 		for (String s : otherStats) {
 	        if (ohtersButtons.containsKey(s)) {
 	        	ohtersButtons.get(s).setText(s);
 	        	ohtersButtons.get(s).setIcon(null);
 	        }
 	    }
+		//188x26
+		//69x26
 		for (String dc : dozCols) {
 	        if (ohtersButtons.containsKey(dc)) {
 	        	ohtersButtons.get(dc).setText(dc);

@@ -58,7 +58,6 @@ public class PnlBase extends JPanel {
 		btn.setForeground(textColor);
 		btn.setActionCommand(symbol);
 		btn.addActionListener(e -> fireActionListener(e));
-
 		return btn;
 	}
 	

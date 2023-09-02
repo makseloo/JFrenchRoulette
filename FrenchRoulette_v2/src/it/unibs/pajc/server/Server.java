@@ -212,9 +212,13 @@ public class Server {
 		for(Integer key : clientMap.keySet()) {
 			ClientInfo client = clientMap.get(key);
 			textArea.append(clientMap.get(key).getClientName()+":"+clientMap.get(key).getAccountBalance()+"\n");
+			if(client.getBetList() == null)
+				return;
 			for(WheelNumber w : client.getBetList()) {
 				textArea.append(w.getValue() + ":"+ w.getBettedValue()+"\n");
 			}
+			if(client.getZoneBetList() == null)
+				return;
 			for(Zone z : client.getZoneBetList()) {
 				textArea.append(z.getZoneName() + ":"+ z.getBetValue()+"\n");
 			}
@@ -222,9 +226,5 @@ public class Server {
 		textArea.setForeground(Color.black);
 		
 	}
-	
-	
-    
-
 }
 

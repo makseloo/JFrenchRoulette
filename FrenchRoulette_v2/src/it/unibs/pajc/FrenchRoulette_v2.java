@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.List;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -31,6 +32,8 @@ import it.unibs.pajc.server.PnlCountdown;
 import it.unibs.pajc.server.RouletteGameState;
 
 import javax.swing.JTextArea;
+import javax.swing.Timer;
+
 import it.unibs.pajc.panels.PnlZones;
 import it.unibs.pajc.panels.PnlInfos;
 
@@ -80,6 +83,8 @@ public class FrenchRoulette_v2 {
             public void stateChanged(ChangeEvent e) {
                 updateView();
                 if(e instanceof UpdateBet) {
+                	pnlBetBoard.updateNumBetBoard(getBets());
+                	pnlBetBoard.updateZoneBetBoard(getZoneBets());
                 	pnlInfos.updateBets(getBets(), getZoneBets());
                 }
                 if(e instanceof UpdateState) {
@@ -167,14 +172,9 @@ public class FrenchRoulette_v2 {
 			if (command.matches("^\\d+$")) {
 				//this.bet(e);
 				model.betNum(e);
-				pnlBetBoard.updateNumBetBoard(getBets());
 			} else {
 				model.betDoz(command);
-				pnlBetBoard.updateZoneBetBoard(getZoneBets());
-				//pnlBetBoard.updateDoz(command);
-			}
-			
-			
+			}	
 		});
 		
 		pnlFiches.addActionListener(e -> this.takeFiche(e));
@@ -204,6 +204,7 @@ public class FrenchRoulette_v2 {
 			default:
 				//se non trovo nulla vuol dire che ho usato il range
 				this.betRange(e);
+				
 			}
 			
 			
@@ -309,14 +310,33 @@ public class FrenchRoulette_v2 {
 	}
 //se avanza tempo crea un timer che lo faccia scomparire quando c'è da scommettere
 	public void popup(double lastWin) {
-		System.out.print("Ultima vincita : "+ lastWin+"\n");
-		int lastNum = model.getLastNumber().getValue();
-		if(lastWin != 0) {
-			JOptionPane.showMessageDialog(null,"Ultimo numero uscito: "+ lastNum +"\nHai vinto : "+lastWin, null, JOptionPane.INFORMATION_MESSAGE);
-		}else {
-			JOptionPane.showMessageDialog(null,"Ultimo numero uscito: "+ lastNum, null, JOptionPane.INFORMATION_MESSAGE);
-		}
-	}
+	    int lastNum = model.getLastNumber().getValue();
+	    String message;
+
+	    if (lastWin != 0) {
+	        message = "Ultimo numero uscito: " + lastNum + "<br>Hai vinto : " + lastWin;
+	    } else {
+	        message = "Ultimo numero uscito: " + lastNum;
+	    }
+	    
+	    JLabel messageLabel = new JLabel("<html>" + message + "</html>");
+	    //messageLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center-align the text
+
+	    JOptionPane pane = new JOptionPane(messageLabel, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
+	    JDialog dialog = pane.createDialog(null, null);
+	    // Set a delay (in milliseconds) for the dialog to close after a certain time
+	    int delayMilliseconds = 3000; // 3000 milliseconds = 3 seconds
+	    Timer timer = new Timer(delayMilliseconds, e -> {
+	        // Close the dialog when the timer triggers
+	        dialog.dispose();
+	    });
+
+	    // Start the timer
+	    timer.setRepeats(false); // Set to not repeat
+	    timer.start();
+
+	    dialog.setVisible(true); // Show the dialog
+	    }
 	
 
 	private void updateState(ChangeEvent e) {

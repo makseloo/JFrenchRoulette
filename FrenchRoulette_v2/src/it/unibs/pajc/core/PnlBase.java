@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
 
 import java.awt.Component;
 
@@ -55,6 +56,7 @@ public class PnlBase extends JPanel {
 		Color textColor = new Color(255,255,255);
 		btn.setBackground(color);
 		btn.setForeground(textColor);
+		btn.setActionCommand(symbol);
 		btn.addActionListener(e -> fireActionListener(e));
 
 		return btn;

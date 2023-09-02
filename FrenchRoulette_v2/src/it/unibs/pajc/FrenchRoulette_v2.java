@@ -167,7 +167,7 @@ public class FrenchRoulette_v2 {
 			if (command.matches("^\\d+$")) {
 				//this.bet(e);
 				model.betNum(e);
-				//pnlBetBoard.updateNumBetBoard(getBets());
+				pnlBetBoard.updateNumBetBoard(getBets());
 			} else {
 				model.betDoz(command);
 				pnlBetBoard.updateZoneBetBoard(getZoneBets());

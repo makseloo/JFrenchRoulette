@@ -24,6 +24,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import it.unibs.pajc.panels.PnlZones;
+import it.unibs.pajc.server.Numbers;
 import it.unibs.pajc.panels.PnlInfos;
 
 public class FrenchRoulette_v2 {
@@ -117,7 +118,7 @@ public class FrenchRoulette_v2 {
 		contentPane.add(pnlInfos, gbc_pnlInfos);
 		
 		//dovrei prendere tutto dal model?
-		pnlBetBoard = new PnlBetBoard(model.getNumberList(), WheelNumber.getOthersStat(), WheelNumber.getDozAndCols());//è giusti dal punto di vista mvc?
+		pnlBetBoard = new PnlBetBoard(model.getNumberList(), Numbers.othersStat, Numbers.dozAndCols);//è giusti dal punto di vista mvc?
 		GridBagConstraints gbc_pnlBoard = new GridBagConstraints();
 		gbc_pnlBoard.insets = new Insets(0, 0, 5, 5);
 		gbc_pnlBoard.fill = GridBagConstraints.BOTH;

@@ -13,14 +13,14 @@ import it.unibs.pajc.WheelNumber;
 public class Numbers {
 	
 	public static List<Integer> red = Arrays.asList(1, 3, 5, 7, 9, 12, 14, 16, 18, 19 ,21, 23, 25, 27, 30, 32 ,26 ,34, 36);
-	public static  List<Integer> black = Arrays.asList(2, 4, 6, 8, 10, 11, 13, 15, 17, 20 ,22, 24, 26, 28, 29, 31 ,33 ,35);
+	public static List<Integer> black = Arrays.asList(2, 4, 6, 8, 10, 11, 13, 15, 17, 20 ,22, 24, 26, 28, 29, 31 ,33 ,35);
 	
 	public static List<Integer> tier = Arrays.asList(5, 8, 10, 11, 13, 16, 23, 24, 27, 30, 33,36);
 	public static List<Integer> orphelins = Arrays.asList(1, 20, 14, 31, 9, 6, 34, 17);
 	public static List<Integer> voisins = Arrays.asList(22, 18, 29, 7, 28, 12, 35, 3, 26, 0, 32, 15, 19, 4, 21, 2, 25);
 	public static List<Integer> zero = Arrays.asList(12, 35, 3, 26, 0, 32, 15);
 	//numbers order based on their position on the wheel
-	public static List<Integer> orderedNumbers = Arrays.asList(17,34,6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26,0,32, 15, 19, 4, 21, 2, 25);
+	public static List<Integer> sortedIntNumbers = Arrays.asList(17,34,6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26,0,32, 15, 19, 4, 21, 2, 25);
 	//dozens
 	public static List<Integer> dozen1 = Arrays.asList(1,2,3,4,5,6,7,8,9,10,11,12);
 	public static List<Integer> dozen2 = Arrays.asList(13,14,15,16,17,18,19,20,21,22,23,24);
@@ -49,15 +49,10 @@ public class Numbers {
 	
 	
 	public List<WheelNumber> numbers;
-	public static List<WheelNumber> sortedNumbers;
-	List<Integer> blacks = WheelNumber.getBlackNums();
-	List<Integer> reds = WheelNumber.getRedNums();
-	
+	public static List<WheelNumber> sortedWheelNumbers;
 	
 	public Numbers() {
 		numbers = new ArrayList<WheelNumber>();
-		//numbers in the wheel order + the 0
-		
 		
 		int result;
 		Color color;
@@ -68,7 +63,7 @@ public class Numbers {
 	            for (int column = 0; column < 36; column += 3) {
 	            	result = row + column;
 	            	
-	            	if(blacks.contains(result))
+	            	if(black.contains(result))
 	            		color = Colors.getBlack();
 	            	else
 	            		color =  Colors.getRed();
@@ -119,16 +114,13 @@ public class Numbers {
 	            
 	            
 	        }
-		 sortedNumbers = sort(numbers);
+		 sortedWheelNumbers = sort(numbers);
 		 
-	}
-	public List<WheelNumber> getNumbers() {
-		return numbers;
 	}
 	
 	private List<WheelNumber> sort(List<WheelNumber> numberList) {
 		List<WheelNumber> sortedList = new ArrayList<>(numberList);
-		List<Integer> desiredOrder = WheelNumber.getNums();
+		
 		List<String> zeroZone = new ArrayList<>();
 		zeroZone.add("voisins");
 		zeroZone.add("z");
@@ -141,7 +133,7 @@ public class Numbers {
 	            public int compare(WheelNumber w1, WheelNumber w2) {
 	                Integer value1 = w1.getValue();
 	                Integer value2 = w2.getValue();
-	                return Integer.compare(desiredOrder.indexOf(value1), desiredOrder.indexOf(value2));
+	                return Integer.compare(sortedIntNumbers.indexOf(value1), sortedIntNumbers.indexOf(value2));
 	            }
 		});
 		//perché in numberlist non c'è lo 0
@@ -150,17 +142,69 @@ public class Numbers {
 		return sortedList;
 	}
 	
-	public List<WheelNumber> getSortedNumbers() {
-		return sortedNumbers;
-	}
-	
 	public static int indexOf(WheelNumber lastNumber) {
-		for (int i = 0; i < orderedNumbers.size(); i++) {
-	        if (orderedNumbers.get(i) == lastNumber.getValue()) {
+		for (int i = 0; i < sortedIntNumbers.size(); i++) {
+	        if (sortedIntNumbers.get(i) == lastNumber.getValue()) {
 	            return i;
 	        }
 	    }
 	    return -1; // Value not found
+	}
+
+	public static List<Integer> getZoneNumbers(String zoneName) {
+	    switch (zoneName) {
+	        case "ZERO": {
+	            return zero;
+	        }
+	        case "TIER": {
+	            return tier;
+	        }
+	        case "ORPHELINS": {
+	            return orphelins;
+	        }
+	        case "VOISINS": {
+	            return voisins;
+	        }
+	        case "1-18": {
+	            return eight;
+	        }
+	        case "19-36": {
+	            return six;
+	        }
+	        case "EVEN": {
+	            return even;
+	        }
+	        case "ODD": {
+	            return odd;
+	        }
+	        case "1°:12": {
+	            return dozen1;
+	        }
+	        case "2°:12": {
+	            return dozen2;
+	        }
+	        case "3°:12": {
+	            return dozen3;
+	        }
+	        case "1° row": {
+	            return col1;
+	        }
+	        case "2° row": {
+	            return col2;
+	        }
+	        case "3° row": {
+	            return col3;
+	        }
+	        case "RED": {
+	            return red;
+	        }
+	        case "BLACK": {
+	            return black;
+	        }
+	        default: {
+	            return Collections.emptyList();
+	        }
+	    }
 	}
 	
 }

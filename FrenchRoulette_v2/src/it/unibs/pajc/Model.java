@@ -21,13 +21,6 @@ public class Model extends BaseModel{
 	List<WheelNumber> numberList = new ArrayList<>();
 	List<Fiche> ficheList = new ArrayList<>();
 	
-	List<Integer> blacks = WheelNumber.getBlackNums();
-	List<Integer> reds = WheelNumber.getRedNums();
-	
-	List<Integer> tier = WheelNumber.getTier();
-	List<Integer> orphelins = WheelNumber.getOrphelins();
-	List<Integer> voisins = WheelNumber.getVoisins();
-	List<Integer> zero = WheelNumber.getZero(); 
 	//numbers displayed as on the roulette
 	List<WheelNumber> sortedList;
 	List<Zone> zones = new ArrayList<>();
@@ -42,7 +35,7 @@ public class Model extends BaseModel{
 	
 	public Model() {	
 		Numbers numbers = new Numbers();
-		numberList = numbers.getNumbers();
+		numberList = numbers.numbers;
 		initializeFiches();
 		initializeZones();
 		this.sortedList = sort(numberList);
@@ -50,20 +43,20 @@ public class Model extends BaseModel{
 	}
 
 	private void initializeZones() {
-		for(String dc : WheelNumber.getDozAndCols()) {
-			Zone zone = new Zone(dc, WheelNumber.getSpecificZone(dc),3);
+		for(String dc :  Numbers.dozAndCols) {
+			Zone zone = new Zone(dc, Numbers.getZoneNumbers(dc),3);
 			zones.add(zone);
 		}
 		
-		for(String o : WheelNumber.getOthersStat()) {
-			Zone zone = new Zone(o, WheelNumber.getSpecificZone(o),2);
+		for(String o : Numbers.othersStat) {
+			Zone zone = new Zone(o, Numbers.getZoneNumbers(o),2);
 			zones.add(zone);
 		}
 	}
 
 	private List<WheelNumber> sort(List<WheelNumber> numberList) {
 		List<WheelNumber> sortedList = new ArrayList<>(numberList);
-		List<Integer> desiredOrder = WheelNumber.getNums();
+		List<Integer> desiredOrder = Numbers.sortedIntNumbers;
 		List<String> zeroZone = new ArrayList<>();
 		zeroZone.add("voisins");
 		zeroZone.add("z");
@@ -356,7 +349,7 @@ public class Model extends BaseModel{
 		double totalBet = bet*6;
 		double splitBet = bet  / 2.0;
 		if((getBalance() - totalBet) >= 0) {
-			for(int i : WheelNumber.getTier()) {
+			for(int i : Numbers.tier) {
 				setNumberBet(i, splitBet);
 			}
 			setBet(totalBet);
@@ -374,7 +367,7 @@ public class Model extends BaseModel{
 		double totalBet = bet*5;
 		double splitBet = bet  / 2.0;
 		if((getBalance() - totalBet) >= 0) {
-			for(int i : WheelNumber.getOrphelins()) {
+			for(int i : Numbers.orphelins) {
 				if(i == 1) {
 					setNumberBet(i, bet);
 				}else {
@@ -396,7 +389,7 @@ public class Model extends BaseModel{
 		double threedBet = (bet * 2) / 3.0;
 		double fourBet = (bet * 2) / 4.0;
 		if((getBalance() - totalBet) >= 0) {
-			for(int i : WheelNumber.getVoisins()) {
+			for(int i : Numbers.voisins) {
 				if(i == 0 || i == 2 || i == 3) {
 					setNumberBet(i, threedBet);
 				}else if(i == 25 || i == 26 || i == 28 || i == 29){
@@ -419,7 +412,7 @@ public class Model extends BaseModel{
 		double totalBet = bet*4;
 		double splitBet = bet  / 2.0;
 		if((getBalance() - totalBet) >= 0) {
-			for(int i : WheelNumber.getZero()) {
+			for(int i : Numbers.zero) {
 				if(i == 26) {
 					setNumberBet(i, bet);
 				}else {

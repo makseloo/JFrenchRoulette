@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import it.unibs.pajc.Colors;
 import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.core.PnlBase;
+import it.unibs.pajc.server.Numbers;
 
 public class PnlZones extends PnlBase {
     private List<JButton> numberButtons = new ArrayList<>();
@@ -42,22 +43,22 @@ public class PnlZones extends PnlBase {
         int y = 0;
 
         // Add buttons for up section
-        x = addButtons(WheelNumber.getUp(), numbers, x, y, buttonWidth, buttonHeight,false);
+        x = addButtons(Numbers.up, numbers, x, y, buttonWidth, buttonHeight,false);
 
         // Add buttons for down section
         y = buttonHeight * 7;
-        x = addButtons(WheelNumber.getDowns(), numbers, x, y, buttonWidth, buttonHeight,false);
+        x = addButtons(Numbers.downs, numbers, x, y, buttonWidth, buttonHeight,false);
 
         // Add buttons for left section
         x = 0;
         y = buttonHeight;
-        x = addButtons(WheelNumber.getLeft(), numbers, x, y, buttonWidth, buttonHeight,true);
+        x = addButtons(Numbers.left, numbers, x, y, buttonWidth, buttonHeight,true);
 
         // Add buttons for right section
         y = buttonHeight;
         x = buttonWidth * 12;
         buttonHeight = 20;
-        addButtons(WheelNumber.getRight(), numbers, x, y, buttonWidth, buttonHeight,true);
+        addButtons(Numbers.right, numbers, x, y, buttonWidth, buttonHeight,true);
 
         buttonHeight = 16;
         //tier line

@@ -19,8 +19,9 @@ public class ServerStatistics {
     
     public ServerStatistics() {
     	this.randomWheelNumbers = new LinkedList<>();
-    	Numbers numbers = new Numbers();//si potrebbe fare static e crearli da un'altra parte ma andrebbe fatto a manO?
-    	this.wheelNumbers = numbers.getSortedNumbers();
+    	//perché la costruzione di sorted numbers avviene nel costruttore di Numbers
+    	Numbers numbers = new Numbers();
+    	this.wheelNumbers = numbers.sortedWheelNumbers;
     	this.randomWheelNumbers = generateRandomNumbers(NUMBER_OF_RANDOMS, RANDOM_RANGE_MAX);
     }
 

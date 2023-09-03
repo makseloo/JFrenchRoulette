@@ -311,32 +311,16 @@ public class FrenchRoulette_v2 {
 //se avanza tempo crea un timer che lo faccia scomparire quando c'è da scommettere
 	public void popup(double lastWin) {
 	    int lastNum = model.getLastNumber().getValue();
-	    String message;
-
-	    if (lastWin != 0) {
-	        message = "Ultimo numero uscito: " + lastNum + "<br>Hai vinto : " + lastWin;
-	    } else {
-	        message = "Ultimo numero uscito: " + lastNum;
-	    }
+	    String numMessage = "";
+	    String winMessage = "";
+	    if (lastWin != 0)
+	    	winMessage = "Hai vinto : " + lastWin;
+	    numMessage = "Ultimo numero uscito: " + lastNum;
 	    
-	    JLabel messageLabel = new JLabel("<html>" + message + "</html>");
-	    //messageLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center-align the text
+	    pnlInfos.updateLast(winMessage,numMessage);
+	    
+	}
 
-	    JOptionPane pane = new JOptionPane(messageLabel, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
-	    JDialog dialog = pane.createDialog(null, null);
-	    // Set a delay (in milliseconds) for the dialog to close after a certain time
-	    int delayMilliseconds = 3000; // 3000 milliseconds = 3 seconds
-	    Timer timer = new Timer(delayMilliseconds, e -> {
-	        // Close the dialog when the timer triggers
-	        dialog.dispose();
-	    });
-
-	    // Start the timer
-	    timer.setRepeats(false); // Set to not repeat
-	    timer.start();
-
-	    dialog.setVisible(true); // Show the dialog
-	    }
 	
 
 	private void updateState(ChangeEvent e) {

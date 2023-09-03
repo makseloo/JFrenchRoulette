@@ -41,14 +41,16 @@ public class PnlInfos extends PnlBase {
 	private JLabel timerLabel;
 	
 	private JTextArea betsJTxt;
+	private JLabel lblLastNum;
+	private JLabel lblLastWin;
 	
 	
 	public PnlInfos() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE, 0.0, 0.0, 0.0, 0.0};
 		setLayout(gridBagLayout);
 		
 
@@ -56,6 +58,7 @@ public class PnlInfos extends PnlBase {
 		lastTenPnl.setLayout(new GridLayout(1,13));
 		
 		GridBagConstraints gbc_lastTenPnl = new GridBagConstraints();
+		gbc_lastTenPnl.insets = new Insets(0, 0, 5, 0);
 		gbc_lastTenPnl.gridx = 0;
 		gbc_lastTenPnl.gridy = 0;
 		add(lastTenPnl, gbc_lastTenPnl);
@@ -72,6 +75,7 @@ public class PnlInfos extends PnlBase {
         timerLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
 		
 		GridBagConstraints gbc_timerLabel = new GridBagConstraints();
+		gbc_timerLabel.insets = new Insets(0, 0, 5, 0);
 		gbc_timerLabel.gridx = 0;
 		gbc_timerLabel.gridy = 2;
 		
@@ -88,17 +92,32 @@ public class PnlInfos extends PnlBase {
 		lblBet = new JLabel("Puntata");
 		
 		GridBagConstraints gbc_lblBet = new GridBagConstraints();
+		gbc_lblBet.insets = new Insets(0, 0, 5, 0);
 		gbc_lblBet.gridx = 0;
 		gbc_lblBet.gridy = 4;
 		
 		add(lblBet, gbc_lblBet);
+		
+		lblLastNum = new JLabel("Ultimo numero:");
+		GridBagConstraints gbc_lblLastNum = new GridBagConstraints();
+		gbc_lblLastNum.insets = new Insets(0, 0, 5, 0);
+		gbc_lblLastNum.gridx = 0;
+		gbc_lblLastNum.gridy = 5;
+		add(lblLastNum, gbc_lblLastNum);
+		
+		lblLastWin = new JLabel("Ultima vincita:");
+		GridBagConstraints gbc_lblWin = new GridBagConstraints();
+		gbc_lblWin.insets = new Insets(0, 0, 5, 0);
+		gbc_lblWin.gridx = 0;
+		gbc_lblWin.gridy = 6;
+		add(lblLastWin, gbc_lblWin);
 		
 		
 		betsPnl = new JPanel();
 		betsPnl.setLayout(new GridBagLayout());
 		GridBagConstraints gbc_betsPnl = new GridBagConstraints();
 		gbc_betsPnl.gridx = 0;
-		gbc_betsPnl.gridy = 5;
+		gbc_betsPnl.gridy = 7;
 		gbc_betsPnl.fill = GridBagConstraints.BOTH;
 		
 		betsJTxt = new JTextArea();
@@ -182,6 +201,12 @@ public class PnlInfos extends PnlBase {
 
 	public void resetInfo() {
 		betsJTxt.setText("");
+	}
+
+	public void updateLast(String winMessage, String numMessage) {
+		lblLastWin.setText(winMessage);
+		lblLastNum.setText(numMessage);
+		
 	}
 
 }

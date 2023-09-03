@@ -18,7 +18,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class Client {
-
 	private static FrenchRoulette_v2 roulette;
 	private static int seconds;
 	private static String gameState;
@@ -30,6 +29,7 @@ public class Client {
 		setupView = new SetupView();
 		setupView.frame.setVisible(true);
 		roulette = new FrenchRoulette_v2();
+		
 		
 		String hostName = "localhost";
 		int port = 1234;
@@ -45,6 +45,7 @@ public class Client {
                 @Override
                 public void windowClosed(WindowEvent e) {
                 	//aggiungi un controllo nel caso si chiuda la finestra senza fare nulla
+                	
                 	roulette.setBalance(setupView.getBalance());
                 	roulette.frame.setVisible(true);
                 	ClientInfoMessage clientInfoMsg = new ClientInfoMessage(setupView.getName(), setupView.getBalance());
@@ -55,8 +56,6 @@ public class Client {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-        	    	
-        	        
                 }
             });
             
@@ -76,7 +75,6 @@ public class Client {
 	 	               if (gameState.equals("BETTING")) {
 	                        betsSent = false; // Reset the flag to false at the start of each cycle
 	                    }
-
 	 	                if(gameState.equals("SPINNING") && !betsSent) {
 	 	                	List<WheelNumber> bets = roulette.getBets();
 	 	                	
@@ -88,7 +86,6 @@ public class Client {
 	 	                    oos.flush();
 	 	                    betsSent = true;
 	 	                }
-
 	                 }else if(receivedObject instanceof PayoutMessage){
 	                	 PayoutMessage payoutMessage = (PayoutMessage) receivedObject;
 	                	 roulette.popup(payoutMessage.getLastWin());
@@ -109,6 +106,4 @@ public class Client {
 		
 		
 	}
-
-	
 }

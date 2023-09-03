@@ -1,13 +1,11 @@
 package it.unibs.pajc.panels;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 
 import it.unibs.pajc.Colors;
 import it.unibs.pajc.WheelNumber;

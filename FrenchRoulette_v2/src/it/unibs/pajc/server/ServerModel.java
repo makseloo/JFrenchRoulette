@@ -1,11 +1,7 @@
 package it.unibs.pajc.server;
 
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Queue;
 
 import javax.swing.event.ChangeEvent;
 
@@ -15,7 +11,7 @@ import it.unibs.pajc.core.BaseModel;
 public class ServerModel extends BaseModel implements ServerTimer.TimerListener {
     private static final int BETTING_TIMER_DURATION = 10; // Duration of the timer in seconds
     private static final int SPIN_TIMER_DURATION = 5; // the time the ball needs to spin around the wheel
-    private static final int SETTLE_TIMER_DURATION = 3; // the time the ball needs to spin around the wheel
+    private static final int SETTLE_TIMER_DURATION = 5; 
 
     private RouletteGameState gameState;
     private RouletteGameState previous_gameState;

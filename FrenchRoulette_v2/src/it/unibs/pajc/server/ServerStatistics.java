@@ -2,7 +2,6 @@ package it.unibs.pajc.server;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Random;
 
 import it.unibs.pajc.WheelNumber;
@@ -10,7 +9,6 @@ import it.unibs.pajc.WheelNumber;
 
 public class ServerStatistics {
     private static double NUMBER_OF_RANDOMS = 13;
-    private static final int RANDOM_RANGE_MIN = 0;
     private static final int RANDOM_RANGE_MAX = 37;
     
     private int zero;
@@ -23,11 +21,11 @@ public class ServerStatistics {
     	this.randomWheelNumbers = new LinkedList<>();
     	Numbers numbers = new Numbers();//si potrebbe fare static e crearli da un'altra parte ma andrebbe fatto a manO?
     	this.wheelNumbers = numbers.getSortedNumbers();
-    	this.randomWheelNumbers = generateRandomNumbers(NUMBER_OF_RANDOMS, RANDOM_RANGE_MIN, RANDOM_RANGE_MAX);
+    	this.randomWheelNumbers = generateRandomNumbers(NUMBER_OF_RANDOMS, RANDOM_RANGE_MAX);
     }
 
 
-	private List<WheelNumber> generateRandomNumbers(double count, int min, int max) {
+	private List<WheelNumber> generateRandomNumbers(double count,int max) {
 		List<WheelNumber> randomNumbers = new LinkedList<>();
 
         Random random = new Random();
@@ -41,10 +39,8 @@ public class ServerStatistics {
     }
 	
     public void generateSingleNumber() {
-    	int min = RANDOM_RANGE_MIN;
-    	int max = RANDOM_RANGE_MAX;
     	Random random = new Random();
-    	int ran = random.nextInt(max);
+    	int ran = random.nextInt(RANDOM_RANGE_MAX);
     	randomWheelNumbers.remove(0);
     	randomWheelNumbers.add(turnIntoWheelNumb(ran));
     	System.out.print("(SERVER STATISTIC)Num generated: " + ran +"\n");

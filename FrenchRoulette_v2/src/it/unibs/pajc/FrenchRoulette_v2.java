@@ -15,24 +15,13 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.util.List;
-import java.util.Map;
-import java.util.List;
 
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import it.unibs.pajc.server.PnlCountdown;
-import it.unibs.pajc.server.RouletteGameState;
-
-import javax.swing.JTextArea;
-import javax.swing.Timer;
 
 import it.unibs.pajc.panels.PnlZones;
 import it.unibs.pajc.panels.PnlInfos;
@@ -47,13 +36,8 @@ public class FrenchRoulette_v2 {
 	private PnlRange pnlRange;
 	private PnlZones pnlZones;
 	
-	private JLabel lblBalance;
-	private JLabel lblBet;
-	
 	Thread timerThread;
-	private JLabel stateLbl;
 	private PnlWheel pnlWheel;
-	private JLabel lblLastNum;
 	private PnlInfos pnlInfos;
 	/**
 	 * Launch the application.

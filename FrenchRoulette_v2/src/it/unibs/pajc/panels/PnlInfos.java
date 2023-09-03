@@ -3,7 +3,6 @@ package it.unibs.pajc.panels;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import it.unibs.pajc.Colors;
 import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.Zone;
 import it.unibs.pajc.core.PnlBase;
@@ -17,22 +16,17 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.List;
 import javax.swing.JTextArea;
-import javax.swing.JTable;
 
 public class PnlInfos extends PnlBase {
 
 	private JPanel lastTenPnl;
 	private JPanel betsPnl;
-	private JPanel infoPnl;
 	
 	private JLabel lblState;
 	private JLabel lblBalance;

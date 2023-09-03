@@ -10,10 +10,8 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.event.ChangeEvent;
 
 import java.awt.Component;
-
 
 public class PnlBase extends JPanel {
 

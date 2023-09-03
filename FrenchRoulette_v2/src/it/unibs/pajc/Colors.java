@@ -1,5 +1,4 @@
 package it.unibs.pajc;
-//sto file va nel model?
 import java.awt.Color;
 import java.util.Random;
 

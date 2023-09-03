@@ -1,13 +1,11 @@
 package it.unibs.pajc.server;
 
-import java.awt.EventQueue;
 import java.io.IOException;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.List;
 
 import it.unibs.pajc.FrenchRoulette_v2;

@@ -1,7 +1,8 @@
 package it.unibs.pajc.server;
 
+import java.io.Serializable;
 
-public class TimerMessage implements Message{
+public class TimerMessage implements Serializable{
 	private String gameState;
 	private int seconds;
 	public TimerMessage(String gameState, int seconds) {
@@ -21,6 +22,4 @@ public class TimerMessage implements Message{
 	public void setSeconds(int seconds) {
 		this.seconds = seconds;
 	}
-	
-	
 }

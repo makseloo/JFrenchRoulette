@@ -1,6 +1,5 @@
 package it.unibs.pajc;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 
 import it.unibs.pajc.core.*;
@@ -14,9 +13,6 @@ import java.util.List;
 import java.util.Queue;
 
 import javax.swing.event.ChangeEvent;
-
-
-
 
 public class Model extends BaseModel{
 	

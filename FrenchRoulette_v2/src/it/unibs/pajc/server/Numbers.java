@@ -7,8 +7,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.naming.ldap.SortControl;
-
 import it.unibs.pajc.Colors;
 import it.unibs.pajc.WheelNumber;
 
@@ -71,9 +69,9 @@ public class Numbers {
 	            	result = row + column;
 	            	
 	            	if(blacks.contains(result))
-	            		color = new Colors().getBlack();
+	            		color = Colors.getBlack();
 	            	else
-	            		color =  new Colors().getRed();
+	            		color =  Colors.getRed();
 	            	
 	            	if(tier.contains(result)) {
 	            		zones.add("tier");

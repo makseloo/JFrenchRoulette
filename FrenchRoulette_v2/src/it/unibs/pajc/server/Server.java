@@ -11,7 +11,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Queue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -23,9 +22,7 @@ import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.Zone;
 import it.unibs.pajc.core.BaseModel.ClientsUpdateEvent;
 import it.unibs.pajc.core.BaseModel.GeneratedNumberEvent;
-import it.unibs.pajc.core.BaseModel.TimerExpiredEvent;
 import it.unibs.pajc.core.BaseModel.UpdateBet;
-
 
 import javax.swing.JLabel;
 

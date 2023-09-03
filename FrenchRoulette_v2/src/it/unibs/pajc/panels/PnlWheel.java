@@ -2,19 +2,14 @@ package it.unibs.pajc.panels;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Timer; // Import javax.swing.Timer
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-
 
 import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.core.PnlBase;

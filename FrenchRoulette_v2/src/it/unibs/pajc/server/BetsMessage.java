@@ -1,11 +1,12 @@
 package it.unibs.pajc.server;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
 import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.Zone;
-public class BetsMessage implements Message{
+public class BetsMessage implements Serializable{
 	private List<WheelNumber> bets;
 	private List<Zone> zones;
 	private double totalAmount;

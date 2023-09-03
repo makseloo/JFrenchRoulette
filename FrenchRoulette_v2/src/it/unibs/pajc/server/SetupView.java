@@ -4,8 +4,6 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.FlowLayout;
@@ -17,7 +15,6 @@ import java.awt.event.ActionEvent;
 public class SetupView {
 
 	JFrame frame;
-	private JTextField textField;
 	private JTextField nameTxt;
 	private JTextField importTxt;
 

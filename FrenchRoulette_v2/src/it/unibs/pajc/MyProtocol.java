@@ -97,7 +97,6 @@ public class MyProtocol implements Runnable {
 	private void restartTimer() {
         // Cancel the previous timer
         timer.cancel();
-
         // Schedule a new timer
         timer = new Timer();
         scheduleTimer();

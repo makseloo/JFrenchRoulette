@@ -177,8 +177,8 @@ public class PnlInfos extends PnlBase {
         }
 		 for(Zone z : list) {
 			 betsJTxt.append("bet on zone " +z.getZoneName()+" : "+z.getBetValue()+"\n");
-			 //testBets.append("Bet Type: Zone:"+z.getZoneName()+", amount: "+z.getBetValue()+"\n");
 		 }
+		 
 		
 	}
 

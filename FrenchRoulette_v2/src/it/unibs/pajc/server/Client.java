@@ -68,6 +68,7 @@ public class Client {
 	 	                gameState = timerMessage.getGameState();
 	 	                
 	 	                roulette.updateTimer(seconds);
+	 	                //se lo metto qui continua a spammare update game state
 	 	                roulette.updateGameState(gameState);
 	 	                
 	 	               if (gameState.equals("BETTING")) {
@@ -86,7 +87,7 @@ public class Client {
 	 	                }
 	                 }else if(receivedObject instanceof PayoutMessage){
 	                	 PayoutMessage payoutMessage = (PayoutMessage) receivedObject;
-	                	 roulette.popup(payoutMessage.getLastWin());
+	                	 roulette.updateLastWin(payoutMessage.getLastWin());
 	                	 roulette.setBalance(payoutMessage.getNewBalance());
 	                	 
 	                 }else if(receivedObject instanceof StatsMessage) {

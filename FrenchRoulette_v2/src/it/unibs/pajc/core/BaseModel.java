@@ -1,11 +1,12 @@
 package it.unibs.pajc.core;
 import javax.swing.event.*;
 
-public class BaseModel {
+public class BaseModel {	
 	protected EventListenerList listenerList = new EventListenerList();
 	
 	public void addChangeListener(ChangeListener l) {
 		listenerList.add(ChangeListener.class, l);
+		
 	}
 	
 	public void removeChangeListener(ChangeListener l) {
@@ -59,17 +60,6 @@ public class BaseModel {
     
     public void fireUpdateBet(Object source) {
     	UpdateBet updateBetEvent = new UpdateBet(source);
-        fireValuesChange(updateBetEvent);
-    }
-    
-    public class UpdateState  extends ChangeEvent {
-        public UpdateState(Object source) {
-            super(source);
-        }
-    }
-    
-    public void fireUpdateStateEvent(Object source) {
-    	UpdateState updateBetEvent = new UpdateState(source);
         fireValuesChange(updateBetEvent);
     }
     

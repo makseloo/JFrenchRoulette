@@ -8,6 +8,8 @@ import javax.swing.event.ChangeEvent;
 import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.Zone;
 import it.unibs.pajc.core.BaseModel;
+import it.unibs.pajc.core.CustomChangeEvent;
+import it.unibs.pajc.core.EventType;
 public class ServerModel extends BaseModel implements ServerTimer.TimerListener {
     private static final int BETTING_TIMER_DURATION = 10; // Duration of the timer in seconds
     private static final int SPIN_TIMER_DURATION = 5; // the time the ball needs to spin around the wheel
@@ -41,6 +43,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
     }
     public void setGameState(RouletteGameState gameState) {
         this.gameState = gameState;
+        fireValuesChange(new CustomChangeEvent(gameState, EventType.UPDATE_GAME_STATE));
     }
 
     public int getTimerDuration() {
@@ -55,25 +58,21 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
     	 switch (gameState) {
          case BETTING:
              serverTimer = new ServerTimer(BETTING_TIMER_DURATION);
-             gameState = RouletteGameState.SPINNING;
+             setGameState(RouletteGameState.SPINNING);
              break;
          case SPINNING:
              serverTimer = new ServerTimer(SPIN_TIMER_DURATION);
-             gameState = RouletteGameState.SETTLING;
+             setGameState(RouletteGameState.SETTLING);
              serverStats.generateSingleNumber();
-             
-             fireGeneratedNumberEvent(new ChangeEvent(this));
-             
+             fireValuesChange(new CustomChangeEvent(this, EventType.GENERATED_NUMBER));
             
              break;
          case SETTLING:
         	 analyzeBets();
-        	 fireUpdateStateEvent(new ChangeEvent(this));
+        	 fireValuesChange(new CustomChangeEvent(this, EventType.UPDATE_STATE));
              serverTimer = new ServerTimer(SETTLE_TIMER_DURATION);
              resetBets();
-             gameState = RouletteGameState.BETTING;
-             
-             
+             setGameState(RouletteGameState.BETTING);          
              break;
          default:
              throw new IllegalArgumentException("Unexpected value: " + gameState);
@@ -126,7 +125,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 		for(int key : connectedClients.keySet()) {
 			connectedClients.get(key).resetBetList();
 		}
-		fireUpdateBet(this);
+		fireValuesChange(new CustomChangeEvent(this, EventType.UPDATE_BET));
 		
 	}
 
@@ -139,8 +138,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 
 	@Override
     public void onTick(int remainingSeconds) {
-    	 
-    	 fireValuesChange(new ChangeEvent(this));
+    	 fireValuesChange(new CustomChangeEvent(this, EventType.TIMER_TICK));
     }
     
     public int getSeconds() {
@@ -151,20 +149,20 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 	public void onTimerExpired() {
 		previous_gameState = gameState;
 		startTimer();
-		fireTimerExpiredEvent(previous_gameState);
+		fireValuesChange(new CustomChangeEvent(previous_gameState, EventType.TIMER_EXPIRED));
 	}
 	
 
 	//managing clients
     public void addClient(ClientInfo clientInfo) {
         connectedClients.put(clientInfo.getAccountId(),clientInfo);
-        fireClientsUpdateEvent(new ChangeEvent(this));
+		fireValuesChange(new CustomChangeEvent(this, EventType.CLIENTS_UPDATE));
     }
 
     public void removeClient(ClientInfo clientInfo) {
         connectedClients.remove(clientInfo.getAccountId());
-        fireClientsUpdateEvent(new ChangeEvent(this));
-    }
+        fireValuesChange(new CustomChangeEvent(this, EventType.CLIENTS_UPDATE));
+        }
 
     public HashMap<Integer, ClientInfo> getConnectedClients() {
         return connectedClients;
@@ -174,7 +172,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 		connectedClients.get(id).setBetList(bets);
 		connectedClients.get(id).subAccountBalance(totBet);
 		connectedClients.get(id).setZoneBetList(zones);
-		fireUpdateBet(new ChangeEvent(this));
+		fireValuesChange(new CustomChangeEvent(this, EventType.UPDATE_BET));
 	}
 
 	public void updateClientInfo(int id, String name, int balance) {

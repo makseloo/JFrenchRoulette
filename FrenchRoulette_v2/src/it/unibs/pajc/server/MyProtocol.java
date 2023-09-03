@@ -9,8 +9,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import it.unibs.pajc.WheelNumber;
+import it.unibs.pajc.core.CustomChangeEvent;
+import it.unibs.pajc.core.EventType;
 import it.unibs.pajc.core.BaseModel.GeneratedNumberEvent;
-import it.unibs.pajc.core.BaseModel.UpdateState;
 
 
 public class MyProtocol implements Runnable {
@@ -33,13 +34,23 @@ public class MyProtocol implements Runnable {
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				//sending the stats to the client whenever a new number is generated
-				if(e instanceof GeneratedNumberEvent) {
-					sendStats();
-				//sending the payouts when the bets have bene analyzed
-				}else if(e instanceof UpdateState) {
-					sendPayouts();
-				}
+            	
+            	if(e instanceof CustomChangeEvent) {
+            		EventType eventType = ((CustomChangeEvent) e).getEventType();
+                	
+                	switch (eventType) {
+    				case UPDATE_STATE: {
+    					sendPayouts();
+    					break;
+    				}
+    				case GENERATED_NUMBER: {
+    					sendStats();
+    					break;
+    				}
+    				default:
+    					//throw new IllegalArgumentException("Unexpected value: " + eventType);
+    				}
+            	}
 			}
 
 		});

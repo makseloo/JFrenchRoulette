@@ -4,7 +4,7 @@ import java.util.Random;
 
 	public class Colors {
 		//debug
-		private static final Random random = new Random();
+		//private static final Random random = new Random();
 		
 		
 		private static Color standardBlack = new Color(34,34,34);
@@ -27,11 +27,13 @@ import java.util.Random;
 		}
 		
 		//debug
+		/*
 		public static Color getRandomColor() {
 			int r = random.nextInt(256); // Random value between 0 and 255 for red
 	        int g = random.nextInt(256); // Random value between 0 and 255 for green
 	        int b = random.nextInt(256); // Random value between 0 and 255 for blue
 	        return new Color(r, g, b);
 		}
+		*/
 	}
 		

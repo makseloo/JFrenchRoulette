@@ -16,8 +16,6 @@ import javax.swing.event.ChangeEvent;
 
 public class Model extends BaseModel{
 	
-	
-	
 	List<WheelNumber> numberList = new ArrayList<>();
 	List<Fiche> ficheList = new ArrayList<>();
 	
@@ -211,12 +209,9 @@ public class Model extends BaseModel{
 		for(WheelNumber w : numberList) {
 			if(w.getValue() == inputValue) {
 				w.setValue(bettedAmount);
-				//System.out.print(w.getBettedValue());
 			}
 		}
-		
-		fireValuesChange(new ChangeEvent(this));
-	}
+}
 	
 	public void selectFiche(double value) {
 		deactivateFiches();
@@ -254,7 +249,7 @@ public class Model extends BaseModel{
 	}
 	public void setState(String gameState) {
 		this.gameState = RouletteGameState.valueOf(gameState);
-		fireUpdateStateEvent(gameState);
+		fireValuesChange(new CustomChangeEvent(gameState, EventType.UPDATE_STATE));
 	}
 
 	public List<WheelNumber> turnIntoColor(Queue<Integer> stats) {
@@ -279,12 +274,12 @@ public class Model extends BaseModel{
 
 	public void setBalance(double balance) {
 		this.balance = balance;
-		fireValuesChange(new ChangeEvent(this));
+		fireValuesChange(new CustomChangeEvent(this, EventType.BALANCE_SET));
 	}
 	
 	public void substractBalance(double balance) {
 		this.balance -= balance;
-		fireValuesChange(new ChangeEvent(this));
+		fireValuesChange(new CustomChangeEvent(this, EventType.BALANCE_SET));
 	}
 	
 	public double getBet() {
@@ -314,7 +309,7 @@ public class Model extends BaseModel{
 		}else {
 			System.out.print("Model: Saldo insufficiente");
 		}
-		fireUpdateBet(new ChangeEvent(this));
+		fireValuesChange(new CustomChangeEvent(this, EventType.UPDATE_BET));
 	}
 	
 
@@ -328,7 +323,7 @@ public class Model extends BaseModel{
 		 }else {
 			 System.out.print("Saldo insufficiente");
 		 }
-		 fireUpdateBet(new ChangeEvent(this));
+		 fireValuesChange(new CustomChangeEvent(this, EventType.UPDATE_BET));
 	}
 
 	public int getRange() {
@@ -336,7 +331,7 @@ public class Model extends BaseModel{
 	}
 	public void setRange(int range) {
 		this.range = range;
-		fireValuesChange(new ChangeEvent(range));
+		fireValuesChange(new CustomChangeEvent(range, EventType.RANGE_SET));
 	}
 	
 	public List<Zone> getZones() {
@@ -357,7 +352,7 @@ public class Model extends BaseModel{
 		 }else {
 			 System.out.print("Saldo insufficiente");
 		 }
-		fireUpdateBet(new ChangeEvent(this));
+		fireValuesChange(new CustomChangeEvent(this, EventType.UPDATE_BET));
 	}
 
 
@@ -379,7 +374,7 @@ public class Model extends BaseModel{
 		 }else {
 			 System.out.print("Saldo insufficiente");
 		 }
-		fireUpdateBet(new ChangeEvent(this));
+		fireValuesChange(new CustomChangeEvent(this, EventType.UPDATE_BET));
 	}
 
 	public void betVois() {
@@ -403,8 +398,7 @@ public class Model extends BaseModel{
 		 }else {
 			 System.out.print("Saldo insufficiente");
 		 }
-		fireUpdateBet(new ChangeEvent(this));
-		
+		fireValuesChange(new CustomChangeEvent(this, EventType.UPDATE_BET));
 	}
 
 	public void betZero() {
@@ -424,13 +418,13 @@ public class Model extends BaseModel{
 		 }else {
 			 System.out.print("Saldo insufficiente");
 		 }
-		fireUpdateBet(new ChangeEvent(this));
+		fireValuesChange(new CustomChangeEvent(this, EventType.UPDATE_BET));
 		
 	}
 
 	public void updateLastTen(List<WheelNumber> stats) {
-		this.lastTen = new ArrayList<>(stats);	
-		fireLastTenChanged(new ChangeEvent(this));
+		this.lastTen = new ArrayList<>(stats);
+		fireValuesChange(new CustomChangeEvent(this, EventType.LAST_TEN_CHANGED));
 	}
 	
 	public WheelNumber getLastNumber() {
@@ -454,23 +448,6 @@ public class Model extends BaseModel{
 		 }else {
 			 System.out.print("Saldo insufficiente\n");
 		 }
-		 fireUpdateBet(new ChangeEvent(this));
+		 fireValuesChange(new CustomChangeEvent(this, EventType.UPDATE_BET));
 	}
-	
-	/*
-	 * 	public void betNum(ActionEvent e) {
-		int value = Integer.parseInt(e.getActionCommand());
-		int bet = getSelectedFicheVal();
-		 if((getBalance() - bet) >= 0) {
-			 setNumberBet(value, bet);
-			 setBet(bet);
-			 substractBalance(bet); 
-		 }else {
-			 System.out.print("Saldo insufficiente");
-		 }
-		 fireUpdateBet(new ChangeEvent(this));
-	}
-	 */
-
-
 }

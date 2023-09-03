@@ -20,6 +20,8 @@ import javax.swing.event.ChangeListener;
 
 import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.Zone;
+import it.unibs.pajc.core.CustomChangeEvent;
+import it.unibs.pajc.core.EventType;
 import it.unibs.pajc.core.BaseModel.ClientsUpdateEvent;
 import it.unibs.pajc.core.BaseModel.GeneratedNumberEvent;
 import it.unibs.pajc.core.BaseModel.UpdateBet;
@@ -154,16 +156,42 @@ public class Server {
 		contentPane.add(textArea_1, gbc_textArea_1);
 				
 		serverModel.addChangeListener(new ChangeListener() {
+			
             @Override
             public void stateChanged(ChangeEvent e) {
-            	if(e instanceof ClientsUpdateEvent) {
-            		updateClients();
-            	}else if(e instanceof GeneratedNumberEvent) {
-            		updatedLast500area();
-            	}else if(e instanceof UpdateBet) {
-					updateBet();
-				}
-            	updateView();  
+            	
+            	if(e instanceof CustomChangeEvent) {
+            		EventType eventType = ((CustomChangeEvent) e).getEventType();
+                	
+                	switch (eventType) {
+    				case UPDATE_BET: {
+    					updateBet();
+    					break;
+    				}
+    				case CLIENTS_UPDATE: {
+    					updateClients();
+    					break;
+    				}
+    				case GENERATED_NUMBER: {
+    					updatedLast500area();
+    					break;
+    				}
+    				case UPDATE_GAME_STATE: {
+    					String state = ""+serverModel.getPrevGameState();
+    					stateLbl.setText(state); 
+    					break;
+    				}
+    				case TIMER_TICK: {
+    					int seconds = serverModel.getSeconds();
+    	                pnlCountdown.updateCountdown(seconds);
+    					break;
+    				}
+    				default:
+    					//throw new IllegalArgumentException("Unexpected value: " + eventType);
+    				}
+            	}
+                
+                
             }
         });
 		
@@ -171,13 +199,7 @@ public class Server {
 
 	}
 	
-     void updateView() {
-        int seconds = serverModel.getSeconds();
-        String state = ""+serverModel.getPrevGameState();
-        pnlCountdown.updateCountdown(seconds);
-        stateLbl.setText(state);
-        //pnlClients.updateTextArea();
-    }
+
      
 	private void updateClients() {
 		textArea.setText("");

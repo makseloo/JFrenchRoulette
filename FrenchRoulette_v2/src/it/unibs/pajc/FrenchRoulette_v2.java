@@ -2,13 +2,13 @@ package it.unibs.pajc;
 
 import java.awt.EventQueue;
 
-import it.unibs.pajc.core.BaseModel.UpdateBet;
-import it.unibs.pajc.core.BaseModel.UpdateState;
-import it.unibs.pajc.core.BaseModel.lastTenChanged;
+import it.unibs.pajc.core.CustomChangeEvent;
+import it.unibs.pajc.core.EventType;
 import it.unibs.pajc.panels.PnlBetBoard;
 import it.unibs.pajc.panels.PnlFiches;
 import it.unibs.pajc.panels.PnlRange;
 import it.unibs.pajc.panels.PnlWheel;
+
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -61,24 +61,46 @@ public class FrenchRoulette_v2 {
 	 */
 	public FrenchRoulette_v2() {
 		model = new Model();
+		//UI and its Listeners
 		initialize();
 		
 		model.addChangeListener(new ChangeListener() {
             @Override
+            
             public void stateChanged(ChangeEvent e) {
-                updateView();
-                if(e instanceof UpdateBet) {
-                	pnlBetBoard.updateNumBetBoard(getBets());
-                	pnlBetBoard.updateZoneBetBoard(getZoneBets());
-                	pnlInfos.updateBets(getBets(), getZoneBets());
-                }
-                if(e instanceof UpdateState) {
-                	updateState(e);
-                }
-                if(e instanceof lastTenChanged) {
-                	pnlWheel.startAnimation(model.getLastNumber());
+            	
+            	if(e instanceof CustomChangeEvent) {
+            		EventType eventType = ((CustomChangeEvent) e).getEventType();
                 	
-                }
+                	switch (eventType) {
+    				case UPDATE_STATE: {
+    					//System.out.print("ciao");
+    					updateState(e);
+    					break;
+    				}
+    				case UPDATE_BET: {
+    					pnlBetBoard.updateNumBetBoard(getBets());
+                    	pnlBetBoard.updateZoneBetBoard(getZoneBets());
+                    	pnlInfos.updateBets(getBets(), getZoneBets());
+    					break;
+    				}
+    				case LAST_TEN_CHANGED:{
+    					pnlWheel.startAnimation(model.getLastNumber());
+    					break;
+    				}
+    				case RANGE_SET:{
+    					pnlRange.updateRange(model.getRange());	
+    					break;
+    				}
+    				case BALANCE_SET:{
+    					pnlInfos.updateBalanceLbl(model.getBalance());
+    					pnlInfos.updateBetLbl(model.getBet());	
+    					break;
+    				}
+    				default:
+    					throw new IllegalArgumentException("Unexpected value: " + eventType);
+    				}
+            	}
             }		
         });
 	}
@@ -117,7 +139,6 @@ public class FrenchRoulette_v2 {
 		gbc_pnlInfos.gridy = 0;
 		contentPane.add(pnlInfos, gbc_pnlInfos);
 		
-		//dovrei prendere tutto dal model?
 		pnlBetBoard = new PnlBetBoard(model.getNumberList(), Numbers.othersStat, Numbers.dozAndCols);//è giusti dal punto di vista mvc?
 		GridBagConstraints gbc_pnlBoard = new GridBagConstraints();
 		gbc_pnlBoard.insets = new Insets(0, 0, 5, 5);
@@ -142,7 +163,7 @@ public class FrenchRoulette_v2 {
 		gbc_pnlFiches.gridx = 0;
 		gbc_pnlFiches.gridy = 2;
 		contentPane.add(pnlFiches, gbc_pnlFiches);
-		//1 va passato dal model
+
 		pnlRange = new PnlRange(model.getRange());
 		GridBagConstraints gbc_pnlRange = new GridBagConstraints();
 		gbc_pnlRange.insets = new Insets(0, 0, 5, 5);
@@ -155,7 +176,6 @@ public class FrenchRoulette_v2 {
 			String command = e.getActionCommand().toString();
 			//se è un numero scommetto su un numero
 			if (command.matches("^\\d+$")) {
-				//this.bet(e);
 				model.betNum(e);
 			} else {
 				model.betDoz(command);
@@ -171,7 +191,7 @@ public class FrenchRoulette_v2 {
 		pnlZones.addActionListener(e -> {
 			switch (e.getActionCommand()) {
 			case "TIER": {
-				this.betTiers();
+				model.betTier();
 				break;
 			}
 			case "ORPHELINS":{
@@ -188,7 +208,7 @@ public class FrenchRoulette_v2 {
 			}
 			default:
 				//se non trovo nulla vuol dire che ho usato il range
-				this.betRange(e);
+				model.betRange(e);
 				
 			}
 			
@@ -197,28 +217,14 @@ public class FrenchRoulette_v2 {
 		
 		pnlInfos.addActionListener(e -> bet(e));
 
-		
 		frame.pack();
 		
-
 	}
 
 	 private void updateInfoStats() {
 		 pnlInfos.updateStats(model.getLastTen());
 	}
 
-	private void betTiers() {
-		model.betTier();
-		
-	}
-
-	void betRange(ActionEvent e) {
-		
-		model.betRange(e);
-		//System.out.print(e.getActionCommand());
-		
-		 
-	}
 
 	void changeRange(ActionEvent e) {
 		int range = model.getRange();
@@ -265,18 +271,7 @@ public class FrenchRoulette_v2 {
 		model.setState(gameState);
 		
 	}
-	
-	private void updateView() {
-		//model.setBet(0) non credo vada qui	
-		pnlInfos.updateBalanceLbl(model.getBalance());
-		pnlInfos.updateBetLbl(model.getBet());
-    	pnlRange.updateRange(model.getRange());
-		 // Disable buttons based on the game state
-    	//continua a attivarli??
-	    
-	    
-		
-	}
+
 	public void updateStats(List<WheelNumber> stats) {
 		model.updateLastTen(stats);
 	}
@@ -293,8 +288,8 @@ public class FrenchRoulette_v2 {
 	public List<Zone> getZoneBets() {
 		return model.getZonesBets();
 	}
-//se avanza tempo crea un timer che lo faccia scomparire quando c'è da scommettere
-	public void popup(double lastWin) {
+	
+	public void updateLastWin(double lastWin) {
 	    int lastNum = model.getLastNumber().getValue();
 	    String numMessage = "";
 	    String winMessage = "";
@@ -325,8 +320,10 @@ public class FrenchRoulette_v2 {
 	    } else if(gameState.equals("SETTLING")) {
         	pnlBetBoard.resetBoard();
         	pnlInfos.resetInfo();
+        	pnlInfos.updateBetLbl(getTotalBet());
         	model.resetBet();
         	model.resetBets();
+        	
         }
 		
 	}

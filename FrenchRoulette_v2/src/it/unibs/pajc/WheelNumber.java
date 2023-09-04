@@ -12,10 +12,6 @@ public class WheelNumber implements Serializable {
 	private Color color;
 	private double betValue;
 	
-	public WheelNumber() {
-		
-	}
-	
 	public WheelNumber(int id, int value, List<String> zone, Color color) {
 		this.id = id;
 		this.value = value;
@@ -23,7 +19,7 @@ public class WheelNumber implements Serializable {
 		this.color = color;
 		this.betValue = 0;
 	}
-	//quando devo aggiungere una puntata
+	//needed in the specific case where i have to add a bet
 	public WheelNumber(int id,int value, List<String> zone, Color color, double betValue) {
 		this.id = id;
 		this.value = value;

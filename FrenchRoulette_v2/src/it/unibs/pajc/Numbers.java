@@ -16,7 +16,7 @@ public class Numbers {
 	public static List<Integer> orphelins = Arrays.asList(1, 20, 14, 31, 9, 6, 34, 17);
 	public static List<Integer> voisins = Arrays.asList(22, 18, 29, 7, 28, 12, 35, 3, 26, 0, 32, 15, 19, 4, 21, 2, 25);
 	public static List<Integer> zero = Arrays.asList(12, 35, 3, 26, 0, 32, 15);
-	//numbers order based on their position on the wheel
+	//numbers sorted as they are on the wheel
 	public static List<Integer> sortedIntNumbers = Arrays.asList(17,34,6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26,0,32, 15, 19, 4, 21, 2, 25);
 	//dozens
 	public static List<Integer> dozen1 = Arrays.asList(1,2,3,4,5,6,7,8,9,10,11,12);
@@ -38,7 +38,7 @@ public class Numbers {
 	public static List<String> dozAndCols = Arrays.asList("1°:12","2°:12","3°:12","1° row","2° row","3° row");
 	
 	public static List<String> othersStat = Arrays.asList("1-18","EVEN","RED","BLACK","ODD","19-36");
-	
+	//For the wheel betting, where i have to create a wheel made of 4 parts
 	public static List<Integer> up = Arrays.asList(16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12);
 	public static List<Integer> downs = Arrays.asList(11, 36, 13, 27, 6, 34, 17, 25, 2, 21, 4, 19, 15);
 	public static List<Integer> right = Arrays.asList(35,3,26,0,32);
@@ -116,15 +116,16 @@ public class Numbers {
 	}
 	
 	private List<WheelNumber> sort(List<WheelNumber> numberList) {
+		//it's called sorted just because later it will be sorted, now it's unsorted
 		List<WheelNumber> sortedList = new ArrayList<>(numberList);
 		
+		//because in the numberlist there is no 0
 		List<String> zeroZone = new ArrayList<>();
 		zeroZone.add("voisins");
 		zeroZone.add("z");
 		
 		WheelNumber zero = new WheelNumber(0,0, zeroZone, Colors.getGreen());
 
-		
 		Collections.sort(sortedList, new Comparator<WheelNumber>() {
 			 @Override
 	            public int compare(WheelNumber w1, WheelNumber w2) {
@@ -133,7 +134,8 @@ public class Numbers {
 	                return Integer.compare(sortedIntNumbers.indexOf(value1), sortedIntNumbers.indexOf(value2));
 	            }
 		});
-		//perché in numberlist non c'è lo 0
+
+		//because in the numberlist there is no 0
 		sortedList.add(zero);
 		
 		return sortedList;

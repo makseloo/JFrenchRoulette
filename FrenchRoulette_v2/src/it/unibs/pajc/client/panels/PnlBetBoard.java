@@ -125,7 +125,7 @@ public class PnlBetBoard extends PnlBase {
 		
 	}
 
-
+	//place the fiche icon on the bet number
 	public void updateNumBetBoard(List<WheelNumber> numBets) {
 		for (WheelNumber w : numBets) {
 	        if (numberButtons.containsKey(w.getValue())) {
@@ -135,6 +135,7 @@ public class PnlBetBoard extends PnlBase {
 	    }
 		
 	}
+	//place the fiche icon on the bet zone
 	public void updateZoneBetBoard(List<Zone> zoneBets) {		
 		for (Zone z : zoneBets) {
 	        if (ohtersButtons.containsKey(z.getZoneName())) {
@@ -143,6 +144,7 @@ public class PnlBetBoard extends PnlBase {
 	        }
 	    }
 	}
+	//removing the icon and setting the original text
 	public void resetBoard() {
 		//40x78
 		numberButtons.get(0).setText(0+"");

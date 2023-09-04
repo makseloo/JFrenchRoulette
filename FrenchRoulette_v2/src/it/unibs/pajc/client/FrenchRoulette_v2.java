@@ -70,7 +70,7 @@ public class FrenchRoulette_v2 {
             	
             	if(e instanceof CustomChangeEvent) {
             		EventType eventType = ((CustomChangeEvent) e).getEventType();
-                	
+        
                 	switch (eventType) {
     				case UPDATE_GAME_STATE: {
     					disableAndReset(e);
@@ -136,7 +136,7 @@ public class FrenchRoulette_v2 {
 		gbc_pnlInfos.gridy = 0;
 		contentPane.add(pnlInfos, gbc_pnlInfos);
 		
-		pnlBetBoard = new PnlBetBoard(model.getNumberList(), Numbers.othersStat, Numbers.dozAndCols);//è giusti dal punto di vista mvc?
+		pnlBetBoard = new PnlBetBoard(model.getNumberList(), Numbers.othersStat, Numbers.dozAndCols);
 		GridBagConstraints gbc_pnlBoard = new GridBagConstraints();
 		gbc_pnlBoard.insets = new Insets(0, 0, 5, 5);
 		gbc_pnlBoard.fill = GridBagConstraints.BOTH;
@@ -183,7 +183,7 @@ public class FrenchRoulette_v2 {
 		});
 		
 		pnlFiches.addActionListener(e -> this.takeFiche(e));
-		//perché è qui?
+		//when the animation ends and the ball lands update the stats 
 		pnlWheel.addActionListener(e -> this.updateInfoStats());
 		
 		pnlRange.addActionListener(e -> this.changeRange(e));
@@ -207,7 +207,7 @@ public class FrenchRoulette_v2 {
 				break;
 			}
 			default:
-				//se non trovo nulla vuol dire che ho usato il range
+				//if i didn't find anything it means i bet on a number
 				model.betRange(e);	
 			}
 			

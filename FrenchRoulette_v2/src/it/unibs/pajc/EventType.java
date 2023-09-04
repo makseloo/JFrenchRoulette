@@ -7,7 +7,6 @@ public enum EventType {
     BALANCE_SET, 
     RANGE_SET,
     
-
     GENERATED_NUMBER, 
     CLIENTS_UPDATE, 
     TIMER_TICK, 

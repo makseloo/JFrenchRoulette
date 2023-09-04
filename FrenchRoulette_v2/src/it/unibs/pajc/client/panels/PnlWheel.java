@@ -35,8 +35,8 @@ public class PnlWheel extends PnlBase {
 			public void actionPerformed(ActionEvent e) {	
 				animationCount++;
 				repaint();
-				
-				if (animationCount >= numberLanded) {
+				//it makes a full spin and then it lands on the chosen number
+				if (animationCount >= numberLanded+37) {
 					animationTimer.stop();
 					fireActionListener(e);
 		        }

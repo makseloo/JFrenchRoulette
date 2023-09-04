@@ -48,7 +48,7 @@ public class SetupView {
 		frame.getContentPane().add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel nameLbl = new JLabel("Nome");
+		JLabel nameLbl = new JLabel("Name");
 		nameLbl.setHorizontalAlignment(SwingConstants.TRAILING);
 		panel.add(nameLbl);
 		
@@ -56,14 +56,14 @@ public class SetupView {
 		panel.add(nameTxt);
 		nameTxt.setColumns(10);
 		
-		JLabel importLbl = new JLabel("Importo");
+		JLabel importLbl = new JLabel("Balance");
 		panel.add(importLbl);
 		
 		importTxt = new JTextField();
 		panel.add(importTxt);
 		importTxt.setColumns(10);
 		
-		JButton connectBtn = new JButton("Connetti");
+		JButton connectBtn = new JButton("OK");
 		connectBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();

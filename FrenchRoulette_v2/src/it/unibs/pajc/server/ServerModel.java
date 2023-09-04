@@ -14,7 +14,7 @@ import it.unibs.pajc.core.BaseModel;
 import it.unibs.pajc.core.CustomChangeEvent;
 public class ServerModel extends BaseModel implements ServerTimer.TimerListener {
     private static final int BETTING_TIMER_DURATION = 10; // Duration of the timer in seconds
-    private static final int SPIN_TIMER_DURATION = 5; // the time the ball needs to spin around the wheel
+    private static final int SPIN_TIMER_DURATION = 10; // the time the ball needs to spin around the wheel
     private static final int SETTLE_TIMER_DURATION = 5; //time to send all the bets
 
     private RouletteGameState gameState;
@@ -91,7 +91,6 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
              setGameState(RouletteGameState.SETTLING);
              serverStats.generateSingleNumber();
              fireValuesChange(new CustomChangeEvent(this, EventType.GENERATED_NUMBER));
-            
              break;
          case SETTLING:
         	 //analyze users bets to see if they win and eventually modify their balance if they won

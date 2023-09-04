@@ -102,9 +102,15 @@ public class MyProtocol implements Runnable {
         } catch (IOException | ClassNotFoundException ex) {
         	System.out.printf("\nClient disconnected: %s [%d] - Name: %s\n",
                     clientSocket.getInetAddress(), clientSocket.getPort(), clientInfo.getClientName());
-
-            // Clean up resources and remove client from server data structures
-            cleanup();
+        	//removing the client from the client list if the client is disconnected
+            try {
+				clientSocket.close();
+				serverModel.removeClient(clientInfo);
+				isConnected = false;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+            
         }
 
         System.out.printf("\nSessione terminata, client: %s : %b\n", clientInfo.getClientName(),isConnected );
@@ -114,18 +120,12 @@ public class MyProtocol implements Runnable {
     	if(!isConnected)
     		return;
         int seconds = serverModel.getSeconds();
-        
+        TimerMessage timerMessage = new TimerMessage(seconds);
         try {
-            TimerMessage timerMessage = new TimerMessage(seconds);
-            oos.writeObject(timerMessage);
-            oos.flush();
-        }catch (SocketException e) {
-            // Handle the SocketException, indicating that the client has closed the connection
-            isConnected = false;
-            cleanup();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+			sendPayload(timerMessage);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
     
     private void sendStats() {
@@ -134,13 +134,8 @@ public class MyProtocol implements Runnable {
     	this.stats = serverModel.getStats();
     	StatsMessage statsMessage = new StatsMessage(stats);
     	try {
-			oos.writeObject(statsMessage);
-			oos.flush();
-		}catch (SocketException e) {
-            isConnected = false;
-            cleanup();
-        }  catch (IOException e) {
-			System.out.print("Error in stats message: \n"); 
+			sendPayload(statsMessage);
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
         
@@ -150,44 +145,41 @@ public class MyProtocol implements Runnable {
     private void sendPayouts(){
     	if(!isConnected)
     		return;
-    	try {
-    		double newBalance = serverModel.getNewBalance(clientInfo.getAccountId());
-    		double lastWin = serverModel.getLastWin(clientInfo.getAccountId());
-    		PayoutMessage payoutMessage = new PayoutMessage(newBalance, lastWin);
-    		oos.writeObject(payoutMessage);
-            oos.flush();
-    	}catch (SocketException e) {
-            isConnected = false;
-            cleanup();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+    	double newBalance = serverModel.getNewBalance(clientInfo.getAccountId());
+		double lastWin = serverModel.getLastWin(clientInfo.getAccountId());
+		PayoutMessage payoutMessage = new PayoutMessage(newBalance, lastWin);
+		try {
+			sendPayload(payoutMessage);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
 	private void sendGameState() {
 		if(!isConnected)
     		return;
-		try {
-			RouletteGameState gameState = serverModel.getPrevGameState();
-		    GameStateMessage gameStateMessage = new GameStateMessage( gameState.toString());
-    		oos.writeObject(gameStateMessage);
+		RouletteGameState gameState = serverModel.getPrevGameState();
+	    GameStateMessage gameStateMessage = new GameStateMessage( gameState.toString());
+	    try {
+			sendPayload(gameStateMessage);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+    private void sendPayload(Object payload) throws IOException {
+    	try {
+    		oos.writeObject(payload);
             oos.flush();
     	}catch (SocketException e) {
+    		// Handle the SocketException, indicating that the client has closed the connection
+            serverModel.removeClient(clientInfo);
+            clientSocket.close();
             isConnected = false;
-            cleanup();
         } catch (IOException ex) {
            System.out.print("Failed Game State message: ");
            ex.printStackTrace();
         }	
-	}
-	
-    private void cleanup() {
-    	try {
-        	serverModel.removeClient(clientInfo);
-            clientSocket.close();
-            isConnected = false;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

@@ -51,7 +51,7 @@ public class PnlBase extends JPanel {
 		btn.addActionListener(e -> fireActionListener(e));
 		return btn;
 	}
-	
+	//disabling/enabling all the JButton in the panel
 	public void enableButtons(Container container, boolean enable) {
 	    Component[] components = container.getComponents();
 	    for (Component component : components) {

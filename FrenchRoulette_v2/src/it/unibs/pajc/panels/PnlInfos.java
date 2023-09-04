@@ -125,22 +125,6 @@ public class PnlInfos extends PnlBase {
 		betsPnl.add(scrollPane); // Add the scroll pane instead of the JTextArea
 		
 		add(betsPnl, gbc_betsPnl);
-		/*
-		infoPnl = new JPanel();
-		infoPnl.setLayout(new GridBagLayout());
-		GridBagConstraints gbc_infoPnl = new GridBagConstraints();
-		gbc_infoPnl.gridx = 0;
-		gbc_infoPnl.gridy = 3;
-		gbc_infoPnl.fill = GridBagConstraints.BOTH;
-		
-		JTextArea infoJTxt = new JTextArea();
-		infoJTxt.setPreferredSize(new Dimension(650,100));
-		infoJTxt.setEditable(false);
-		infoJTxt.append("infoJTxt");
-		infoPnl.add(infoJTxt);
-		
-		add(infoPnl, gbc_infoPnl);
-		*/
 
 	}
 

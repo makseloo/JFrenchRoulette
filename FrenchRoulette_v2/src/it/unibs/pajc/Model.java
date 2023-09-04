@@ -19,7 +19,6 @@ public class Model extends BaseModel{
 	List<WheelNumber> numberList = new ArrayList<>();
 	List<Fiche> ficheList = new ArrayList<>();
 	
-	//numbers displayed as on the roulette
 	List<WheelNumber> sortedList;
 	List<Zone> zones = new ArrayList<>();
 	
@@ -32,14 +31,19 @@ public class Model extends BaseModel{
 	private int range;
 	
 	public Model() {	
+		//initializing numbers of the roulette(in the contstructor of Numbers)
 		Numbers numbers = new Numbers();
-		numberList = numbers.numbers;
-		initializeFiches();
+		//sorted as on the betBoard
+		this.numberList = numbers.numbers;
+		//sorted as on the wheel
+		this.sortedList = numbers.sortedWheelNumbers;
+		
 		initializeZones();
-		this.sortedList = sort(numberList);
+		initializeFiches();
+		
 		this.range = 1;
 	}
-
+	//Creating zones Voisins, Orpehlins, dozens etc
 	private void initializeZones() {
 		for(String dc :  Numbers.dozAndCols) {
 			Zone zone = new Zone(dc, Numbers.getZoneNumbers(dc),3);
@@ -52,33 +56,9 @@ public class Model extends BaseModel{
 		}
 	}
 
-	private List<WheelNumber> sort(List<WheelNumber> numberList) {
-		List<WheelNumber> sortedList = new ArrayList<>(numberList);
-		List<Integer> desiredOrder = Numbers.sortedIntNumbers;
-		List<String> zeroZone = new ArrayList<>();
-		zeroZone.add("voisins");
-		zeroZone.add("z");
-		
-		WheelNumber zero = new WheelNumber(0,0, zeroZone, Colors.getGreen());
-
-		
-		Collections.sort(sortedList, new Comparator<WheelNumber>() {
-			 @Override
-	            public int compare(WheelNumber w1, WheelNumber w2) {
-	                Integer value1 = w1.getValue();
-	                Integer value2 = w2.getValue();
-	                return Integer.compare(desiredOrder.indexOf(value1), desiredOrder.indexOf(value2));
-	            }
-		});
-		//perché in numberlist non c'è lo 0
-		sortedList.add(zero);
-		
-		return sortedList;
-	}
-	
+	//Creating fiches with which the user will bet
 	private void initializeFiches() {
 
-		 
 		 Fiche oneFiche = new Fiche(1, true);
 		 ficheList.add(oneFiche);
 		 
@@ -96,12 +76,15 @@ public class Model extends BaseModel{
 		
 	}
 	
+	//////VARIOUS SETTERS AND GETTERS
+	
+	
+	
 	public List<WheelNumber> getNumberList() {
 		return numberList;
 	}
-	
+	//returning a NEW bet list with only the numbers with a bet value != 0
 	public List<WheelNumber> getBets(){
-		//creo una nuova lista in cui inserisco solo i numeri con valore diverso da 0
 		List<WheelNumber> bets = new ArrayList<>();
 		for(WheelNumber w : numberList) {
 			if(w.getBettedValue() != 0)
@@ -109,7 +92,7 @@ public class Model extends BaseModel{
 		}
 		return bets;
 	}
-	
+	//same as getBets but for the zones
 	public List<Zone> getZonesBets(){
 		List<Zone> zonesBets = new ArrayList<>();
 		Zone nz = null;
@@ -121,19 +104,6 @@ public class Model extends BaseModel{
 			}
 		}
 		return zonesBets;
-	}
-	
-	
-	public void resetBets() {
-		for(WheelNumber w : numberList) {
-			if(w.getBettedValue() != 0)
-				w.setBetValue(0);
-		}
-		for(Zone z : zones) {
-			if(z.getBetValue() != 0) {
-				z.resetBetValue();
-			}
-		}
 	}
 	
 	public List<WheelNumber> getWheelNumberList() {
@@ -149,7 +119,6 @@ public class Model extends BaseModel{
 	}
 	
 	public int getSelectedFicheVal() {
-		
 		for(Fiche f : ficheList) {
 			if (f.isSelected())
 					return f.getValue();
@@ -157,116 +126,16 @@ public class Model extends BaseModel{
 		return -1;
 	}
 	
-	public void setRangeNumberBet(String inputValue, int bettedAmount, int range) {
-		int index = findIndex(inputValue);
-		
-	    List<Integer> numsToAdd = new ArrayList<>();
-	    int fixedRange = range;
-	    //aggiungo i precedenti
-
-	    for (int i = (index - 1)%37; range > 0; i--) {
-	    	if(i == -1) {
-            	i = sortedList.size()-1;
-            }
-	    	numsToAdd.add(sortedList.get(i).getValue());
-	    	
-	    	range--;
-        }
-	    //resetto range
-	    range = fixedRange;
-	    //se sforo dall'altra parte? uso il modulo altrimenti resetto l'indice
-	    
-	    //aggiungo i successivi
-	    for (int i = (index + 1)%37; i < sortedList.size() && range > 0; i++) {
-	    	numsToAdd.add(sortedList.get(i).getValue());
-	    	
-            range--;
-            if(i == sortedList.size()-1) {
-            	//-1 perché lo incrementa alla fine del ciclo
-            	i = -1;
-            }
-        }
-		
-	    for(int i : numsToAdd) {
-	    	setNumberBet(i,bettedAmount);
-	    }
-	    
-		fireValuesChange(new ChangeEvent(this));
-	}
-	
-	private int findIndex(String inputValue) {
-		
-		for (int i = 0; i < sortedList.size(); i++) {
-			
-            if (sortedList.get(i).getValue() == Integer.parseInt(inputValue)) {
-                return i;
-            }
-        }
-		return -1;
-	}
-	
-	public void setNumberBet(int inputValue, double bettedAmount) {
-		for(WheelNumber w : numberList) {
-			if(w.getValue() == inputValue) {
-				w.setValue(bettedAmount);
-			}
-		}
-}
-	
-	public void selectFiche(double value) {
-		deactivateFiches();
-		for(Fiche f : ficheList) {
-			if (f.getValue() == value)
-				f.setSelected(true);
-				
-		}
-	}
-	
-	private void deactivateFiches() {
-		for(Fiche f : ficheList) {
-			if (f.isSelected())
-				f.setSelected(false);
-		}
-		
-	}
-
-	public String Dump() {
-		StringBuffer sb = new StringBuffer();
-		
-		for(WheelNumber n : numberList) {
-			
-				sb.append(n.getValue());
-				sb.append(",");
-				sb.append(n.getBettedValue());
-			
-		}
-		
-		return sb.toString();
-	}
 
 	public RouletteGameState getState() {
 		return gameState;
 	}
 	public void setState(String gameState) {
 		this.gameState = RouletteGameState.valueOf(gameState);
-		fireValuesChange(new CustomChangeEvent(gameState, EventType.UPDATE_STATE));
+		fireValuesChange(new CustomChangeEvent(gameState, EventType.UPDATE_GAME_STATE));
 	}
+	
 
-	public List<WheelNumber> turnIntoColor(Queue<Integer> stats) {
-		
-		List<WheelNumber> coloredStats = new ArrayList<>();
-		
-		for(int i : stats) {
-			
-			for(WheelNumber w : sortedList) {
-				
-				if(i == w.getValue())
-					coloredStats.add(w);
-					
-			}
-		}		
-		return coloredStats;
-	}
 
 	public double getBalance() {
 		return balance;
@@ -293,39 +162,7 @@ public class Model extends BaseModel{
 	public void resetBet() {
 		this.bet = 0;
 	}
-	public void betDoz(String zone) {
-		int bet = getSelectedFicheVal();
-		if((balance - (bet))>=0) {
-			setBet(bet);
-			substractBalance(bet); 
-			
-		    
-			for(Zone z : zones) {
-				if(z.getZoneName().equals(zone)) {
-					z.setBetValue(bet);
-				}
-			}
-			
-		}else {
-			System.out.print("Model: Saldo insufficiente");
-		}
-		fireValuesChange(new CustomChangeEvent(this, EventType.UPDATE_BET));
-	}
 	
-
-	public void betNum(ActionEvent e) {
-		int value = Integer.parseInt(e.getActionCommand());
-		int bet = getSelectedFicheVal();
-		 if((getBalance() - bet) >= 0) {
-			 setNumberBet(value, bet);
-			 setBet(bet);
-			 substractBalance(bet); 
-		 }else {
-			 System.out.print("Saldo insufficiente");
-		 }
-		 fireValuesChange(new CustomChangeEvent(this, EventType.UPDATE_BET));
-	}
-
 	public int getRange() {
 		return range;
 	}
@@ -335,9 +172,128 @@ public class Model extends BaseModel{
 	}
 	
 	public List<Zone> getZones() {
-		// TODO Auto-generated method stub
 		return this.zones;
 	}
+	
+	public WheelNumber getLastNumber() {
+		return lastTen.get(lastTen.size()-1);
+	}
+
+	public List<WheelNumber> getLastTen() {
+		return lastTen;
+	}
+	
+	//////
+	
+	
+
+	public List<Integer> getNumsToBetOn(String numberValue, int range) {
+		
+		int index = findIndex(numberValue);
+		
+	    List<Integer> numsToAdd = new ArrayList<>();
+	    int fixedRange = range;
+	    //adding the numbers before the selected one
+	    for (int i = (index - 1)%37; range > 0; i--) {
+	    	if(i == -1) {
+            	i = sortedList.size()-1;
+            }
+	    	numsToAdd.add(sortedList.get(i).getValue());
+	    	
+	    	range--;
+        }
+	    //restting range
+	    range = fixedRange;
+	    
+	    
+	    //adding the next numbers
+	    for (int i = (index + 1)%37; i < sortedList.size() && range > 0; i++) {
+	    	numsToAdd.add(sortedList.get(i).getValue());
+            range--;
+            if(i == sortedList.size()-1) {
+            	//-1 because i it's incremented at the end of the cycle
+            	i = -1;
+            }
+        }
+	    
+	    return numsToAdd;	    
+	}
+	
+	private int findIndex(String inputValue) {
+		
+		for (int i = 0; i < sortedList.size(); i++) {
+			
+            if (sortedList.get(i).getValue() == Integer.parseInt(inputValue)) {
+                return i;
+            }
+        }
+		return -1;
+	}
+	
+	
+	public void setNumberBet(int inputValue, double bettedAmount) {
+		for(WheelNumber w : numberList) {
+			if(w.getValue() == inputValue) {
+				w.setValue(bettedAmount);
+			}
+		}
+	}
+	
+	//betting on the numbers based on the selected range
+	public void betRange(ActionEvent e) {
+		int value = Integer.parseInt(e.getActionCommand());
+		int range = getRange();
+		int bet = getSelectedFicheVal() ;
+		int betRange = bet*(range*2 +1);
+		 if((getBalance() - betRange) >= 0) {
+			 //betting on the number i clicked
+			 setNumberBet(value, bet);
+			 //betting on the neighbors numbers
+			 for(int i : getNumsToBetOn(e.getActionCommand(), betRange)) {
+		    	setNumberBet(i,bet);
+			 }
+			 setBet(betRange);
+			 substractBalance(betRange); 
+		 }else {
+			 System.out.print("Saldo insufficiente\n");
+		 }
+		 fireValuesChange(new CustomChangeEvent(this, EventType.UPDATE_BET));
+	}
+	
+
+	
+	//BETTING ON doz cols red black even odd
+	public void betOther(String zone) {
+		int bet = getSelectedFicheVal();
+		if((balance - (bet))>=0) {
+			setBet(bet);
+			substractBalance(bet); 
+			for(Zone z : zones) {
+				if(z.getZoneName().equals(zone)) {
+					z.setBetValue(bet);
+				}
+			}
+		}else {
+			System.out.print("Other: Saldo insufficiente");
+		}
+		fireValuesChange(new CustomChangeEvent(this, EventType.UPDATE_BET));
+	}
+	
+	//SINGLE NUMBER BETTING
+	public void betNum(ActionEvent e) {
+		int value = Integer.parseInt(e.getActionCommand());
+		int bet = getSelectedFicheVal();
+		 if((getBalance() - bet) >= 0) {
+			 setNumberBet(value, bet);
+			 setBet(bet);
+			 substractBalance(bet); 
+		 }else {
+			 System.out.print("Number: Saldo insufficiente");
+		 }
+		 fireValuesChange(new CustomChangeEvent(this, EventType.UPDATE_BET));
+	}
+
+	//MAIN Zones betting: each of them requires a specific split bet based on the Roulette rules
 	
 	public void betTier() {
 		int bet = getSelectedFicheVal();
@@ -422,32 +378,40 @@ public class Model extends BaseModel{
 		
 	}
 
+	
+	
 	public void updateLastTen(List<WheelNumber> stats) {
 		this.lastTen = new ArrayList<>(stats);
 		fireValuesChange(new CustomChangeEvent(this, EventType.LAST_TEN_CHANGED));
 	}
 	
-	public WheelNumber getLastNumber() {
-		return lastTen.get(lastTen.size()-1);
+	
+	public void selectFiche(double value) {
+		deactivateFiches();
+		for(Fiche f : ficheList) {
+			if (f.getValue() == value)
+				f.setSelected(true);
+				
+		}
 	}
-
-	public List<WheelNumber> getLastTen() {
-		return lastTen;
+	
+	private void deactivateFiches() {
+		for(Fiche f : ficheList) {
+			if (f.isSelected())
+				f.setSelected(false);
+		}
+		
 	}
-
-	public void betRange(ActionEvent e) {
-		int value = Integer.parseInt(e.getActionCommand());
-		int range = getRange();
-		int bet = getSelectedFicheVal() ;
-		int betRange = bet*(range*2 +1);
-		 if((getBalance() - betRange) >= 0) {
-			 setNumberBet(value, bet);
-			 setRangeNumberBet(e.getActionCommand(), bet, range);
-			 setBet(betRange);
-			 substractBalance(betRange); 
-		 }else {
-			 System.out.print("Saldo insufficiente\n");
-		 }
-		 fireValuesChange(new CustomChangeEvent(this, EventType.UPDATE_BET));
+	
+	public void resetBets() {
+		for(WheelNumber w : numberList) {
+			if(w.getBettedValue() != 0)
+				w.setBetValue(0);
+		}
+		for(Zone z : zones) {
+			if(z.getBetValue() != 0) {
+				z.resetBetValue();
+			}
+		}
 	}
 }

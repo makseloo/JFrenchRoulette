@@ -73,9 +73,8 @@ public class FrenchRoulette_v2 {
             		EventType eventType = ((CustomChangeEvent) e).getEventType();
                 	
                 	switch (eventType) {
-    				case UPDATE_STATE: {
-    					//System.out.print("ciao");
-    					updateState(e);
+    				case UPDATE_GAME_STATE: {
+    					disableAndReset(e);
     					break;
     				}
     				case UPDATE_BET: {
@@ -174,16 +173,17 @@ public class FrenchRoulette_v2 {
    				
 		pnlBetBoard.addActionListener(e -> {
 			String command = e.getActionCommand().toString();
-			//se è un numero scommetto su un numero
+			//check if it's a number
 			if (command.matches("^\\d+$")) {
 				model.betNum(e);
 			} else {
-				model.betDoz(command);
+				//otherwise i bet on the other zones
+				model.betOther(command);
 			}	
 		});
 		
 		pnlFiches.addActionListener(e -> this.takeFiche(e));
-		
+		//perché è qui?
 		pnlWheel.addActionListener(e -> this.updateInfoStats());
 		
 		pnlRange.addActionListener(e -> this.changeRange(e));
@@ -208,14 +208,10 @@ public class FrenchRoulette_v2 {
 			}
 			default:
 				//se non trovo nulla vuol dire che ho usato il range
-				model.betRange(e);
-				
+				model.betRange(e);	
 			}
 			
-			
 		});
-		
-		pnlInfos.addActionListener(e -> bet(e));
 
 		frame.pack();
 		
@@ -228,7 +224,6 @@ public class FrenchRoulette_v2 {
 
 	void changeRange(ActionEvent e) {
 		int range = model.getRange();
-		
 		if(e.getActionCommand().equals("+")) {
 			model.setRange(++range);
 		}else if(e.getActionCommand().equals("-")) {
@@ -236,20 +231,7 @@ public class FrenchRoulette_v2 {
 		}
 		
 	}
-
-	void bet(ActionEvent e) {
-		int value = Integer.parseInt(e.getActionCommand());
-		int bet = model.getSelectedFicheVal();
-		if((model.getBalance() - bet) >= 0) {
-			 model.setNumberBet(value, bet);
-			 model.setBet(bet);
-			 model.substractBalance(bet); 
-		 }else {
-			 //System.out.print("Saldo insufficiente");
-		 }
-		 
-	}
-	 
+	
 	 void takeFiche(ActionEvent e) {
 		 String ficheString = e.getActionCommand();
 		 
@@ -262,7 +244,7 @@ public class FrenchRoulette_v2 {
 		 return model.getBets();
 	 }
 	 
-	
+	// they are incapsulated like that beacuse Client has to use them
 	public void updateTimer(int remainingSeconds) {
 		pnlInfos.updateCountdown(remainingSeconds);
 	}
@@ -301,9 +283,7 @@ public class FrenchRoulette_v2 {
 	    
 	}
 
-	
-
-	private void updateState(ChangeEvent e) {
+	private void disableAndReset(ChangeEvent e) {
 		String gameState = e.getSource().toString();
 		pnlInfos.updateState(gameState);
 

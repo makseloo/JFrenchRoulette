@@ -78,11 +78,7 @@ public class Client {
 	                	 GameStateMessage gameStateMessage = (GameStateMessage) receivedObject;
 	                	 gameState = gameStateMessage.getGameState();
 	                	 roulette.updateGameState(gameState); 
-	                	 
-	 	               if (gameState.equals("BETTING")) {
-	                        betsSent = false; // Reset the flag to false at the start of each cycle
-	                    }
-	 	                if(gameState.equals("SPINNING") && !betsSent) {
+	 	                if(gameState.equals("SPINNING")) {
 	 	                	List<WheelNumber> bets = roulette.getBets();
 	 	                	
 	 	                	List<Zone> zoneBets = roulette.getZoneBets();
@@ -91,7 +87,6 @@ public class Client {
 	 	                	
 	 	                	oos.writeObject(betsMessage);
 	 	                    oos.flush();
-	 	                    betsSent = true;
 	 	                }
 	                 }
 	                 

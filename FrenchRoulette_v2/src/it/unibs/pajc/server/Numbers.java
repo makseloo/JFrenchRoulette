@@ -49,7 +49,7 @@ public class Numbers {
 	
 	
 	public List<WheelNumber> numbers;
-	public static List<WheelNumber> sortedWheelNumbers;
+	public List<WheelNumber> sortedWheelNumbers;
 	
 	public Numbers() {
 		numbers = new ArrayList<WheelNumber>();

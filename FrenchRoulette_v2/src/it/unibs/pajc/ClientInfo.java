@@ -1,10 +1,7 @@
-package it.unibs.pajc.server;
+package it.unibs.pajc;
 
 import java.util.LinkedList;
 import java.util.List;
-
-import it.unibs.pajc.WheelNumber;
-import it.unibs.pajc.Zone;
 
 public class ClientInfo {
 	private String clientName;

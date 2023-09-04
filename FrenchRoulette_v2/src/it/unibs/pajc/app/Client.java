@@ -1,4 +1,4 @@
-package it.unibs.pajc.server;
+package it.unibs.pajc.app;
 
 import java.io.IOException;
 
@@ -8,9 +8,10 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
 
-import it.unibs.pajc.FrenchRoulette_v2;
 import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.Zone;
+import it.unibs.pajc.client.FrenchRoulette_v2;
+import it.unibs.pajc.client.SetupView;
 import it.unibs.pajc.client.messages.BetsMessage;
 import it.unibs.pajc.client.messages.ClientInfoMessage;
 import it.unibs.pajc.server.messages.GameStateMessage;

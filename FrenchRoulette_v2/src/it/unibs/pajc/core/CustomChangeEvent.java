@@ -2,6 +2,8 @@ package it.unibs.pajc.core;
 
 import javax.swing.event.ChangeEvent;
 
+import it.unibs.pajc.EventType;
+
 public class CustomChangeEvent extends ChangeEvent {
     private EventType eventType;
     

@@ -8,12 +8,13 @@ import java.util.TimerTask;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import it.unibs.pajc.ClientInfo;
+import it.unibs.pajc.EventType;
 import it.unibs.pajc.RouletteGameState;
 import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.client.messages.BetsMessage;
 import it.unibs.pajc.client.messages.ClientInfoMessage;
 import it.unibs.pajc.core.CustomChangeEvent;
-import it.unibs.pajc.core.EventType;
 import it.unibs.pajc.server.messages.GameStateMessage;
 import it.unibs.pajc.server.messages.PayoutMessage;
 import it.unibs.pajc.server.messages.StatsMessage;

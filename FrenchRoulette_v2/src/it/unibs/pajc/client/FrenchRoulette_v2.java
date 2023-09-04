@@ -1,7 +1,11 @@
-package it.unibs.pajc;
+package it.unibs.pajc.client;
 
 import java.awt.EventQueue;
 
+import it.unibs.pajc.EventType;
+import it.unibs.pajc.Numbers;
+import it.unibs.pajc.WheelNumber;
+import it.unibs.pajc.Zone;
 import it.unibs.pajc.client.panels.PnlBetBoard;
 import it.unibs.pajc.client.panels.PnlFiches;
 import it.unibs.pajc.client.panels.PnlInfos;
@@ -9,7 +13,6 @@ import it.unibs.pajc.client.panels.PnlRange;
 import it.unibs.pajc.client.panels.PnlWheel;
 import it.unibs.pajc.client.panels.PnlZones;
 import it.unibs.pajc.core.CustomChangeEvent;
-import it.unibs.pajc.core.EventType;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

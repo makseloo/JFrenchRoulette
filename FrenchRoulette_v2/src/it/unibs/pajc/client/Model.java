@@ -1,7 +1,13 @@
-package it.unibs.pajc;
+package it.unibs.pajc.client;
 
 import java.awt.event.ActionEvent;
 
+import it.unibs.pajc.EventType;
+import it.unibs.pajc.Fiche;
+import it.unibs.pajc.Numbers;
+import it.unibs.pajc.RouletteGameState;
+import it.unibs.pajc.WheelNumber;
+import it.unibs.pajc.Zone;
 import it.unibs.pajc.core.*;
 
 import java.util.ArrayList;

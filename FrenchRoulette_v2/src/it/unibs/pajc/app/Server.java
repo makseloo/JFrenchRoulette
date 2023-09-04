@@ -1,4 +1,4 @@
-package it.unibs.pajc.server;
+package it.unibs.pajc.app;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,10 +18,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import it.unibs.pajc.ClientInfo;
+import it.unibs.pajc.EventType;
 import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.Zone;
 import it.unibs.pajc.core.CustomChangeEvent;
-import it.unibs.pajc.core.EventType;
+import it.unibs.pajc.server.MyProtocol;
+import it.unibs.pajc.server.ServerModel;
 import it.unibs.pajc.server.panels.PnlCountdown;
 
 import javax.swing.JLabel;

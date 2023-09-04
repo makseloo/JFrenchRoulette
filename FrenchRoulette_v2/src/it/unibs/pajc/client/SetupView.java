@@ -1,4 +1,4 @@
-package it.unibs.pajc.server;
+package it.unibs.pajc.client;
 
 import java.awt.EventQueue;
 
@@ -16,7 +16,7 @@ import java.awt.event.ActionEvent;
 
 public class SetupView {
 
-	JFrame frame;
+	public JFrame frame;
 	private JTextField nameTxt;
 	private JTextField importTxt;
 

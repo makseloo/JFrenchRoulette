@@ -5,12 +5,13 @@ import java.util.List;
 
 import javax.swing.event.ChangeEvent;
 
+import it.unibs.pajc.ClientInfo;
+import it.unibs.pajc.EventType;
 import it.unibs.pajc.RouletteGameState;
 import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.Zone;
 import it.unibs.pajc.core.BaseModel;
 import it.unibs.pajc.core.CustomChangeEvent;
-import it.unibs.pajc.core.EventType;
 public class ServerModel extends BaseModel implements ServerTimer.TimerListener {
     private static final int BETTING_TIMER_DURATION = 10; // Duration of the timer in seconds
     private static final int SPIN_TIMER_DURATION = 5; // the time the ball needs to spin around the wheel

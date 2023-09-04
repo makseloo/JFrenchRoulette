@@ -1,4 +1,4 @@
-package it.unibs.pajc.core;
+package it.unibs.pajc;
 
 public enum EventType {
 

@@ -22,7 +22,6 @@ public class ServerTimer {
                 	if (timerListener != null) {
                         timerListener.onTimerExpired();
                     }
-                	
                 } else {
                     remainingSeconds--;
                     if (timerListener != null) {

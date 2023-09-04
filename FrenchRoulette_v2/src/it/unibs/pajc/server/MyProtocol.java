@@ -8,9 +8,16 @@ import java.util.TimerTask;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import it.unibs.pajc.RouletteGameState;
 import it.unibs.pajc.WheelNumber;
+import it.unibs.pajc.client.messages.BetsMessage;
+import it.unibs.pajc.client.messages.ClientInfoMessage;
 import it.unibs.pajc.core.CustomChangeEvent;
 import it.unibs.pajc.core.EventType;
+import it.unibs.pajc.server.messages.GameStateMessage;
+import it.unibs.pajc.server.messages.PayoutMessage;
+import it.unibs.pajc.server.messages.StatsMessage;
+import it.unibs.pajc.server.messages.TimerMessage;
 
 
 public class MyProtocol implements Runnable {
@@ -38,8 +45,7 @@ public class MyProtocol implements Runnable {
             		EventType eventType = ((CustomChangeEvent) e).getEventType();
                 	
                 	switch (eventType) {
-                	//A more meaningfull name is needed
-    				case UPDATE_STATE: {
+                	case BETS_ANALYZED: {
     					sendPayouts();
     					break;
     				}
@@ -51,7 +57,14 @@ public class MyProtocol implements Runnable {
     					sendGameState();
     					break;
     				}
+    				case TIMER_TICK: {
+    					sendTimeUpdate();
+    					break;
+    				}
     				default:
+    					//myprotocol and Server are both working o the same model which can fire
+    					//some event hanlded in one but not in the other one
+    					break;
     					//throw new IllegalArgumentException("Unexpected value: " + eventType);
     				}
             	}
@@ -68,24 +81,13 @@ public class MyProtocol implements Runnable {
         	oos = new ObjectOutputStream(clientSocket.getOutputStream());
             System.out.printf("\nClient connesso: %s [%d] - Name: %s\n",
                     clientSocket.getInetAddress(), clientSocket.getPort(), clientInfo.getClientName());
-            //mando le stat appena il client si connette
+            //sending the stats when the client connects
             sendStats();
-            
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    sendTimeUpdate();
-                }
-            }, 0, 100); // Send time update every second
-            
-            
-            //handle reception
-            
+                        
             Object receivedObject;
             while ((receivedObject = ois.readObject()) != null) {
-                // Read any incoming requests from the client if necessary
-                // ...
+                // Read any incoming requests from the client
+            	
             	if (receivedObject instanceof BetsMessage) {
             		BetsMessage betsMessage = (BetsMessage) receivedObject;
             		serverModel.updateBets(betsMessage.getBets(),clientInfo.getAccountId(), betsMessage.getTotalAmount(),betsMessage.getZones());
@@ -94,8 +96,6 @@ public class MyProtocol implements Runnable {
             		serverModel.updateClientInfo(clientInfo.getAccountId(), clientInfoMsg.getName(), clientInfoMsg.getBalance());
             	}
 
-                // Wait for the next iteration
-                //Thread.sleep(10);
             }
             
         } catch (IOException | ClassNotFoundException ex) {
@@ -103,13 +103,7 @@ public class MyProtocol implements Runnable {
                     clientSocket.getInetAddress(), clientSocket.getPort(), clientInfo.getClientName());
 
             // Clean up resources and remove client from server data structures
-            try {
-            	serverModel.removeClient(clientInfo);
-                clientSocket.close();
-                isConnected = false;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            cleanup();
         }
 
         System.out.printf("\nSessione terminata, client: %s : %b\n", clientInfo.getClientName(),isConnected );
@@ -127,13 +121,7 @@ public class MyProtocol implements Runnable {
         }catch (SocketException e) {
             // Handle the SocketException, indicating that the client has closed the connection
             isConnected = false;
-            try {
-            	serverModel.removeClient(clientInfo);
-                clientSocket.close();
-                isConnected = false;
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            cleanup();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -147,8 +135,10 @@ public class MyProtocol implements Runnable {
     	try {
 			oos.writeObject(statsMessage);
 			oos.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		}catch (SocketException e) {
+            isConnected = false;
+            cleanup();
+        }  catch (IOException e) {
 			System.out.print("Error in stats message: \n"); 
 			e.printStackTrace();
 		}
@@ -165,7 +155,10 @@ public class MyProtocol implements Runnable {
     		PayoutMessage payoutMessage = new PayoutMessage(newBalance, lastWin);
     		oos.writeObject(payoutMessage);
             oos.flush();
-    	}catch (IOException ex) {
+    	}catch (SocketException e) {
+            isConnected = false;
+            cleanup();
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
@@ -178,12 +171,22 @@ public class MyProtocol implements Runnable {
 		    GameStateMessage gameStateMessage = new GameStateMessage( gameState.toString());
     		oos.writeObject(gameStateMessage);
             oos.flush();
-    	}catch (IOException ex) {
+    	}catch (SocketException e) {
+            isConnected = false;
+            cleanup();
+        } catch (IOException ex) {
            System.out.print("Failed Game State message: ");
            ex.printStackTrace();
-        }
-       
-		
+        }	
 	}
-    
+	
+    private void cleanup() {
+    	try {
+        	serverModel.removeClient(clientInfo);
+            clientSocket.close();
+            isConnected = false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

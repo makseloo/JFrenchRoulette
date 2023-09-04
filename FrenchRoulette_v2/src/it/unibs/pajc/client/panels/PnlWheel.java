@@ -1,4 +1,4 @@
-package it.unibs.pajc.panels.client;
+package it.unibs.pajc.client.panels;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -11,9 +11,9 @@ import javax.swing.Timer; // Import javax.swing.Timer
 
 import javax.swing.ImageIcon;
 
+import it.unibs.pajc.Numbers;
 import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.core.PnlBase;
-import it.unibs.pajc.server.Numbers;
 
 public class PnlWheel extends PnlBase {
 

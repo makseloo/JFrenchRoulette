@@ -2,14 +2,14 @@ package it.unibs.pajc;
 
 import java.awt.EventQueue;
 
+import it.unibs.pajc.client.panels.PnlBetBoard;
+import it.unibs.pajc.client.panels.PnlFiches;
+import it.unibs.pajc.client.panels.PnlInfos;
+import it.unibs.pajc.client.panels.PnlRange;
+import it.unibs.pajc.client.panels.PnlWheel;
+import it.unibs.pajc.client.panels.PnlZones;
 import it.unibs.pajc.core.CustomChangeEvent;
 import it.unibs.pajc.core.EventType;
-import it.unibs.pajc.panels.client.PnlBetBoard;
-import it.unibs.pajc.panels.client.PnlFiches;
-import it.unibs.pajc.panels.client.PnlInfos;
-import it.unibs.pajc.panels.client.PnlRange;
-import it.unibs.pajc.panels.client.PnlWheel;
-import it.unibs.pajc.panels.client.PnlZones;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -23,8 +23,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import it.unibs.pajc.server.Numbers;
 
 public class FrenchRoulette_v2 {
 

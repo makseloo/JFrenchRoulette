@@ -4,9 +4,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import it.unibs.pajc.Numbers;
 import it.unibs.pajc.WheelNumber;
 
-
+//GENERATING RANDOM NUMBERS
 public class ServerStatistics {
     private static double NUMBER_OF_RANDOMS = 13;
     private static final int RANDOM_RANGE_MAX = 37;
@@ -19,7 +20,7 @@ public class ServerStatistics {
     
     public ServerStatistics() {
     	this.randomWheelNumbers = new LinkedList<>();
-    	//perché la costruzione di sorted numbers avviene nel costruttore di Numbers
+    	//sortedWheelNumbers are created in the constructor of Numbers
     	Numbers numbers = new Numbers();
     	this.wheelNumbers = numbers.sortedWheelNumbers;
     	this.randomWheelNumbers = generateRandomNumbers(NUMBER_OF_RANDOMS, RANDOM_RANGE_MAX);
@@ -28,9 +29,7 @@ public class ServerStatistics {
 
 	private List<WheelNumber> generateRandomNumbers(double count,int max) {
 		List<WheelNumber> randomNumbers = new LinkedList<>();
-
         Random random = new Random();
-
         for (int i = 0; i < count; i++) {
         	int randNum = random.nextInt(37);
         	randomNumbers.add(turnIntoWheelNumb(randNum));

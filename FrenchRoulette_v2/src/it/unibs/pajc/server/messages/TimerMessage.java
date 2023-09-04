@@ -1,4 +1,4 @@
-package it.unibs.pajc.server;
+package it.unibs.pajc.server.messages;
 
 import java.io.Serializable;
 

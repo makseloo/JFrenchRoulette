@@ -1,4 +1,4 @@
-package it.unibs.pajc.server;
+package it.unibs.pajc;
 // BETTING-> SPINNING->SETTLING
 public enum RouletteGameState {
     BETTING("BETTING"),

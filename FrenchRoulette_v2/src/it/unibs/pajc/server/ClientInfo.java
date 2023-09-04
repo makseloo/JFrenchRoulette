@@ -82,7 +82,7 @@ public class ClientInfo {
 	}
     
 	public void setLastWin(double win) {
-		this.lastWin = win;
+		this.lastWin += win;
 	}
     
 }

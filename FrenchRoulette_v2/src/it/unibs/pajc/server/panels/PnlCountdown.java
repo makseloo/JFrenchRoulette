@@ -1,4 +1,4 @@
-package it.unibs.pajc.panels.server;
+package it.unibs.pajc.server.panels;
 
 
 import java.awt.Font;

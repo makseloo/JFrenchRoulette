@@ -22,7 +22,7 @@ import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.Zone;
 import it.unibs.pajc.core.CustomChangeEvent;
 import it.unibs.pajc.core.EventType;
-import it.unibs.pajc.panels.server.PnlCountdown;
+import it.unibs.pajc.server.panels.PnlCountdown;
 
 import javax.swing.JLabel;
 
@@ -35,8 +35,8 @@ public class Server {
     private static ServerModel serverModel;
     private PnlCountdown pnlCountdown;
     private JLabel stateLbl;
-    private JTextArea textArea;
-    private JTextArea textArea_1;
+    private JTextArea betTextArea;
+    private JTextArea numTextArea;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -53,7 +53,8 @@ public class Server {
         serverModel = new ServerModel();
         serverModel.startTimer();
         
-        //connectedClients = new ArrayList<>();
+        //connectedClients = new ArrayList<>(); not needed anymore, handled in the servermodel
+        
         int port = 1234;
         
 
@@ -63,6 +64,7 @@ public class Server {
             int id = 0;
             while (true) {
                 Socket client = serverSocket.accept();
+                //giving an unique name
                 String clientName = "CLI#" + id++ + "\n";
                 int balance = 0;
                
@@ -83,8 +85,7 @@ public class Server {
 		clientInfo.setAccountBalance(balance);
 		clientInfo.setAccountId(id);
 		serverModel.addClient(clientInfo);
-		//balance and id has to be set
-		
+		//the servermodel instace passed is the same for all the clients connected
 		MyProtocol clientProtocol = new MyProtocol(client, clientInfo, serverModel);
 		//connectedClients.add(clientName);
 		
@@ -93,17 +94,10 @@ public class Server {
 		
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public Server() {
 		initialize();
-		
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
@@ -112,14 +106,14 @@ public class Server {
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
+		//THOSE PANELS ARE NOT STRICTLY NECESSARY, JUST HELP TO VISUALIZE WHAT'S HAPPENING
 		frame.setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.rowWeights = new double[]{1.0, 0.0, 1.0, 1.0};
 		gbl_contentPane.columnWeights = new double[]{1.0};
 		contentPane.setLayout(gbl_contentPane);
 		
-		pnlCountdown = new PnlCountdown();//è giusti dal punto di vista mvc?
+		pnlCountdown = new PnlCountdown();
 		GridBagConstraints gbc_pnlBoard = new GridBagConstraints();
 		gbc_pnlBoard.insets = new Insets(0, 0, 5, 0);
 		gbc_pnlBoard.fill = GridBagConstraints.BOTH;
@@ -134,24 +128,24 @@ public class Server {
 		gbc_stateLbl.gridy = 1;
 		contentPane.add(stateLbl, gbc_stateLbl);
 		
-		textArea = new JTextArea();
-		textArea.setEditable(false);
-		GridBagConstraints gbc_textArea = new GridBagConstraints();
-		gbc_textArea.insets = new Insets(0, 0, 5, 0);
-		gbc_textArea.fill = GridBagConstraints.BOTH;
-		gbc_textArea.gridx = 0;
-		gbc_textArea.gridy = 2;
+		betTextArea = new JTextArea();
+		betTextArea.setEditable(false);
+		GridBagConstraints gbc_betTextArea = new GridBagConstraints();
+		gbc_betTextArea.insets = new Insets(0, 0, 5, 0);
+		gbc_betTextArea.fill = GridBagConstraints.BOTH;
+		gbc_betTextArea.gridx = 0;
+		gbc_betTextArea.gridy = 2;
 		
-		contentPane.add(textArea, gbc_textArea);
+		contentPane.add(betTextArea, gbc_betTextArea);
 		
-		textArea_1 = new JTextArea();
-		textArea_1.setEnabled(false);
-		textArea_1.setEditable(false);
-		GridBagConstraints gbc_textArea_1 = new GridBagConstraints();
-		gbc_textArea_1.fill = GridBagConstraints.BOTH;
-		gbc_textArea_1.gridx = 0;
-		gbc_textArea_1.gridy = 3;
-		contentPane.add(textArea_1, gbc_textArea_1);
+		numTextArea = new JTextArea();
+		numTextArea.setEnabled(false);
+		numTextArea.setEditable(false);
+		GridBagConstraints gbc_numTextArea = new GridBagConstraints();
+		gbc_numTextArea.fill = GridBagConstraints.BOTH;
+		gbc_numTextArea.gridx = 0;
+		gbc_numTextArea.gridy = 3;
+		contentPane.add(numTextArea, gbc_numTextArea);
 				
 		serverModel.addChangeListener(new ChangeListener() {
 			
@@ -184,7 +178,11 @@ public class Server {
     	                pnlCountdown.updateCountdown(seconds);
     					break;
     				}
+
     				default:
+    					//myprotocol and Server are both working o the same model which can fire
+    					//some event hanlded in one but not in the other one
+    					break;
     					//throw new IllegalArgumentException("Unexpected value: " + eventType);
     				}
             	}
@@ -200,47 +198,45 @@ public class Server {
 
      
 	private void updateClients() {
-		textArea.setText("");
+		betTextArea.setText("");
 		HashMap<Integer, ClientInfo> clientMap = serverModel.getConnectedClients();
 		for(Integer key : clientMap.keySet()) {
-			textArea.append(clientMap.get(key).getClientName()+":"+clientMap.get(key).getAccountBalance()+"\n");
+			betTextArea.append(clientMap.get(key).getClientName()+":"+clientMap.get(key).getAccountBalance()+"\n");
 		}
-		textArea.setForeground(Color.black);
+		betTextArea.setForeground(Color.black);
 	}
 	
 	private void updatedLast500area() {
-		textArea_1.setText("");
+		numTextArea.setText("");
 		List<WheelNumber> numbers = serverModel.getStats();
 		if(numbers != null) {
 			for(WheelNumber w : numbers) {
-				textArea_1.append(w.getValue() +"\n");
-				//System.out.print(w.getValue()+"");
-			}
+				numTextArea.append(w.getValue() +"\n");			}
 		}
 		
-		textArea_1.setForeground(Color.black);
+		numTextArea.setForeground(Color.black);
 		
 	}
 	
 	private void updateBet() {
-		textArea.setText("");
+		betTextArea.setText("");
 		
 		HashMap<Integer, ClientInfo> clientMap = serverModel.getConnectedClients();
 		for(Integer key : clientMap.keySet()) {
 			ClientInfo client = clientMap.get(key);
-			textArea.append(clientMap.get(key).getClientName()+":"+clientMap.get(key).getAccountBalance()+"\n");
+			betTextArea.append(clientMap.get(key).getClientName()+":"+clientMap.get(key).getAccountBalance()+"\n");
 			if(client.getBetList() == null)
 				return;
 			for(WheelNumber w : client.getBetList()) {
-				textArea.append(w.getValue() + ":"+ w.getBettedValue()+"\n");
+				betTextArea.append(w.getValue() + ":"+ w.getBettedValue()+"\n");
 			}
 			if(client.getZoneBetList() == null)
 				return;
 			for(Zone z : client.getZoneBetList()) {
-				textArea.append(z.getZoneName() + ":"+ z.getBetValue()+"\n");
+				betTextArea.append(z.getZoneName() + ":"+ z.getBetValue()+"\n");
 			}
 		}
-		textArea.setForeground(Color.black);
+		betTextArea.setForeground(Color.black);
 		
 	}
 }

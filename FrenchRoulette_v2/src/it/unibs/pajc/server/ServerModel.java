@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.event.ChangeEvent;
 
+import it.unibs.pajc.RouletteGameState;
 import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.Zone;
 import it.unibs.pajc.core.BaseModel;
@@ -13,23 +14,23 @@ import it.unibs.pajc.core.EventType;
 public class ServerModel extends BaseModel implements ServerTimer.TimerListener {
     private static final int BETTING_TIMER_DURATION = 10; // Duration of the timer in seconds
     private static final int SPIN_TIMER_DURATION = 5; // the time the ball needs to spin around the wheel
-    private static final int SETTLE_TIMER_DURATION = 5; 
+    private static final int SETTLE_TIMER_DURATION = 5; //time to send all the bets
 
     private RouletteGameState gameState;
     private RouletteGameState previous_gameState;
 	private ServerTimer serverTimer;
 	private ServerStatistics serverStats;
-	//mappa perché è più veloce trovare un client specifico
+	//it's easier to find a specific client with a map
 	private HashMap<Integer, ClientInfo> connectedClients;
     
     public ServerModel() {
-        // Initialize the initial state of the server
         gameState = RouletteGameState.BETTING;
         previous_gameState = RouletteGameState.BETTING;
         serverStats = new ServerStatistics();
         connectedClients = new HashMap<>();
     }
     
+    //SETTERS AND GETTERS
     public ServerStatistics getServerStats() {
     	return serverStats;
     }
@@ -54,6 +55,28 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
         return SPIN_TIMER_DURATION;
     }
     
+	public double getNewBalance(int id) {
+		
+		return connectedClients.get(id).getAccountBalance();
+	}
+
+	public List<WheelNumber> getStats() {
+
+		return serverStats.getNumbers();
+		
+	}
+
+	public double getLastWin(int id) {
+		return connectedClients.get(id).getLastWin();
+	}
+	
+    public int getSeconds() {
+        return serverTimer.getRemainingSeconds();
+    }
+    
+    ////
+    
+	//different operations based on the state of the game
     public void startTimer() {
     	 switch (gameState) {
          case BETTING:
@@ -61,6 +84,8 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
              setGameState(RouletteGameState.SPINNING);
              break;
          case SPINNING:
+        	 //i generate the new number when the ball spins
+        	 //the animation is leaded by the generated number, not vice-versa
              serverTimer = new ServerTimer(SPIN_TIMER_DURATION);
              setGameState(RouletteGameState.SETTLING);
              serverStats.generateSingleNumber();
@@ -68,9 +93,11 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
             
              break;
          case SETTLING:
+        	 //analyze users bets to see if they win and eventually modify their balance if they won
         	 analyzeBets();
-        	 fireValuesChange(new CustomChangeEvent(this, EventType.UPDATE_STATE));
+        	 fireValuesChange(new CustomChangeEvent(this, EventType.BETS_ANALYZED));
              serverTimer = new ServerTimer(SETTLE_TIMER_DURATION);
+             //with the new cylce all the bets have to be set to 0
              resetBets();
              setGameState(RouletteGameState.BETTING);          
              break;
@@ -80,9 +107,9 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
         serverTimer.setTimerListener(this);
         serverTimer.start();
     }
-    //version one where you can just bet on numbers
-    //possibile tipo avere una tabella in cui per ogni numero ho il client e la bet puntata?
     
+    //get the client zone and num list on which he bet, and just compare it to the last num generated
+    //if so pay the client by increasing it's balance based on the payout of the zone/number
     private void analyzeBets() {
     	
     	WheelNumber lastNum = serverStats.getLastWheelNumber();
@@ -131,25 +158,22 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 
 	private void payout(Integer key, double bet, int multiplier) {
 		connectedClients.get(key).addAccountBalance(bet*multiplier);
-		connectedClients.get(key).setLastWin(bet*multiplier);
-		//fire something
-		
+		connectedClients.get(key).setLastWin(bet*multiplier);		
 	}
 
 	@Override
     public void onTick(int remainingSeconds) {
     	 fireValuesChange(new CustomChangeEvent(this, EventType.TIMER_TICK));
     }
-    
-    public int getSeconds() {
-        return serverTimer.getRemainingSeconds();
-    }
 
 	@Override
 	public void onTimerExpired() {
 		previous_gameState = gameState;
+		//when the timer ends it means that the gamestate change so i execute the operations needed
+		//also it starts a new timer for the new gamestate
 		startTimer();
-		fireValuesChange(new CustomChangeEvent(previous_gameState, EventType.TIMER_EXPIRED));
+		
+		//fireValuesChange(new CustomChangeEvent(previous_gameState, EventType.TIMER_EXPIRED));
 	}
 	
 
@@ -180,20 +204,6 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 		connectedClients.get(id).setAccountBalance(balance);
 	}
 
-	public double getNewBalance(int id) {
-		
-		return connectedClients.get(id).getAccountBalance();
-	}
-
-	public List<WheelNumber> getStats() {
-
-		return serverStats.getNumbers();
-		
-	}
-
-	public double getLastWin(int id) {
-		return connectedClients.get(id).getLastWin();
-	}
 
 
 }

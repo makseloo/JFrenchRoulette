@@ -1,4 +1,4 @@
-package it.unibs.pajc.panels.client;
+package it.unibs.pajc.client.panels;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -8,9 +8,9 @@ import java.util.List;
 import javax.swing.JButton;
 
 import it.unibs.pajc.Colors;
+import it.unibs.pajc.Numbers;
 import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.core.PnlBase;
-import it.unibs.pajc.server.Numbers;
 
 public class PnlZones extends PnlBase {
     private List<JButton> numberButtons = new ArrayList<>();

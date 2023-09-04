@@ -1,4 +1,4 @@
-package it.unibs.pajc.panels.client;
+package it.unibs.pajc.client.panels;
 
 import java.awt.GridLayout;
 

@@ -3,7 +3,6 @@ package it.unibs.pajc.core;
 public enum EventType {
 
     TIMER_EXPIRED, 
-    UPDATE_STATE, 
     LAST_TEN_CHANGED,
     BALANCE_SET, 
     RANGE_SET,
@@ -15,4 +14,5 @@ public enum EventType {
     
     UPDATE_BET, 
     UPDATE_GAME_STATE, 
+    BETS_ANALYZED, 
 }

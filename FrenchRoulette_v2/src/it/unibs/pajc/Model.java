@@ -3,8 +3,6 @@ package it.unibs.pajc;
 import java.awt.event.ActionEvent;
 
 import it.unibs.pajc.core.*;
-import it.unibs.pajc.server.Numbers;
-import it.unibs.pajc.server.RouletteGameState;
 
 import java.util.ArrayList;
 import java.util.Collections;

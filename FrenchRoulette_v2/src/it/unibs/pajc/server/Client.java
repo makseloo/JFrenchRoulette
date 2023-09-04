@@ -11,6 +11,12 @@ import java.util.List;
 import it.unibs.pajc.FrenchRoulette_v2;
 import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.Zone;
+import it.unibs.pajc.client.messages.BetsMessage;
+import it.unibs.pajc.client.messages.ClientInfoMessage;
+import it.unibs.pajc.server.messages.GameStateMessage;
+import it.unibs.pajc.server.messages.PayoutMessage;
+import it.unibs.pajc.server.messages.StatsMessage;
+import it.unibs.pajc.server.messages.TimerMessage;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -28,10 +34,8 @@ public class Client {
 		setupView.frame.setVisible(true);
 		roulette = new FrenchRoulette_v2();
 		
-		
 		String hostName = "localhost";
 		int port = 1234;
-		boolean betsSent = false;
 		
 		try {
 			Socket server = new Socket(hostName, port);
@@ -59,7 +63,6 @@ public class Client {
             
 			Object receivedObject;
 	            
-			
 	            while ((receivedObject = ois.readObject()) != null) {
 	            	if (receivedObject instanceof TimerMessage) {
 	                    TimerMessage timerMessage = (TimerMessage) receivedObject;
@@ -69,7 +72,6 @@ public class Client {
 	                	 PayoutMessage payoutMessage = (PayoutMessage) receivedObject;
 	                	 roulette.updateLastWinLbl(payoutMessage.getLastWin());
 	                	 roulette.setBalance(payoutMessage.getNewBalance());
-	                	 
 	                 }else if(receivedObject instanceof StatsMessage) {
 	                	 StatsMessage statsMessage = (StatsMessage) receivedObject;
 	                	 roulette.updateStats(statsMessage.getNumbers());

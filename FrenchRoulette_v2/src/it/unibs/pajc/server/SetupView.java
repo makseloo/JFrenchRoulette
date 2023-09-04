@@ -12,15 +12,14 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+//ASKING FOR NAME AND BALANCE
+
 public class SetupView {
 
 	JFrame frame;
 	private JTextField nameTxt;
 	private JTextField importTxt;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -34,16 +33,10 @@ public class SetupView {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public SetupView() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
@@ -87,14 +80,13 @@ public class SetupView {
 	public int getBalance() {
 		String inputText = importTxt.getText();
 	    if (inputText.isEmpty()) {
-	        return 0; // or some default value
+	        return 0; 
 	    } else {
 	        try {
 	            return Integer.parseInt(inputText);
 	        } catch (NumberFormatException e) {
-	            // Handle the situation when the input cannot be parsed into an int
 	            System.out.println("Invalid input for balance. Using default value.");
-	            return 0; // or some default value
+	            return 0;
 	        }
 	    }
 	}

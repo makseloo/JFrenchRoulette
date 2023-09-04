@@ -1,4 +1,4 @@
-package it.unibs.pajc.server;
+package it.unibs.pajc.client.messages;
 
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -18,16 +18,12 @@ public class BetsMessage implements Serializable{
 		this.totalAmount = totalAmount;
 	}
 
-	
-	
 	public BetsMessage(List<WheelNumber> bets, double totalAmount, List<Zone> zones) {
 		super();
 		this.bets = bets;
 		this.zones = zones;
 		this.totalAmount = totalAmount;
 	}
-
-
 
 	public List<WheelNumber> getBets() {
 		return bets;

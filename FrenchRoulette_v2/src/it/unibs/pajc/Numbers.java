@@ -1,4 +1,4 @@
-package it.unibs.pajc.server;
+package it.unibs.pajc;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -6,9 +6,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import it.unibs.pajc.Colors;
-import it.unibs.pajc.WheelNumber;
 
 public class Numbers {
 	
@@ -25,7 +22,7 @@ public class Numbers {
 	public static List<Integer> dozen1 = Arrays.asList(1,2,3,4,5,6,7,8,9,10,11,12);
 	public static List<Integer> dozen2 = Arrays.asList(13,14,15,16,17,18,19,20,21,22,23,24);
 	public static List<Integer> dozen3 = Arrays.asList(25,26,27,28,29,30,31,32,33,34,35,36);
-	//cols
+	//rows
 	public static List<Integer> col3 = Arrays.asList(1,4,7,10,13,16,19,22,25,28,31,34);
 	public static List<Integer> col2 = Arrays.asList(2,5,8,11,14,17,20,23,26,29,32,35);
 	public static List<Integer> col1 = Arrays.asList(3,6,9,12,15,18,21,24,27,30,33,36);

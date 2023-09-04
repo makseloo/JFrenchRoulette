@@ -22,9 +22,7 @@ import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.Zone;
 import it.unibs.pajc.core.CustomChangeEvent;
 import it.unibs.pajc.core.EventType;
-import it.unibs.pajc.core.BaseModel.ClientsUpdateEvent;
-import it.unibs.pajc.core.BaseModel.GeneratedNumberEvent;
-import it.unibs.pajc.core.BaseModel.UpdateBet;
+import it.unibs.pajc.panels.server.PnlCountdown;
 
 import javax.swing.JLabel;
 

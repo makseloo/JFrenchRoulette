@@ -4,11 +4,12 @@ import java.awt.EventQueue;
 
 import it.unibs.pajc.core.CustomChangeEvent;
 import it.unibs.pajc.core.EventType;
-import it.unibs.pajc.panels.PnlBetBoard;
-import it.unibs.pajc.panels.PnlFiches;
-import it.unibs.pajc.panels.PnlRange;
-import it.unibs.pajc.panels.PnlWheel;
-
+import it.unibs.pajc.panels.client.PnlBetBoard;
+import it.unibs.pajc.panels.client.PnlFiches;
+import it.unibs.pajc.panels.client.PnlInfos;
+import it.unibs.pajc.panels.client.PnlRange;
+import it.unibs.pajc.panels.client.PnlWheel;
+import it.unibs.pajc.panels.client.PnlZones;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -23,9 +24,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import it.unibs.pajc.panels.PnlZones;
 import it.unibs.pajc.server.Numbers;
-import it.unibs.pajc.panels.PnlInfos;
 
 public class FrenchRoulette_v2 {
 
@@ -66,7 +65,6 @@ public class FrenchRoulette_v2 {
 		
 		model.addChangeListener(new ChangeListener() {
             @Override
-            
             public void stateChanged(ChangeEvent e) {
             	
             	if(e instanceof CustomChangeEvent) {
@@ -78,8 +76,10 @@ public class FrenchRoulette_v2 {
     					break;
     				}
     				case UPDATE_BET: {
+    					//just putting a png fiche on the board
     					pnlBetBoard.updateNumBetBoard(getBets());
                     	pnlBetBoard.updateZoneBetBoard(getZoneBets());
+                    	//writing down what the user bet on
                     	pnlInfos.updateBets(getBets(), getZoneBets());
     					break;
     				}
@@ -104,9 +104,6 @@ public class FrenchRoulette_v2 {
         });
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
@@ -171,6 +168,8 @@ public class FrenchRoulette_v2 {
 		gbc_pnlRange.gridy = 2;
 		contentPane.add(pnlRange, gbc_pnlRange);  
    				
+		//LISTENERS
+		
 		pnlBetBoard.addActionListener(e -> {
 			String command = e.getActionCommand().toString();
 			//check if it's a number
@@ -221,15 +220,9 @@ public class FrenchRoulette_v2 {
 		 pnlInfos.updateStats(model.getLastTen());
 	}
 
-
+	 // changing the value of the range based on + - buttons
 	void changeRange(ActionEvent e) {
-		int range = model.getRange();
-		if(e.getActionCommand().equals("+")) {
-			model.setRange(++range);
-		}else if(e.getActionCommand().equals("-")) {
-			model.setRange(--range);
-		}
-		
+		model.changeRange(e);
 	}
 	
 	 void takeFiche(ActionEvent e) {
@@ -240,11 +233,14 @@ public class FrenchRoulette_v2 {
 		 model.selectFiche(ficheTaken);
 	 }
 	 
-	 public List<WheelNumber> getBets() {
-		 return model.getBets();
-	 }
+
 	 
 	// they are incapsulated like that beacuse Client has to use them
+	 
+	public List<WheelNumber> getBets() {
+		return model.getBets();
+	}
+	 
 	public void updateTimer(int remainingSeconds) {
 		pnlInfos.updateCountdown(remainingSeconds);
 	}
@@ -271,7 +267,8 @@ public class FrenchRoulette_v2 {
 		return model.getZonesBets();
 	}
 	
-	public void updateLastWin(double lastWin) {
+	
+	public void updateLastWinLbl(double lastWin) {
 	    int lastNum = model.getLastNumber().getValue();
 	    String numMessage = "";
 	    String winMessage = "";
@@ -279,7 +276,7 @@ public class FrenchRoulette_v2 {
 	    	winMessage = "Hai vinto : " + lastWin;
 	    numMessage = "Ultimo numero uscito: " + lastNum;
 	    
-	    pnlInfos.updateLast(winMessage,numMessage);
+	    pnlInfos.updateLastWinLbl(winMessage,numMessage);
 	    
 	}
 

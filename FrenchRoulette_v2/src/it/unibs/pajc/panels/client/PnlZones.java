@@ -1,4 +1,4 @@
-package it.unibs.pajc.panels;
+package it.unibs.pajc.panels.client;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -25,7 +25,7 @@ public class PnlZones extends PnlBase {
 
     private void initialize(List<WheelNumber> numbers, int range) {
 
-        setLayout(null); // Set the layout to null (absolute layout)
+        setLayout(null);
         List<String> zeroZone = new ArrayList<>();
 		zeroZone.add("voisins");
 		
@@ -66,7 +66,7 @@ public class PnlZones extends PnlBase {
         tiery1 = buttonHeight;
         tierx2 = buttonWidth*4;
         tiery2 = buttonHeight*7;
-        
+        //orph line
         orhpx1 = buttonWidth*7;
         orhpy1 = buttonHeight;
         orhpx2 = orhpx1; 
@@ -93,8 +93,7 @@ public class PnlZones extends PnlBase {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        // Draw the line from (lineX1, lineY1) to (lineX2, lineY2)
+        
         g.drawLine(tierx1, tiery1, tierx2, tiery2);
         g.drawLine(orhpx1, orhpy1, orhpx2, orhpy2);
         

@@ -1,4 +1,4 @@
-package it.unibs.pajc.panels;
+package it.unibs.pajc.panels.client;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -50,21 +50,22 @@ public class PnlInfos extends PnlBase {
 
 		lastTenPnl = new JPanel();
 		lastTenPnl.setLayout(new GridLayout(1,13));
-		
+		//Last 13 numbers
 		GridBagConstraints gbc_lastTenPnl = new GridBagConstraints();
 		gbc_lastTenPnl.insets = new Insets(0, 0, 5, 0);
 		gbc_lastTenPnl.gridx = 0;
 		gbc_lastTenPnl.gridy = 0;
 		add(lastTenPnl, gbc_lastTenPnl);
 		
-		lblState = new JLabel("STATO");
+		//Game state
+		lblState = new JLabel("GAME STATE: ");
 		GridBagConstraints gbc_lblState = new GridBagConstraints();
 		gbc_lblState.insets = new Insets(0, 0, 5, 0);
 		gbc_lblState.gridx = 0;
 		gbc_lblState.gridy = 1;
-		//gbc_lblState.fill = GridBagConstraints.HORIZONTAL;
 		add(lblState, gbc_lblState);
 		
+		//TIMER
 		timerLabel = new JLabel("0");
         timerLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
 		
@@ -75,7 +76,8 @@ public class PnlInfos extends PnlBase {
 		
 		add(timerLabel, gbc_timerLabel);
 		
-		lblBalance = new JLabel("Saldo: ");
+		//BALANCE
+		lblBalance = new JLabel("Balance: ");
 		GridBagConstraints gbc_lblBalance = new GridBagConstraints();
 		gbc_lblBalance.insets = new Insets(0, 0, 5, 0);
 		gbc_lblBalance.gridx = 0;
@@ -83,7 +85,8 @@ public class PnlInfos extends PnlBase {
 		//gbc_lblState.fill = GridBagConstraints.HORIZONTAL;
 		add(lblBalance, gbc_lblBalance);
 		
-		lblBet = new JLabel("Puntata");
+		//BET
+		lblBet = new JLabel("BET");
 		
 		GridBagConstraints gbc_lblBet = new GridBagConstraints();
 		gbc_lblBet.insets = new Insets(0, 0, 5, 0);
@@ -92,21 +95,23 @@ public class PnlInfos extends PnlBase {
 		
 		add(lblBet, gbc_lblBet);
 		
-		lblLastNum = new JLabel("Ultimo numero:");
+		//LAST NUM
+		lblLastNum = new JLabel("Last num:");
 		GridBagConstraints gbc_lblLastNum = new GridBagConstraints();
 		gbc_lblLastNum.insets = new Insets(0, 0, 5, 0);
 		gbc_lblLastNum.gridx = 0;
 		gbc_lblLastNum.gridy = 5;
 		add(lblLastNum, gbc_lblLastNum);
 		
-		lblLastWin = new JLabel("Ultima vincita:");
+		//LAST WIN
+		lblLastWin = new JLabel("Last win:");
 		GridBagConstraints gbc_lblWin = new GridBagConstraints();
 		gbc_lblWin.insets = new Insets(0, 0, 5, 0);
 		gbc_lblWin.gridx = 0;
 		gbc_lblWin.gridy = 6;
 		add(lblLastWin, gbc_lblWin);
 		
-		
+		//THE BETS YOU PLACED
 		betsPnl = new JPanel();
 		betsPnl.setLayout(new GridBagLayout());
 		GridBagConstraints gbc_betsPnl = new GridBagConstraints();
@@ -138,20 +143,18 @@ public class PnlInfos extends PnlBase {
 		 repaint();
 	    }
 
+	//the last 13 numbers are shown reversed because the last number generated has to go on the left
 	public void updateStats(List<WheelNumber> stats) {
 		
 		lastTenPnl.removeAll();
 		if(stats == null)
 			return;
-		List<WheelNumber> reversedStats = new LinkedList<>(stats);
-	    Collections.reverse((List<?>) reversedStats);
-		
-		for(WheelNumber w : reversedStats) {
-			//ogni tanto riga 104 esplode
-			JButton bw = createButton(w.getValue()+"", Color.white);
-			bw.setForeground(w.getColor());
+		for(int i = stats.size()-1; i > 0; i--) {
+			JButton bw = createButton(stats.get(i).getValue()+"", Color.white);
+			bw.setForeground(stats.get(i).getColor());
 			lastTenPnl.add(bw);
 		}
+
 	}
 
 	public void updateBets(List<WheelNumber> bets, List<Zone> list) {
@@ -167,13 +170,13 @@ public class PnlInfos extends PnlBase {
 	}
 
 	public void updateBalanceLbl(double balance) {
-		lblBalance.setText("Saldo:"+balance);
+		lblBalance.setText("Balance: "+balance);
     	
 		
 	}
 
 	public void updateBetLbl(double bet) {
-		lblBet.setText("Puntata: "+ bet);
+		lblBet.setText("Bet: "+ bet);
 		
 	}
 
@@ -181,7 +184,7 @@ public class PnlInfos extends PnlBase {
 		betsJTxt.setText("");
 	}
 
-	public void updateLast(String winMessage, String numMessage) {
+	public void updateLastWinLbl(String winMessage, String numMessage) {
 		lblLastWin.setText(winMessage);
 		lblLastNum.setText(numMessage);
 		

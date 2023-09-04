@@ -41,45 +41,16 @@ public class PnlBase extends JPanel {
 		}
 	}
 	
-/*
-	public JButton createButton(String symbol) {
-		JButton btn = new JButton(symbol);
-		btn.addActionListener(e -> fireActionListener(e));
-
-		return btn;
-	}
-	*/
 	public JButton createButton(String symbol, Color color) {
 		JButton btn = new JButton(symbol);
 		Color textColor = new Color(255,255,255);
 		btn.setBackground(color);
 		btn.setForeground(textColor);
+		// so you can change the text of the button e.getActionCommand will always gives you "symbol"
 		btn.setActionCommand(symbol);
 		btn.addActionListener(e -> fireActionListener(e));
 		return btn;
 	}
-	
-	public JButton createTrigger(String symbol, Color color, List<JButton> btnsToTrigger, List<Integer> btnNum) {
-		JButton triggerBtn = new JButton(symbol);
-		Color textColor = new Color(255,255,255);
-		triggerBtn.setBackground(color);
-		triggerBtn.setForeground(textColor);
-		triggerBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Automatically trigger the other buttons when the "Trigger" button is clicked
-                for(JButton b : btnsToTrigger) {
-                	
-                	if(btnNum.contains(Integer.parseInt(b.getText())))
-                		b.doClick();
-                }
-            }
-        });
-		
-		return triggerBtn;
-	}
-
-	
 	
 	public void enableButtons(Container container, boolean enable) {
 	    Component[] components = container.getComponents();
@@ -96,6 +67,5 @@ public class PnlBase extends JPanel {
 	public void enableButtons(boolean enable) {
 	    enableButtons(this, enable);
 	}
-	
-	// addButton(createButton("0"), 0,0);
+
 }

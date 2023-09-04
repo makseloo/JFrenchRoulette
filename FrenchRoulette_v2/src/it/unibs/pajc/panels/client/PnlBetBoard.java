@@ -1,27 +1,17 @@
-package it.unibs.pajc.panels;
+package it.unibs.pajc.panels.client;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import it.unibs.pajc.Colors;
 import it.unibs.pajc.WheelNumber;
@@ -34,7 +24,6 @@ public class PnlBetBoard extends PnlBase {
 	private HashMap<String, JButton> ohtersButtons = new HashMap<>();
 	
 	private JPanel numbersPnl;
-	private JPanel circlesPanel;
 	private ImageIcon icon;
 	private ImageIcon resizedIcon;
 	private List<WheelNumber> numbers;
@@ -52,14 +41,17 @@ public class PnlBetBoard extends PnlBase {
 		initialize();
 	}
 	private void initialize() {
+		
+		//icon for the fiche
 		icon = new ImageIcon(getClass().getResource("/it/unibs/pajc/icons/wheel.png"));
 		Image image = icon.getImage();
+		//scaling it to make it fit the board
 		Image resizedImage = image.getScaledInstance(10, 10, Image.SCALE_SMOOTH);
 		resizedIcon = new ImageIcon(resizedImage);
 		
 		setLayout(new GridBagLayout());
 		
-		//pulsante dello ZERO
+		//Zero button
 		GridBagConstraints gbc_zeroPnl = new GridBagConstraints();
 		gbc_zeroPnl.gridx = 0;
 		gbc_zeroPnl.gridy = 0;
@@ -67,16 +59,16 @@ public class PnlBetBoard extends PnlBase {
 		JButton zeroBtn = createButton("0", Colors.getGreen());
 		numberButtons.put(0,zeroBtn);
 		zeroBtn.setPreferredSize(new Dimension(40,78));
-		this.add(zeroBtn, gbc_zeroPnl);//this si riferisce a questo pannello
+		this.add(zeroBtn, gbc_zeroPnl);
 		
 		
-		//pulsanti dal 1 al 36
+		//Buttons from 1 to 36
 		numbersPnl = new JPanel(new GridLayout(3, 12));
 		GridBagConstraints gbc_numberPnl = new GridBagConstraints();
 		gbc_numberPnl.gridx = 1;
 		gbc_numberPnl.gridy = 0;
 		
-		//prendo i numeri dal model
+		//get numbers from the model and use the to create the buttons
 		for(WheelNumber n : numbers) {
 			JButton numberBtn = createButton(n.getValue()+"", n.getColor());
 			numberButtons.put(n.getValue(),numberBtn);
@@ -84,10 +76,9 @@ public class PnlBetBoard extends PnlBase {
 			numbersPnl.add(numberBtn);
 		}
 		
-		
 		this.add(numbersPnl,gbc_numberPnl);
 		
-		//pannello dozzine
+		//Dozens
 		JPanel dozenPnl = new JPanel(new GridLayout(1, 3));
 		GridBagConstraints gbc_dozenPnl = new GridBagConstraints();
 		gbc_dozenPnl.gridx = 1;
@@ -103,7 +94,7 @@ public class PnlBetBoard extends PnlBase {
 		}
 		this.add(dozenPnl, gbc_dozenPnl);
 		
-		//pannello righe
+		//ROWS
 		JPanel rowPnl = new JPanel(new GridLayout(3, 1));
 		GridBagConstraints gbc_rowPnl = new GridBagConstraints();
 		gbc_rowPnl.gridx = 2;
@@ -117,7 +108,7 @@ public class PnlBetBoard extends PnlBase {
 		}
 		this.add(rowPnl, gbc_rowPnl);
 		
-		//pannello altri
+		//Others(even, odd , red etc)
 		JPanel othersPnl = new JPanel(new GridLayout(1, 6));
 		GridBagConstraints gbc_othersPnl = new GridBagConstraints();
 		gbc_othersPnl.gridx = 1;

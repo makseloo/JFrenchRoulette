@@ -11,7 +11,6 @@ import javax.swing.event.ChangeListener;
 import it.unibs.pajc.WheelNumber;
 import it.unibs.pajc.core.CustomChangeEvent;
 import it.unibs.pajc.core.EventType;
-import it.unibs.pajc.core.BaseModel.GeneratedNumberEvent;
 
 
 public class MyProtocol implements Runnable {

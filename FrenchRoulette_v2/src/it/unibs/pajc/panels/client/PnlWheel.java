@@ -1,4 +1,4 @@
-package it.unibs.pajc.panels;
+package it.unibs.pajc.panels.client;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -25,11 +25,6 @@ public class PnlWheel extends PnlBase {
     private Timer animationTimer;
     
     private int numberLanded;
-    
-    private int x = 0;  // X-coordinate of the dot
-    private final int DOT_SIZE = 20; // Diameter of the dot
-    
-    
     public PnlWheel(List<WheelNumber> wheelNums) {
         super();
         this.wheelNums = wheelNums;
@@ -65,8 +60,11 @@ public class PnlWheel extends PnlBase {
         drawRouletteWheel(g);
         int centerX = getWidth() / 2;
 	    int centerY = getHeight() / 2;
-	    int radius = 120; // Adjust the radius as needed
-	    int dotRadius = 10; // Adjust the dot radius as needed
+	    //how far is the dot
+	    int radius = 120;
+	    //how big is the dot
+	    int dotRadius = 10;
+	    //divide a circle in 37 cloves and draw a dot in each one
 	    if (dotIndex < 37) {
 	        double angle = 2 * Math.PI * dotIndex / 37;
 	        double startX = centerX + radius * Math.cos(angle);

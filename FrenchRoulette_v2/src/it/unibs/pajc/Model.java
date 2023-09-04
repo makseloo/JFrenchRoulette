@@ -126,17 +126,15 @@ public class Model extends BaseModel{
 		return -1;
 	}
 	
-
 	public RouletteGameState getState() {
 		return gameState;
 	}
+	
 	public void setState(String gameState) {
 		this.gameState = RouletteGameState.valueOf(gameState);
 		fireValuesChange(new CustomChangeEvent(gameState, EventType.UPDATE_GAME_STATE));
 	}
 	
-
-
 	public double getBalance() {
 		return balance;
 	}
@@ -195,6 +193,7 @@ public class Model extends BaseModel{
 	    int fixedRange = range;
 	    //adding the numbers before the selected one
 	    for (int i = (index - 1)%37; range > 0; i--) {
+	    	//i case i'm at the beginning of the list i have to start from the last element
 	    	if(i == -1) {
             	i = sortedList.size()-1;
             }
@@ -210,6 +209,7 @@ public class Model extends BaseModel{
 	    for (int i = (index + 1)%37; i < sortedList.size() && range > 0; i++) {
 	    	numsToAdd.add(sortedList.get(i).getValue());
             range--;
+          //i case i'm at the end of the list i have to start from the start
             if(i == sortedList.size()-1) {
             	//-1 because i it's incremented at the end of the cycle
             	i = -1;
@@ -218,7 +218,7 @@ public class Model extends BaseModel{
 	    
 	    return numsToAdd;	    
 	}
-	
+	//return the index of the searched value(in the wheel)
 	private int findIndex(String inputValue) {
 		
 		for (int i = 0; i < sortedList.size(); i++) {
@@ -413,5 +413,15 @@ public class Model extends BaseModel{
 				z.resetBetValue();
 			}
 		}
+	}
+	public void changeRange(ActionEvent e) {
+		int range = getRange();
+		
+		if(e.getActionCommand().equals("+")) {
+			setRange(++range);
+		}else if(e.getActionCommand().equals("-")) {
+			setRange(--range);
+		}
+		
 	}
 }

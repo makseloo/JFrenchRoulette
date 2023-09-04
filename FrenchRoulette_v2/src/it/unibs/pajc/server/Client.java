@@ -61,14 +61,13 @@ public class Client {
 	            
 			
 	            while ((receivedObject = ois.readObject()) != null) {
-	                 // Check the type of the received object and handle it accordingly
 	            	if (receivedObject instanceof TimerMessage) {
 	                    TimerMessage timerMessage = (TimerMessage) receivedObject;
 	                    seconds = timerMessage.getSeconds();
 	 	                roulette.updateTimer(seconds);
 	                 }else if(receivedObject instanceof PayoutMessage){
 	                	 PayoutMessage payoutMessage = (PayoutMessage) receivedObject;
-	                	 roulette.updateLastWin(payoutMessage.getLastWin());
+	                	 roulette.updateLastWinLbl(payoutMessage.getLastWin());
 	                	 roulette.setBalance(payoutMessage.getNewBalance());
 	                	 
 	                 }else if(receivedObject instanceof StatsMessage) {

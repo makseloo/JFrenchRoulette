@@ -1,4 +1,4 @@
-package it.unibs.pajc.panels;
+package it.unibs.pajc.panels.client;
 
 import java.awt.Color;
 
@@ -10,9 +10,7 @@ import it.unibs.pajc.core.PnlBase;
 
 public class PnlRange extends PnlBase {
 	private JLabel rangeLbl;
-	/**
-	 * Create the panel.
-	 */
+
 	public PnlRange(int range) {
 		initialize(range);
 	}

@@ -52,9 +52,5 @@ public class BetsMessage implements Serializable{
 	public void setZones(List<Zone> zones) {
 		this.zones = zones;
 	}
-
-	
-	
-	
 	
 }

@@ -65,12 +65,20 @@ public class Client {
 	            	if (receivedObject instanceof TimerMessage) {
 	                    TimerMessage timerMessage = (TimerMessage) receivedObject;
 	                    seconds = timerMessage.getSeconds();
-	 	                gameState = timerMessage.getGameState();
-	 	                
 	 	                roulette.updateTimer(seconds);
-	 	                //se lo metto qui continua a spammare update game state
-	 	                roulette.updateGameState(gameState);
-	 	                
+	                 }else if(receivedObject instanceof PayoutMessage){
+	                	 PayoutMessage payoutMessage = (PayoutMessage) receivedObject;
+	                	 roulette.updateLastWin(payoutMessage.getLastWin());
+	                	 roulette.setBalance(payoutMessage.getNewBalance());
+	                	 
+	                 }else if(receivedObject instanceof StatsMessage) {
+	                	 StatsMessage statsMessage = (StatsMessage) receivedObject;
+	                	 roulette.updateStats(statsMessage.getNumbers());
+	                 }else if(receivedObject instanceof GameStateMessage) {
+	                	 GameStateMessage gameStateMessage = (GameStateMessage) receivedObject;
+	                	 gameState = gameStateMessage.getGameState();
+	                	 roulette.updateGameState(gameState); 
+	                	 
 	 	               if (gameState.equals("BETTING")) {
 	                        betsSent = false; // Reset the flag to false at the start of each cycle
 	                    }
@@ -85,21 +93,13 @@ public class Client {
 	 	                    oos.flush();
 	 	                    betsSent = true;
 	 	                }
-	                 }else if(receivedObject instanceof PayoutMessage){
-	                	 PayoutMessage payoutMessage = (PayoutMessage) receivedObject;
-	                	 roulette.updateLastWin(payoutMessage.getLastWin());
-	                	 roulette.setBalance(payoutMessage.getNewBalance());
-	                	 
-	                 }else if(receivedObject instanceof StatsMessage) {
-	                	 StatsMessage statsMessage = (StatsMessage) receivedObject;
-	                	 roulette.updateStats(statsMessage.getNumbers());
 	                 }
 	                 
 	             }
 	            	
 			} catch (IOException | ClassNotFoundException exc) {
 				System.out.print("nessun server trovato");
-			    //exc.printStackTrace();
+			    exc.printStackTrace();
 			    
 			}
 		

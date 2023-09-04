@@ -39,12 +39,17 @@ public class MyProtocol implements Runnable {
             		EventType eventType = ((CustomChangeEvent) e).getEventType();
                 	
                 	switch (eventType) {
+                	//A more meaningfull name is needed
     				case UPDATE_STATE: {
     					sendPayouts();
     					break;
     				}
     				case GENERATED_NUMBER: {
     					sendStats();
+    					break;
+    				}
+    				case UPDATE_GAME_STATE: {
+    					sendGameState();
     					break;
     				}
     				default:
@@ -116,9 +121,8 @@ public class MyProtocol implements Runnable {
     		return;
         int seconds = serverModel.getSeconds();
         
-        RouletteGameState gameState = serverModel.getPrevGameState();
         try {
-            TimerMessage timerMessage = new TimerMessage(gameState.toString(), seconds);
+            TimerMessage timerMessage = new TimerMessage(seconds);
             oos.writeObject(timerMessage);
             oos.flush();
         }catch (SocketException e) {
@@ -165,9 +169,22 @@ public class MyProtocol implements Runnable {
     	}catch (IOException ex) {
             ex.printStackTrace();
         }
-			
-    
     }
 
+	private void sendGameState() {
+		if(!isConnected)
+    		return;
+		try {
+			RouletteGameState gameState = serverModel.getPrevGameState();
+		    GameStateMessage gameStateMessage = new GameStateMessage( gameState.toString());
+    		oos.writeObject(gameStateMessage);
+            oos.flush();
+    	}catch (IOException ex) {
+           System.out.print("Failed Game State message: ");
+           ex.printStackTrace();
+        }
+       
+		
+	}
     
 }

@@ -17,6 +17,7 @@ public class ServerTimer {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+            	//cancel the timer when the seconds runs out
                 if (remainingSeconds <= 0) {
                 	timer.cancel();
                 	if (timerListener != null) {

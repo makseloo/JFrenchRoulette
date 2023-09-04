@@ -81,5 +81,9 @@ public class ClientInfo {
 	public void setLastWin(double win) {
 		this.lastWin += win;
 	}
+
+	public void resetLastWin() {
+		this.lastWin = 0;		
+	}
     
 }

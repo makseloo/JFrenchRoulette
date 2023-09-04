@@ -95,6 +95,7 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
          case SETTLING:
         	 //analyze users bets to see if they win and eventually modify their balance if they won
         	 analyzeBets();
+        	 //the fire is more clear here then in the analyzeBets method
         	 fireValuesChange(new CustomChangeEvent(this, EventType.BETS_ANALYZED));
              serverTimer = new ServerTimer(SETTLE_TIMER_DURATION);
              //with the new cylce all the bets have to be set to 0
@@ -136,15 +137,17 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
         			}
     				//se non vince ho messo l'ultima vincita a 0
     				if(!won) {
-    					setLastWin(key,0);
+    					resetLastWin(key);
     				}
     			}
     		}
     	}
+   	 //fireValuesChange(new CustomChangeEvent(this, EventType.BETS_ANALYZED));
+
 		
 	}
-	private void setLastWin(Integer key, int i) {
-		connectedClients.get(key).setLastWin(i);
+	private void resetLastWin(Integer key) {
+		connectedClients.get(key).resetLastWin();
 		
 	}
 

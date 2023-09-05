@@ -125,7 +125,8 @@ public class Numbers {
 		zeroZone.add("z");
 		
 		WheelNumber zero = new WheelNumber(0,0, zeroZone, Colors.getGreen());
-
+		sortedList.add(zero);
+		
 		Collections.sort(sortedList, new Comparator<WheelNumber>() {
 			 @Override
 	            public int compare(WheelNumber w1, WheelNumber w2) {
@@ -135,9 +136,6 @@ public class Numbers {
 	            }
 		});
 
-		//because in the numberlist there is no 0
-		sortedList.add(zero);
-		
 		return sortedList;
 	}
 	

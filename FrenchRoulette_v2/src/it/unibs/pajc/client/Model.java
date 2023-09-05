@@ -191,6 +191,11 @@ public class Model extends BaseModel{
 
 	public List<Integer> getNumsToBetOn(String numberValue, int range) {
 		
+		for(WheelNumber w : sortedList) {
+			System.out.print(w.getValue()+"\n");
+		}
+		
+		
 		int index = findIndex(numberValue);
 		
 	    List<Integer> numsToAdd = new ArrayList<>();
@@ -253,7 +258,7 @@ public class Model extends BaseModel{
 			 //betting on the number i clicked
 			 setNumberBet(value, bet);
 			 //betting on the neighbors numbers
-			 for(int i : getNumsToBetOn(e.getActionCommand(), betRange)) {
+			 for(int i : getNumsToBetOn(e.getActionCommand(), range)) {
 		    	setNumberBet(i,bet);
 			 }
 			 setBet(betRange);
@@ -384,6 +389,15 @@ public class Model extends BaseModel{
 
 	
 	
+	public void updateLastNumbers(List<WheelNumber> stats) {
+		this.lastTen = new ArrayList<>(stats);
+		fireValuesChange(new CustomChangeEvent(this, EventType.LAST_TEN_CHANGED));
+	}
+	
+	public void updateFirstStats(List<WheelNumber> numbers) {
+		this.lastTen = new ArrayList<>(numbers);
+	}
+	
 	public void updateLastTen(List<WheelNumber> stats) {
 		this.lastTen = new ArrayList<>(stats);
 		fireValuesChange(new CustomChangeEvent(this, EventType.LAST_TEN_CHANGED));
@@ -428,4 +442,5 @@ public class Model extends BaseModel{
 		}
 		
 	}
+
 }

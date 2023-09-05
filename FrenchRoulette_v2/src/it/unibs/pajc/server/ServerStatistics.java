@@ -42,7 +42,7 @@ public class ServerStatistics {
     	Random random = new Random();
     	int ran = random.nextInt(RANDOM_RANGE_MAX);
     	randomWheelNumbers.remove(0);
-    	randomWheelNumbers.add(turnIntoWheelNumb(ran));
+    	randomWheelNumbers.add(turnIntoWheelNumb(0));
     	System.out.print("(SERVER STATISTIC)Num generated: " + ran +"\n");
     	
     }

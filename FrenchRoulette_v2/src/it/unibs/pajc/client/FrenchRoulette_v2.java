@@ -207,7 +207,6 @@ public class FrenchRoulette_v2 {
 				break;
 			}
 			default:
-				//if i didn't find anything it means i bet on a number
 				model.betRange(e);	
 			}
 			
@@ -251,8 +250,14 @@ public class FrenchRoulette_v2 {
 		
 	}
 
-	public void updateStats(List<WheelNumber> stats) {
-		model.updateLastTen(stats);
+	public void updateLastNumbers(List<WheelNumber> numbers) {
+		model.updateLastNumbers(numbers);
+	}
+	
+
+	public void updateFirstStats(List<WheelNumber> numbers) {
+		model.updateFirstStats(numbers);
+		updateInfoStats();
 	}
 	
 	

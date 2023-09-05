@@ -37,6 +37,7 @@ public class Client {
 		
 		String hostName = "localhost";
 		int port = 1234;
+		boolean firstStats = true;
 		
 		try {
 			Socket server = new Socket(hostName, port);
@@ -55,7 +56,6 @@ public class Client {
 						oos.writeObject(clientInfoMsg);
 						oos.flush();
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
                 }
@@ -74,7 +74,14 @@ public class Client {
                 	 roulette.setBalance(payoutMessage.getNewBalance());
                  }else if(receivedObject instanceof StatsMessage) {
                 	 StatsMessage statsMessage = (StatsMessage) receivedObject;
-                	 roulette.updateStats(statsMessage.getNumbers());
+                	 //the first time i connect i receive the stats withou starting the animation
+                	 if(firstStats) {
+                		 firstStats = false;
+                		 roulette.updateFirstStats(statsMessage.getNumbers());
+                	 }else {
+                    	 roulette.updateLastNumbers(statsMessage.getNumbers()); 
+                	 }
+                	 
                  }else if(receivedObject instanceof GameStateMessage) {
                 	 GameStateMessage gameStateMessage = (GameStateMessage) receivedObject;
                 	 gameState = gameStateMessage.getGameState();

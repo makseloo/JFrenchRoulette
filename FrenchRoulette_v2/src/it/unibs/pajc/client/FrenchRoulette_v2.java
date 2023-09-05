@@ -109,7 +109,7 @@ public class FrenchRoulette_v2 {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
+		//frame.setResizable(false);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -174,6 +174,8 @@ public class FrenchRoulette_v2 {
 		pnlBetBoard.addActionListener(e -> {
 			String command = e.getActionCommand().toString();
 			//check if it's a number
+			// ^ start anchor, $ end anchor
+			// //d means one or more numbers between 0-9
 			if (command.matches("^\\d+$")) {
 				model.betNum(e);
 			} else {

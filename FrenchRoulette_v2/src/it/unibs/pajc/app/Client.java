@@ -60,7 +60,7 @@ public class Client {
 					}
                 }
             });
-            
+            //MANGING THE SERVER'S MESSAGES
 			Object receivedObject;
 	            
             while ((receivedObject = ois.readObject()) != null) {

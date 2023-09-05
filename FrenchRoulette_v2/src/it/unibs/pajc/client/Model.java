@@ -283,7 +283,7 @@ public class Model extends BaseModel{
 				}
 			}
 		}else {
-			System.out.print("Other: Saldo insufficiente");
+			System.out.print("Other: balance it's not enough");
 		}
 		fireValuesChange(new CustomChangeEvent(this, EventType.UPDATE_BET));
 	}
@@ -297,7 +297,7 @@ public class Model extends BaseModel{
 			 setBet(bet);
 			 substractBalance(bet); 
 		 }else {
-			 System.out.print("Number: Saldo insufficiente");
+			 System.out.print("Number: balance it's not enough");
 		 }
 		 fireValuesChange(new CustomChangeEvent(this, EventType.UPDATE_BET));
 	}

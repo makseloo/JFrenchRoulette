@@ -82,8 +82,9 @@ public class MyProtocol implements Runnable {
         	oos = new ObjectOutputStream(clientSocket.getOutputStream());
             System.out.printf("\nClient connesso: %s [%d] - Name: %s\n",
                     clientSocket.getInetAddress(), clientSocket.getPort(), clientInfo.getClientName());
-            //sending the stats when the client connects
+            //sending the stats and the game state when the client connects
             sendStats();
+            sendGameState();
                         
             Object receivedObject;
             while ((receivedObject = ois.readObject()) != null) {

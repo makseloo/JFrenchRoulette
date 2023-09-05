@@ -279,8 +279,8 @@ public class FrenchRoulette_v2 {
 	    String numMessage = "";
 	    String winMessage = "";
 	    if (lastWin != 0)
-	    	winMessage = "Hai vinto : " + lastWin;
-	    numMessage = "Ultimo numero uscito: " + lastNum;
+	    	winMessage = "You won : " + lastWin;
+	    numMessage = "Last number : " + lastNum;
 	    
 	    pnlInfos.updateLastWinLbl(winMessage,numMessage);
 	    

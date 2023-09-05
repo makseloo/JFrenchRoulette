@@ -43,7 +43,7 @@ public class PnlWheel extends PnlBase {
 			}
         });
 
-        animationTimer.start();
+        //animationTimer.start();
     }
 
     private void initialize() {

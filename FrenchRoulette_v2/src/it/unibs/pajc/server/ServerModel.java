@@ -181,12 +181,12 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
 	
 
 	//managing clients
-    public void addClient(ClientInfo clientInfo) {
+    public synchronized void addClient(ClientInfo clientInfo) {
         connectedClients.put(clientInfo.getAccountId(),clientInfo);
 		fireValuesChange(new CustomChangeEvent(this, EventType.CLIENTS_UPDATE));
     }
 
-    public void removeClient(ClientInfo clientInfo) {
+    public synchronized void removeClient(ClientInfo clientInfo) {
         connectedClients.remove(clientInfo.getAccountId());
         fireValuesChange(new CustomChangeEvent(this, EventType.CLIENTS_UPDATE));
         }
@@ -195,14 +195,14 @@ public class ServerModel extends BaseModel implements ServerTimer.TimerListener 
         return connectedClients;
     }
 
-	public void updateBets(List<WheelNumber> bets, int id, double totBet, List<Zone> zones)  {
+	public synchronized void updateBets(List<WheelNumber> bets, int id, double totBet, List<Zone> zones)  {
 		connectedClients.get(id).setBetList(bets);
 		connectedClients.get(id).subAccountBalance(totBet);
 		connectedClients.get(id).setZoneBetList(zones);
 		fireValuesChange(new CustomChangeEvent(this, EventType.UPDATE_BET));
 	}
 
-	public void updateClientInfo(int id, String name, int balance) {
+	public synchronized void updateClientInfo(int id, String name, int balance) {
 		connectedClients.get(id).setClientName(name);
 		connectedClients.get(id).setAccountBalance(balance);
 	}

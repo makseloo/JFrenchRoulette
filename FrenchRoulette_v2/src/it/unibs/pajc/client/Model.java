@@ -437,7 +437,7 @@ public class Model extends BaseModel{
 		
 		if(e.getActionCommand().equals("+")) {
 			setRange(++range);
-		}else if(e.getActionCommand().equals("-")) {
+		}else if(e.getActionCommand().equals("-") && range > 1) {
 			setRange(--range);
 		}
 		

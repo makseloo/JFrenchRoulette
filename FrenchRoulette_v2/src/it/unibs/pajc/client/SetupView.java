@@ -10,6 +10,8 @@ import java.awt.FlowLayout;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 
 //ASKING FOR NAME AND BALANCE
@@ -60,6 +62,18 @@ public class SetupView {
 		panel.add(importLbl);
 		
 		importTxt = new JTextField();
+		
+		importTxt.addKeyListener(new KeyAdapter() {
+	          public void keyPressed(KeyEvent ke) {
+	             if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') || ke.getKeyChar() == '\b') {
+	            	importTxt.setEditable(true);
+	             } else {
+	            	importTxt.setEditable(false);
+	            	System.out.println("* Enter only numeric digits(0-9)");
+	             }
+	          }
+	       });
+		
 		panel.add(importTxt);
 		importTxt.setColumns(10);
 		

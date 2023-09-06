@@ -60,10 +60,16 @@ public class Numbers {
 	            for (int column = 0; column < 36; column += 3) {
 	            	result = row + column;
 	            	
-	            	if(black.contains(result))
+	            	if(black.contains(result)) {
 	            		color = Colors.getBlack();
-	            	else
+	            		zones.add("BLACK");
+	            	}
+	            		
+	            	else {
 	            		color =  Colors.getRed();
+	            		zones.add("RED");
+	            	}
+	            		
 	            	
 	            	if(tier.contains(result)) {
 	            		zones.add("tier");

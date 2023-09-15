@@ -1,2 +1,2 @@
 # JFrenchRoulette
-MVC Java application of a French Roulette
+MVC Client-Server Java application of a French Roulette
